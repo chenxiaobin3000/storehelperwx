@@ -1,0 +1,30 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="userinfo">
+    <!-- 已存在微信账号信息 -->
+    <block wx:if="{{canIUseOpenData}}">
+      <view class="userinfo-avatar" bindtap="bindViewTap">
+        <open-data type="userAvatarUrl"/>
+      </view>
+      <open-data type="userNickName"/>
+      <!--<button type="primary">登陆</button>-->
+    </block>
+    <!-- 没有微信账号信息 -->
+    <block wx:elif="{{!hasUserInfo}}">
+      <block wx:if="{{canIUseGetUserProfile}}">
+        <button bindtap="getUserProfile"> 获取头像昵称 </button>
+        <view class="usermotto">
+          <text class="user-motto">{{introduction}}</text>
+        </view>
+      </block>
+      <view wx:else> 无法获取您的微信信息，请联系客服 </view>
+    </block>
+    <!-- 获取微信账号信息 -->
+    <block wx:else>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover" bindtap="bindViewTap"/>
+      <text class="userinfo-nickname">
+        {{userInfo.nickName}}
+      </text>
+    </block>
+  </view>
+</view>

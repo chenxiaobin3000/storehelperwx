@@ -2,6 +2,7 @@
   "description": "",
   "projectname": "storehelperwx",
   "setting": {
-    "compileHotReLoad": true
+    "compileHotReLoad": true,
+    "urlCheck": false
   }
 }
