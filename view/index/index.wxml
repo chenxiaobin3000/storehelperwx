@@ -1,0 +1,34 @@
+<!--logs.wxml-->
+<view class="container log-list">
+  <view class="weui-tab">
+			<view id="panel1" aria-labelledby="tab1" class="weui-tab__panel" aria-role="tabpanel">
+        <block wx:for="{{logs}}" wx:key="timeStamp" wx:for-item="log">
+          <text class="log-item">{{index + 1}}. {{log.date}}</text>
+        </block>
+      </view>
+			<view id="panel2" aria-labelledby="tab2" class="weui-tab__panel" style="display: none;" aria-role="tabpanel">
+        Dolor eum rerum magnam voluptatem omnis fuga, dolore libero quibusdam cupiditate Sequi vero rem corrupti hic veritatis Atque exercitationem odit odit ducimus esse, sapiente laborum inventore! Ipsum harum quo minus
+      </view>
+			<view id="panel3" aria-labelledby="tab3" class="weui-tab__panel" style="display: none;" aria-role="tabpanel">
+        Elit deserunt dolore nemo harum neque libero numquam, minima nam Atque nesciunt iusto aperiam eligendi praesentium ratione? Quasi iste odio itaque doloribus hic? Est aliquam recusandae dolore ratione quos. Saepe
+        </view>
+			<view aria-label="选项卡标题" class="weui-tabbar" aria-role="tablist">
+				<view id="tab1" aria-labelledby="t1_title" aria-describedby="t1_tips" aria-selected="true" aria-controls="panel1" class="weui-tabbar__item weui-bar__item_on" aria-role="tab" bindtap="bindViewTap">
+					<view id="t1_tips" aria-hidden="true" style="display: inline-block; position: relative;">
+						<image src="../../image/icon_tabbar.png" alt class="weui-tabbar__icon"></image>
+					</view>
+					<view id="t1_title" aria-hidden="true" class="weui-tabbar__label">公告</view>
+				</view>
+				<view id="tab2" aria-labelledby="t2_title" aria-selected="false" aria-controls="panel2" class="weui-tabbar__item" aria-role="tab" bindtap="bindViewTap">
+					<image src="../../image/icon_tabbar.png" alt class="weui-tabbar__icon"></image>
+					<view aria-hidden="true" id="t2_title" class="weui-tabbar__label">业务</view>
+				</view>
+				<view id="tab3" aria-labelledby="t3_title" aria-describedby="t3_tips" aria-selected="false" aria-controls="panel3" class="weui-tabbar__item" aria-role="tab" bindtap="bindViewTap">
+					<view id="t3_tips" aria-hidden="true" style="display: inline-block; position: relative;">
+						<image src="../../image/icon_tabbar.png" alt class="weui-tabbar__icon"></image>
+					</view>
+					<view id="t3_title" aria-hidden="true" class="weui-tabbar__label">我</view>
+				</view>
+			</view>
+		</view>
+</view>
