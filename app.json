@@ -1,8 +1,21 @@
 {
   "pages":[
-    "view/login/login",
-    "view/index/index"
+    "view/index/index",
+    "view/do/do",
+    "view/me/me",
+    "view/login/login"
   ],
+  "tabBar": {
+    "custom": true,
+    "list": [{
+        "pagePath": "view/index/index"
+      },{
+        "pagePath": "view/do/do"
+      },{
+        "pagePath": "view/me/me"
+      }
+    ]
+  },
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
@@ -10,6 +23,5 @@
     "navigationBarTextStyle":"black"
   },
   "style": "v2",
-  "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents"
+  "sitemapLocation": "sitemap.json"
 }

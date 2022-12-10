@@ -1,6 +1,3 @@
-// 首页 - 登陆
-const app = getApp()
-
 Page({
   data: {
     introduction: '请点击授权微信账号信息\n\n仅用来绑定集数助手账号',
