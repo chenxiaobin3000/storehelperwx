@@ -1,5 +1,3 @@
-const util = require('../../util/util.js')
-
 Component({
   pageLifetimes: {
     show() {
@@ -10,24 +8,19 @@ Component({
         })
       }
     }
-  }/*,
+  },
   data: {
-    logs: []
-   },
+    show: false,
+    buttons: [
+      { text: '取消' },
+      { text: '确认' }
+    ]
+  },
   methods: {
-    onLoad() {
-      this.setData({
-        logs: (wx.getStorageSync('logs') || []).map(log => {
-          return {
-            date: util.formatTime(new Date(log)),
-            timeStamp: log
-          }
-        })
+    login() {
+      wx.navigateTo({
+        url: '../login/login'
       })
-    },
-    bindViewTap(tap) {
-      var id = tap.currentTarget.id
-      console.log(id)
     }
-  }*/
+  }
 })

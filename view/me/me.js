@@ -7,6 +7,11 @@ Component({
           selected: 2
         })
       }
+    },
+    data: {
+
+    },
+    methods: {
     }
   }
 })

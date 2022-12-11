@@ -1,5 +1,6 @@
-<view class="container log-list">123
-  <!--<block wx:for="{{logs}}" wx:key="timeStamp" wx:for-item="log">
-    <text class="log-item">{{index + 1}}. {{log.date}}</text>
-  </block>-->
+<view class="intro">
+  <mp-dialog title="test" show="{{show}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
+    <view>test content</view>
+  </mp-dialog>
+  <button type="primary" bindtap="login">登  陆</button>
 </view>

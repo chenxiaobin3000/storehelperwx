@@ -8,13 +8,12 @@
   "tabBar": {
     "custom": true,
     "list": [{
-        "pagePath": "view/index/index"
-      },{
-        "pagePath": "view/do/do"
-      },{
-        "pagePath": "view/me/me"
-      }
-    ]
+      "pagePath": "view/index/index"
+    }, {
+      "pagePath": "view/do/do"
+    }, {
+      "pagePath": "view/me/me"
+    }]
   },
   "window":{
     "backgroundTextStyle":"light",
@@ -22,6 +21,10 @@
     "navigationBarTitleText": "Weixin",
     "navigationBarTextStyle":"black"
   },
+  "useExtendedLib": {
+    "weui": true
+  },
   "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
   "sitemapLocation": "sitemap.json"
 }

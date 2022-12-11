@@ -8,5 +8,10 @@ Component({
         })
       }
     }
+  },
+  data: {
+
+  },
+  methods: {
   }
 })

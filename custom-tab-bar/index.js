@@ -1,3 +1,4 @@
+import TabMenu from './data';
 Component({
   data: {
     selected: 0,
@@ -5,22 +6,7 @@ Component({
     selectedColor: "#3cc51f",
     borderStyle: "black",
     backgroundColor: "#ffffff",
-    list: [{
-      "pagePath": "/view/index/index",
-      "iconPath": "../image/icon_tabbar.png",
-      "selectedIconPath": "../image/icon_tabbar.png",
-      "text": "主页"
-    },{
-      "pagePath": "/view/do/do",
-      "iconPath": "../image/icon_tabbar.png",
-      "selectedIconPath": "../image/icon_tabbar.png",
-      "text": "功能"
-    },{
-      "pagePath": "/view/me/me",
-      "iconPath": "../image/icon_tabbar.png",
-      "selectedIconPath": "../image/icon_tabbar.png",
-      "text": "我"
-    }]
+    list: TabMenu
   },
   attached() {
   },
