@@ -1,4 +1,4 @@
-import TabMenu from './data';
+import TabMenu from './data'
 Component({
   data: {
     selected: 0,

@@ -1,26 +1,66 @@
+import { post } from '../../util/util'
+import md5 from '../../util/md5'
+import { login } from '../../api/account'
 Page({
   data: {
-    introduction: '请点击授权微信账号信息\n\n仅用来绑定集数助手账号',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    canIUseGetUserProfile: false,
-    // 如需尝试获取用户信息可改为false
-    canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl') && wx.canIUse('open-data.type.userNickName')
+    userInfo: null,
+    hasUserInfo: true, // 设为true，暂时不关联微信账号
+    canGetProfile: false,
+    account: null,
+    password: null,
+    check: null,
   },
-  // 事件处理函数
   onLoad() {
+    wx.hideHomeButton()
     if (wx.getUserProfile) {
       this.setData({
-        canIUseGetUserProfile: true
+        canGetProfile: true
+      })
+    }
+  },
+  bindAccountInput: function (e) {
+    this.account = e.detail.value
+  },
+  bindPasswordInput: function (e) {
+    this.password = e.detail.value
+  },
+  checkboxChange: function (e) {
+    if (e.detail.value > 0) {
+      this.check = true
+    } else {
+      this.check = false
+    }
+  },
+  login: function () {
+    console.log(md5('123456'))
+    if (!this.check) {
+      wx.showToast({
+        title: '请勾选用户协议',
+        icon: 'error',
+        duration: 1000
+      })
+    } else {
+      post(login, '', {
+        account: this.account,
+        password: md5(this.password)
+      }, data => {
+        var app = getApp()
+        app.globalData.userId = data.id
+        app.globalData.token = data.token
+        wx.setStorageSync('userId', data.id)
+        wx.setStorageSync('token', data.token)
+        wx.redirectTo({
+          url: '../index/index'
+        })
       })
     }
   },
   getUserProfile(e) {
-    // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
+    // 新接口
     wx.getUserProfile({
-      desc: '集数助手获取微信信息仅用于关联集数账号',
+      desc: '集数助手仅在自动登陆时使用',
       success: (res) => {
+        console.log(res)
         this.setData({
           userInfo: res.userInfo,
           hasUserInfo: true
@@ -28,9 +68,11 @@ Page({
       }
     })
   },
-  bindViewTap() {
-    wx.navigateTo({
-      url: '../index/index'
+  getUserInfo(e) {
+    // 旧接口
+    this.setData({
+      userInfo: e.detail.userInfo,
+      hasUserInfo: true
     })
   }
 })

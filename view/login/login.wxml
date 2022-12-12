@@ -1,29 +1,47 @@
-<view class="container">
-  <view class="userinfo">
-    <!-- 已存在微信账号信息 -->
-    <block wx:if="{{canIUseOpenData}}">
-      <view class="userinfo-avatar" bindtap="bindViewTap">
-        <open-data type="userAvatarUrl"/>
-      </view>
-      <open-data type="userNickName"/>
-      <!--<button type="primary">登陆</button>-->
-    </block>
-    <!-- 没有微信账号信息 -->
-    <block wx:elif="{{!hasUserInfo}}">
-      <block wx:if="{{canIUseGetUserProfile}}">
-        <button bindtap="getUserProfile"> 获取头像昵称 </button>
-        <view class="usermotto">
-          <text class="user-motto">{{introduction}}</text>
+<view class="page-body">
+  <block wx:if="{{hasUserInfo}}">
+    <!-- 已获取微信账号信息，进入登录页面 -->
+    <view class="page-section">
+      <view class="weui-cells__title">账号：</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <input class="weui-input" auto-focus type="text" placeholder="请使用集数账号登陆" bindinput="bindAccountInput"/>
         </view>
-      </block>
-      <view wx:else> 无法获取您的微信信息，请联系客服 </view>
-    </block>
+      </view>
+    </view>
+    <view class="page-section">
+      <view class="weui-cells__title">密码：</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <input class="weui-input" password type="text" placeholder="请输入密码" bindinput="bindPasswordInput"/>
+        </view>
+      </view>
+    </view>
+    <view class="page-section">
+    <mp-cells title="">
+      <mp-checkbox-group prop="checkbox" multi="false" bindchange="checkboxChange">
+          <mp-checkbox class="check-text" label="同意集数助手用户协议" value="1" checked="{{check}}"></mp-checkbox>
+      </mp-checkbox-group>
+    </mp-cells>
+    </view>
+    <view class="page-section">
+      <button type="primary" class="login-btn" bindtap="login">
+       <text space="ensp">登    陆</text>
+      </button>
+    </view>
+  </block>
+  <block wx:else>
     <!-- 获取微信账号信息 -->
-    <block wx:else>
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover" bindtap="bindViewTap"/>
-      <text class="userinfo-nickname">
-        {{userInfo.nickName}}
-      </text>
-    </block>
-  </view>
+    <view class="page-section">
+      <text class="weui-cells__title intro" space="ensp">  微信账号仅用于自动登陆\n集数助手不会收集用户信息</text>
+    </view>
+    <view class="page-section">
+      <button wx:if="{{canGetProfile}}" bindtap="getUserProfile">
+        <text>点击获取\n头像昵称</text>
+      </button>
+      <button wx:else open-type="getUserInfo" bindgetuserinfo="getUserInfo">
+        <text>点击获取\n头像昵称</text>
+      </button>
+    </view>
+  </block>
 </view>

@@ -2,7 +2,7 @@
   "description": "storehelperwx",
   "projectname": "storehelperwx",
   "compileType": "miniprogram",
-  "libVersion": "2.19.6",
+  "libVersion": "2.28.0",
   "appid": "wx1ec980cf5648037c",
   "condition": {},
   "editorSetting": {

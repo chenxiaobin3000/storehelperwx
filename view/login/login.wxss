@@ -1,18 +1,22 @@
-.userinfo {
+.page-body {
+  margin: 30px;
+}
+
+.page-section{
+  margin-bottom: 40px;
+}
+
+.check-text {
+  color: var(--weui-FG-1);
+}
+
+.login-btn {
+  width: 60% !important;
+}
+
+.intro {
+  margin-bottom: 60px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  color: #aaa;
-}
-
-.userinfo-avatar {
-  overflow: hidden;
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.usermotto {
-  margin-top: 100px;
+  justify-content: center;
 }

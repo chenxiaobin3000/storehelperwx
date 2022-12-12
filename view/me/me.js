@@ -1,17 +1,16 @@
-Component({
-  pageLifetimes: {
-    show() {
-      if (typeof this.getTabBar === 'function' &&
-        this.getTabBar()) {
-        this.getTabBar().setData({
-          selected: 2
-        })
-      }
-    },
-    data: {
+Page({
+  data: {
 
-    },
-    methods: {
+  },
+  onLoad() {
+    wx.hideHomeButton()
+  },
+  onShow() {
+    if (typeof this.getTabBar === 'function' &&
+      this.getTabBar()) {
+      this.getTabBar().setData({
+        selected: 2
+      })
     }
-  }
+  },
 })

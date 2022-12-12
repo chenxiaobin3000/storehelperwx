@@ -1,4 +1,8 @@
 {
-  "navigationBarTitleText": "集数助手",
-  "usingComponents": {}
+  "navigationBarTitleText": "登陆",
+  "usingComponents": {
+    "mp-checkbox-group": "weui-miniprogram/checkbox-group/checkbox-group",
+    "mp-checkbox": "weui-miniprogram/checkbox/checkbox",
+    "mp-cells": "weui-miniprogram/cells/cells"
+  }
 }
