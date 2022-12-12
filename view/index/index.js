@@ -1,3 +1,4 @@
+import { pickImage } from '../../util/util'
 Page({
   data: {
     show: false,
@@ -32,5 +33,10 @@ Page({
         selected: 0
       })
     }
+  },
+  chooseImage: function () {
+    pickImage(path => {
+      console.log(path)
+    })
   }
 })

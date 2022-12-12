@@ -49,13 +49,13 @@ Page({
         app.globalData.token = data.token
         wx.setStorageSync('userId', data.id)
         wx.setStorageSync('token', data.token)
-        wx.redirectTo({
-          url: '../index/index'
+        wx.switchTab({
+          url: '/view/index/index'
         })
       })
     }
   },
-  getUserProfile(e) {
+  getUserProfile() {
     // 新接口
     wx.getUserProfile({
       desc: '集数助手仅在自动登陆时使用',

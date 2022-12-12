@@ -2,5 +2,5 @@
   <mp-dialog title="test" show="{{show}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
     <view>test content</view>
   </mp-dialog>
-  <button type="primary" bindtap="login">登  陆</button>
+  <button type="primary" bindtap="chooseImage">拍 照</button>
 </view>
