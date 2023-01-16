@@ -1,23 +1,31 @@
 import TabMenu from './data'
 Component({
   data: {
-    selected: 0,
-    color: "#7A7E83",
-    selectedColor: "#3cc51f",
-    borderStyle: "black",
-    backgroundColor: "#ffffff",
+    active: 0,
     list: TabMenu
   },
-  attached() {
-  },
   methods: {
-    switchTab(e) {
-      const data = e.currentTarget.dataset
-      const url = data.path
-      wx.switchTab({url})
+    onChange(event) {
       this.setData({
-        selected: data.index
-      })
+        active: event.detail.value
+      });
+      wx.switchTab({
+        url: this.data.list[event.detail.value].url.startsWith('/') ?
+          this.data.list[event.detail.value].url :
+          `/${this.data.list[event.detail.value].url}`,
+      });
+    },
+    init() {
+      const page = getCurrentPages().pop();
+      const route = page ? page.route.split('?')[0] : '';
+      const active = this.data.list.findIndex(
+        (item) =>
+        (item.url.startsWith('/') ? item.url.substr(1) : item.url) ===
+        `${route}`,
+      );
+      this.setData({
+        active
+      });
     }
   }
 })

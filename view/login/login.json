@@ -1,8 +1,12 @@
 {
   "navigationBarTitleText": "登陆",
   "usingComponents": {
-    "mp-checkbox-group": "weui-miniprogram/checkbox-group/checkbox-group",
-    "mp-checkbox": "weui-miniprogram/checkbox/checkbox",
-    "mp-cells": "weui-miniprogram/cells/cells"
+    "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
+    "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-input": "tdesign-miniprogram/input/input",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-checkbox-group": "tdesign-miniprogram/checkbox-group/checkbox-group",
+    "t-checkbox": "tdesign-miniprogram/checkbox/checkbox",
+    "t-toast": "tdesign-miniprogram/toast/toast"
   }
 }

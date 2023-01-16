@@ -22,15 +22,19 @@ function bit_rol(num, cnt) {
 function md5_cmn(q, a, b, x, s, t) {
   return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s), b)
 }
+
 function md5_ff(a, b, c, d, x, s, t) {
   return md5_cmn((b & c) | ((~b) & d), a, b, x, s, t)
 }
+
 function md5_gg(a, b, c, d, x, s, t) {
   return md5_cmn((b & d) | (c & (~d)), a, b, x, s, t)
 }
+
 function md5_hh(a, b, c, d, x, s, t) {
   return md5_cmn(b ^ c ^ d, a, b, x, s, t)
 }
+
 function md5_ii(a, b, c, d, x, s, t) {
   return md5_cmn(c ^ (b | (~d)), a, b, x, s, t)
 }
@@ -209,12 +213,15 @@ function str2rstr_utf8(input) {
 function raw_md5(s) {
   return rstr_md5(str2rstr_utf8(s))
 }
+
 function hex_md5(s) {
   return rstr2hex(raw_md5(s))
 }
+
 function raw_hmac_md5(k, d) {
   return rstr_hmac_md5(str2rstr_utf8(k), str2rstr_utf8(d))
 }
+
 function hex_hmac_md5(k, d) {
   return rstr2hex(raw_hmac_md5(k, d))
 }

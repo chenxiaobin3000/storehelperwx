@@ -1,48 +1,52 @@
-import { post } from '../../util/util'
 import md5 from '../../util/md5'
-import { login } from '../../api/account'
+import {
+  myToast
+} from '../../util/util'
+import {
+  login
+} from '../../service/account'
 Page({
   data: {
-    userInfo: null,
-    hasUserInfo: true, // 设为true，暂时不关联微信账号
-    canGetProfile: false,
-    account: null,
-    password: null,
-    check: null,
+    account: '',
+    password: '',
+    checkGroup: [],
+    submitActive: false
   },
   onLoad() {
     wx.hideHomeButton()
-    if (wx.getUserProfile) {
+  },
+  checkSubmitActive() {
+    const that = this.data
+    if (that.account.length > 0 && that.password.length > 0 && that.checkGroup.length > 0) {
       this.setData({
-        canGetProfile: true
+        submitActive: true
+      })
+    } else {
+      this.setData({
+        submitActive: false
       })
     }
   },
-  bindAccountInput: function (e) {
-    this.account = e.detail.value
+  onInputValue(event) {
+    this.setData({
+      [`${event.currentTarget.dataset.item}`]: event.detail.value
+    })
+    this.checkSubmitActive()
   },
-  bindPasswordInput: function (e) {
-    this.password = e.detail.value
+  checkboxChange(event) {
+    this.setData({
+      checkGroup: event.detail.value
+    })
+    this.checkSubmitActive()
   },
-  checkboxChange: function (e) {
-    if (e.detail.value > 0) {
-      this.check = true
+  login() {
+    const that = this.data
+    if (that.checkGroup.length === 0) {
+      myToast(this, '请勾选用户协议')
     } else {
-      this.check = false
-    }
-  },
-  login: function () {
-    console.log(md5('123456'))
-    if (!this.check) {
-      wx.showToast({
-        title: '请勾选用户协议',
-        icon: 'error',
-        duration: 1000
-      })
-    } else {
-      post(login, '', {
-        account: this.account,
-        password: md5(this.password)
+      login({
+        account: that.account,
+        password: md5(that.password)
       }, data => {
         var app = getApp()
         app.globalData.userId = data.id
@@ -54,25 +58,5 @@ Page({
         })
       })
     }
-  },
-  getUserProfile() {
-    // 新接口
-    wx.getUserProfile({
-      desc: '集数助手仅在自动登陆时使用',
-      success: (res) => {
-        console.log(res)
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    })
-  },
-  getUserInfo(e) {
-    // 旧接口
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
   }
 })

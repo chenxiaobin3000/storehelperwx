@@ -1,5 +1,5 @@
 {
-  "pages":[
+  "pages": [
     "view/index/index",
     "view/do/do",
     "view/me/me",
@@ -7,6 +7,10 @@
   ],
   "tabBar": {
     "custom": true,
+    "color": "#666666",
+    "selectedColor": "#FF5F15",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
     "list": [{
       "pagePath": "view/index/index"
     }, {
@@ -15,16 +19,12 @@
       "pagePath": "view/me/me"
     }]
   },
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "Weixin",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   },
-  "useExtendedLib": {
-    "weui": true
-  },
-  "style": "v2",
   "lazyCodeLoading": "requiredComponents",
   "sitemapLocation": "sitemap.json"
 }

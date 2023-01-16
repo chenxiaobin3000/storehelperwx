@@ -1,47 +1,26 @@
-<view class="page-body">
-  <block wx:if="{{hasUserInfo}}">
-    <!-- 已获取微信账号信息，进入登录页面 -->
-    <view class="page-section">
-      <view class="weui-cells__title">账号：</view>
-      <view class="weui-cells weui-cells_after-title">
-        <view class="weui-cell weui-cell_input">
-          <input class="weui-input" auto-focus type="text" placeholder="请使用集数账号登陆" bindinput="bindAccountInput"/>
-        </view>
+<view class="login-page">
+  <view class="form-login">
+    <form class="form-content">
+      <t-cell-group>
+        <view class="divider-line" />
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="账号">
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{account}}" maxlength="16" placeholder="请使用集数账号登陆" data-item="account" bind:change="onInputValue" />
+        </t-cell>
+        <view class="divider-line" />
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="密码">
+          <t-input class="t-input" t-class="field-text" type="password" slot="note" value="{{password}}" maxlength="16" placeholder="请输入密码" data-item="password" bind:change="onInputValue" />
+        </t-cell>
+        <view class="divider-line" />
+        <t-checkbox-group value="{{checkGroup}}" bind:change="checkboxChange">
+          <t-checkbox value="checkbox1" label="同意集数助手用户协议 " max-label-row="2" />
+        </t-checkbox-group>
+      </t-cell-group>
+      <view class="submit">
+        <t-button t-class="btn-submit-address {{submitActive ? 'theme-wrapper-class' : 'disabled'}}" bind:tap="login">
+          <text space="ensp">登 陆</text>
+        </t-button>
       </view>
-    </view>
-    <view class="page-section">
-      <view class="weui-cells__title">密码：</view>
-      <view class="weui-cells weui-cells_after-title">
-        <view class="weui-cell weui-cell_input">
-          <input class="weui-input" password type="text" placeholder="请输入密码" bindinput="bindPasswordInput"/>
-        </view>
-      </view>
-    </view>
-    <view class="page-section">
-    <mp-cells title="">
-      <mp-checkbox-group prop="checkbox" multi="false" bindchange="checkboxChange">
-          <mp-checkbox class="check-text" label="同意集数助手用户协议" value="1" checked="{{check}}"></mp-checkbox>
-      </mp-checkbox-group>
-    </mp-cells>
-    </view>
-    <view class="page-section">
-      <button type="primary" class="login-btn" bindtap="login">
-       <text space="ensp">登    陆</text>
-      </button>
-    </view>
-  </block>
-  <block wx:else>
-    <!-- 获取微信账号信息 -->
-    <view class="page-section">
-      <text class="weui-cells__title intro" space="ensp">  微信账号仅用于自动登陆\n集数助手不会收集用户信息</text>
-    </view>
-    <view class="page-section">
-      <button wx:if="{{canGetProfile}}" bindtap="getUserProfile">
-        <text>点击获取\n头像昵称</text>
-      </button>
-      <button wx:else open-type="getUserInfo" bindgetuserinfo="getUserInfo">
-        <text>点击获取\n头像昵称</text>
-      </button>
-    </view>
-  </block>
+    </form>
+  </view>
 </view>
+<t-toast id="t-toast" />

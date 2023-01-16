@@ -1,4 +1,9 @@
-import { pickImage } from '../../util/util'
+import {
+  pickImage
+} from '../../util/util'
+import {
+  getUser
+} from '../../service/user'
 Page({
   data: {
     show: false,
@@ -18,7 +23,13 @@ Page({
       app.globalData.token = token
 
       // 验证会话，获取权限
-      console.log(token)
+      getUser({
+        id: app.globalData.userId
+      }, data => {
+        var app = getApp()
+        app.globalData.user = data.user
+        app.globalData.group = data.group
+      })
     } else {
       // 没有账号信息就去登陆
       wx.redirectTo({
@@ -27,14 +38,13 @@ Page({
     }
   },
   onShow() {
-    if (typeof this.getTabBar === 'function' &&
-      this.getTabBar()) {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({
         selected: 0
       })
     }
   },
-  chooseImage: function () {
+  chooseImage() {
     pickImage(path => {
       console.log(path)
     })

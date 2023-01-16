@@ -1,16 +1,13 @@
 export default [{
-  text: "主页",
-  pagePath: "/view/index/index",
-  iconPath: "/image/tabbar_icon.png",
-  selectedIconPath: "/image/tabbar_icon2.png"
+  icon: 'home',
+  text: '主页',
+  url: '/view/index/index'
 }, {
-  text: "功能",
-  pagePath: "/view/do/do",
-  iconPath: "/image/tabbar_icon.png",
-  selectedIconPath: "/image/tabbar_icon2.png"
+  icon: 'sort',
+  text: '操作',
+  url: '/view/do/do'
 }, {
-  text: "我",
-  pagePath: "/view/me/me",
-  iconPath: "/image/tabbar_icon.png",
-  selectedIconPath: "/image/tabbar_icon2.png"
+  icon: 'person',
+  text: '个人',
+  url: '/view/me/me'
 }]

@@ -1,10 +1,2 @@
-.page {
-  background-color: #a0a0a0;
-  height: 100%;
-  font-size: 32px;
-  line-height: 1.6;
-}
-
-.page-body {
-  margin: 10px;
-}
+@import 'style/iconfont.wxss';
+@import 'style/theme.wxss';
