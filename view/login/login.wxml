@@ -1,4 +1,4 @@
-<view class="login-page">
+<view class="container">
   <view class="form-login">
     <form class="form-content">
       <t-cell-group>

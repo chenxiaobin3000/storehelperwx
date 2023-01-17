@@ -4,7 +4,7 @@ page {
 
 page .divider-line {
   width: 100%;
-  height: 20rpx;
+  height: 60rpx;
   background-color: #f5f5f5;
 }
 
@@ -12,35 +12,15 @@ page .divider-line {
   font-size: 30rpx;
 }
 
-.form-login .t-cell-left {
-  margin-right: 0;
-}
-
-.form-login .t-cell-title {
-  margin-left: 44rpx;
-  width: 100rpx;
-  flex: none;
-}
-
-.form-login .t-input {
-  width: 100%;
-}
-
-.form-login .form-content {
+.form-forbid .form-content {
   box-sizing: border-box;
   width: 100%;
   display: block;
 }
 
-.form-login .field-text {
-  flex: 1;
-  color: #666666;
-  font-size: 30rpx;
-  padding: 0;
-}
-
-.form-login .field-text::after {
-  border: none !important;
+.form-forbid .text-notify {
+  padding-left: 60rpx;
+  font-size: 32rpx;
 }
 
 .submit {
@@ -50,7 +30,7 @@ page .divider-line {
 
 .submit .btn-submit-address {
   width: 100%;
-  background: #2340e7;
+  background: #fa4126;
   color: #fff;
   border-radius: 48rpx;
 }

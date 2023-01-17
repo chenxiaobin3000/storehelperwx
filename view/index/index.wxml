@@ -1,4 +1,4 @@
-<view class="page-body">
+<view class="container">
   <mp-dialog title="test" show="{{show}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
     <view>test content</view>
   </mp-dialog>

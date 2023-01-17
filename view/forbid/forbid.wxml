@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="form-forbid">
+    <form class="form-content">
+      <view class="divider-line" />
+      <label class="text-notify">您的账号没有小程序权限，请联系系统管理员。</label>
+      <view class="submit">
+        <t-button t-class="btn-submit-address theme-wrapper-class" bind:tap="logout">
+          <text space="ensp">切换账号</text>
+        </t-button>
+      </view>
+    </form>
+  </view>
+</view>

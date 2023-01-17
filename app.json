@@ -3,7 +3,8 @@
     "view/index/index",
     "view/do/do",
     "view/me/me",
-    "view/login/login"
+    "view/login/login",
+    "view/forbid/forbid"
   ],
   "tabBar": {
     "custom": true,

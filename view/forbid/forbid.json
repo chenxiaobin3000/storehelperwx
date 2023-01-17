@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "出错啦",
+  "usingComponents": {
+    "t-button": "tdesign-miniprogram/button/button"
+  }
+}

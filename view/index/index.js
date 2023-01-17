@@ -15,20 +15,25 @@ Page({
   },
   onLoad() {
     wx.hideHomeButton()
+    const app = getApp()
     const userId = wx.getStorageSync('userId')
     const token = wx.getStorageSync('token')
     if (userId > 0 && token && token.length > 0) {
-      var app = getApp()
-      app.globalData.userId = userId
-      app.globalData.token = token
-
       // 验证会话，获取权限
+      app.globalData.token = token
       getUser({
-        id: app.globalData.userId
+        id: userId
       }, data => {
-        var app = getApp()
         app.globalData.user = data.user
         app.globalData.group = data.group
+        app.globalData.perms = data.permMps
+
+        if (data.permMps.length === 0) {
+          // 没有权限就去面壁
+          wx.redirectTo({
+            url: '../forbid/forbid'
+          })
+        }
       })
     } else {
       // 没有账号信息就去登陆
