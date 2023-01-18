@@ -1,6 +1,51 @@
 <view class="container">
-  <mp-dialog title="test" show="{{show}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
-    <view>test content</view>
-  </mp-dialog>
-  <button type="primary" bindtap="chooseImage">拍 照</button>
+  <view class="form-index">
+    <form class="form-content">
+      <t-cell-group>
+        <view class="divider-line" />
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="仓库" bind:tap="onStoragePicker">
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{storageValue}}" placeholder="请点击选择仓库" disabled />
+        </t-cell>
+        <t-picker visible="{{storageVisible}}" value="{{storageValue}}" title="请选择仓库" cancelBtn="取消" confirmBtn="确认" bindchange="onPickerChange" bindcancel="onPickerCancel">
+          <t-picker-item options="{{storages}}" />
+        </t-picker>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="批次">
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{batch}}" maxlength="16" placeholder="请输入进货批次号" data-item="batch" bind:change="onInputValue" />
+        </t-cell>
+      </t-cell-group>
+
+      <!-- 商品列表 -->
+      <t-cell-group>
+        <view class="divider-line" />
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="商品列表 ({{commodityNum}}件)" note="数量" />
+        <swipeout wx:for="{{commoditys}}" wx:key="id" right-width="{{rightWidth}}">
+          <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.num}}" hover />
+          <view slot="right" class="swiper-right-del" bind:tap="delCommodity" data-value="{{item}}">删除</view>
+        </swipeout>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="点击添加新商品" hover bind:tap="addCommodity" />
+      </t-cell-group>
+
+      <!-- 凭证列表 -->
+      <t-cell-group>
+        <view class="divider-line" />
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="凭证列表 ({{attachmentNum}}件)" note="数量" />
+        <swipeout wx:for="{{attachments}}" wx:key="id" right-width="{{rightWidth}}">
+          <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.num}}" hover />
+          <view slot="right" class="swiper-right-del" bind:tap="delAttachment" data-value="{{item}}">删除</view>
+        </swipeout>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="点击添加新凭证" hover bind:tap="addAttachment" />
+      </t-cell-group>
+
+      <view class="submit">
+        <t-button t-class="btn-submit {{submitActive ? 'theme-wrapper-class' : 'disabled'}}" style="margin-left: 6%" bind:tap="login">
+          <text space="ensp">提 交</text>
+        </t-button>
+      </view>
+    </form>
+  </view>
+  <view class="divider-line" />
+  <view class="divider-line" />
+  <view class="divider-line" />
+  <view class="divider-line" />
 </view>
+<t-toast id="t-toast" />

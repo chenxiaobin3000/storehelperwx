@@ -16,7 +16,7 @@
         </t-checkbox-group>
       </t-cell-group>
       <view class="submit">
-        <t-button t-class="btn-submit-address {{submitActive ? 'theme-wrapper-class' : 'disabled'}}" bind:tap="login">
+        <t-button t-class="btn-submit {{submitActive ? 'theme-wrapper-class' : 'disabled'}}" bind:tap="login">
           <text space="ensp">登 陆</text>
         </t-button>
       </view>

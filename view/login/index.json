@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "登陆",
+  "navigationBarTitleText": "集数助手",
   "usingComponents": {
     "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
     "t-cell": "tdesign-miniprogram/cell/cell",

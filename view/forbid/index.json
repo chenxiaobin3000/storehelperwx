@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "出错啦",
+  "navigationBarTitleText": "集数助手",
   "usingComponents": {
     "t-button": "tdesign-miniprogram/button/button"
   }

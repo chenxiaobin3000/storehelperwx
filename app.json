@@ -1,10 +1,11 @@
 {
   "pages": [
     "view/index/index",
-    "view/do/do",
-    "view/me/me",
-    "view/login/login",
-    "view/forbid/forbid"
+    "view/index/edit/index",
+    "view/list/index",
+    "view/me/index",
+    "view/login/index",
+    "view/forbid/index"
   ],
   "tabBar": {
     "custom": true,
@@ -15,9 +16,9 @@
     "list": [{
       "pagePath": "view/index/index"
     }, {
-      "pagePath": "view/do/do"
+      "pagePath": "view/list/index"
     }, {
-      "pagePath": "view/me/me"
+      "pagePath": "view/me/index"
     }]
   },
   "window": {

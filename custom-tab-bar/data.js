@@ -4,10 +4,10 @@ export default [{
   url: '/view/index/index'
 }, {
   icon: 'sort',
-  text: '操作',
-  url: '/view/do/do'
+  text: '查询',
+  url: '/view/list/index'
 }, {
   icon: 'person',
   text: '个人',
-  url: '/view/me/me'
+  url: '/view/me/index'
 }]

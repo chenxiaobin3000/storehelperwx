@@ -1,7 +1,6 @@
 {
   "navigationBarTitleText": "集数助手",
   "usingComponents": {
-    "swipeout": "../../components/swipeout/index",
     "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-picker": "tdesign-miniprogram/picker/picker",
