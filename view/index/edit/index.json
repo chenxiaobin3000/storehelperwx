@@ -1,12 +1,11 @@
 {
-  "navigationBarTitleText": "集数助手",
+  "navigationBarTitleText": "添加商品",
   "usingComponents": {
     "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-picker": "tdesign-miniprogram/picker/picker",
     "t-picker-item": "tdesign-miniprogram/picker-item/picker-item",
     "t-input": "tdesign-miniprogram/input/input",
-    "t-button": "tdesign-miniprogram/button/button",
-    "t-toast": "tdesign-miniprogram/toast/toast"
+    "t-button": "tdesign-miniprogram/button/button"
   }
 }

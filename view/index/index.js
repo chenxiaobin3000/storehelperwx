@@ -1,24 +1,61 @@
 import {
-  pickImage
-} from '../../util/util'
-import {
   getGroupStorage
 } from '../../service/storage'
 import {
   getUser
 } from '../../service/user'
+import {
+  addAttach
+} from '../../service/upload'
 Page({
   data: {
+    orderVisible: false,
+    orderValue: [],
+    orders: [{
+      label: '原料进货入库订单',
+      value: 1
+    }, {
+      label: '标品进货入库订单',
+      value: 2
+    }, {
+      label: '生产原料出库订单',
+      value: 3
+    }, {
+      label: '生产原料入库库订单',
+      value: 4
+    }, {
+      label: '生产半成品入库订单',
+      value: 5
+    }, {
+      label: '生产商品入库订单',
+      value: 6
+    }, {
+      label: '履约商品出库订单',
+      value: 7
+    }, {
+      label: '履约标品出库订单',
+      value: 8
+    }, {
+      label: '履约商品入库订单',
+      value: 9
+    }, {
+      label: '履约标品入库订单',
+      value: 10
+    }],
     storageVisible: false,
     storageValue: [],
     storages: [],
-    currentStorage: 0,
     batch: '',
     commoditys: [],
-    commodityNum: 0,
-    attachments: [],
-    attachmentNum: 0,
+    originFiles: [],
+    uploadFiles: [],
     submitActive: false,
+    gridConfig: {
+      column: 4,
+      width: 160,
+      height: 160,
+    },
+    maxUpload: 3,
     rightWidth: 60
   },
   onLoad() {
@@ -68,36 +105,64 @@ Page({
       })
     }
   },
-  onUnload() {
-    console.log('unload')
-  },
   onShow() {
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({
         selected: 0
       })
+
+      // 添加商品
+      const app = getApp()
+      const temp = app.globalData.temp
+      if (temp && temp.action === 'addCommodity') {
+        this.data.commoditys.push({
+          id: temp.commodity.id,
+          name: temp.commodity.name,
+          price: temp.price,
+          num: temp.num
+        })
+        this.setData({
+          commoditys: this.data.commoditys
+        })
+        app.globalData.temp = {}
+      }
     }
+  },
+  onOrderPicker() {
+    this.setData({
+      orderVisible: true
+    })
+  },
+  onOrderChange(event) {
+    this.setData({
+      orderVisible: false,
+      orderValue: event.detail.label,
+    })
+  },
+  onOrderCancel() {
+    this.setData({
+      orderVisible: false,
+    })
   },
   onStoragePicker() {
     this.setData({
       storageVisible: true
     })
   },
-  onPickerChange(event) {
+  onStorageChange(event) {
     this.setData({
       storageVisible: false,
       storageValue: event.detail.label,
-      currentStorage: event.detail.value.id
     })
   },
-  onPickerCancel() {
+  onStorageCancel() {
     this.setData({
       storageVisible: false,
     })
   },
   addCommodity() {
     wx.navigateTo({
-      url: `/pages/usercenter/address/edit/index?id=${e.detail.id}`,
+      url: `./edit/index?id=1`,
     })
   },
   delCommodity(event) {
@@ -112,31 +177,40 @@ Page({
       commoditys: list
     })
   },
-  addAttachment() {
-    this.data.attachments.push({
-      id: 1,
-      name: '123',
-      num: 10
-    })
+  handleSuccess(event) {
+    const {
+      files
+    } = event.detail
+    const file = files[files.length - 1]
+    file.status = 'loading'
     this.setData({
-      attachments: this.data.attachments
+      originFiles: files,
+    })
+
+    // 启动上传
+    this.data.uploadFiles.push(file)
+    const app = getApp()
+    const {
+      id
+    } = app.globalData.user
+    addAttach(file.url, {
+      id: id,
+      type: 1,
+      name: id + '-' + file.name
+    }, data => {
+      console.log(data)
     })
   },
-  delAttachment(event) {
-    const id = event.currentTarget.dataset.value.id
-    let list = []
-    this.data.attachments.forEach(v => {
-      if (v.id !== id) {
-        list.push(v)
-      }
-    })
+  handleRemove(event) {
+    const {
+      index
+    } = event.detail
+    const {
+      originFiles
+    } = this.data
+    originFiles.splice(index, 1)
     this.setData({
-      attachments: list
-    })
-  },
-  chooseImage() {
-    pickImage(path => {
-      console.log(path)
+      originFiles,
     })
   }
 })

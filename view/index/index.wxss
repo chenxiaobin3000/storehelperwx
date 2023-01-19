@@ -27,12 +27,13 @@ page .divider-line {
 }
 
 .form-index .t-cell-note {
-  margin-right: 44rpx;
+  justify-content: flex-start;
+  margin-left: 32rpx;
 }
 
 .form-index .t-cell-title-all {
   margin-left: 44rpx;
-  width: 70%;
+  width: 56%;
   flex: none;
 }
 

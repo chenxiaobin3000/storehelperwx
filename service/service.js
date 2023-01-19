@@ -17,18 +17,18 @@ if (typeof __wxConfig == 'object') {
  * @param {*} success 成功回调
  */
 function post(url, data, success) {
-  const token = wx.getStorageSync('token')
+  const app = getApp()
   wx.showLoading({
     mask: true // 防止重复操作
   })
   wx.request({
+    url: url,
     method: 'post',
     timeout: 5000,
-    url: url,
-    data: data,
     header: {
-      'token': token,
+      token: app.globalData.token
     },
+    data: data,
     success(res) {
       if (res.data.code === 0) {
         // 成功

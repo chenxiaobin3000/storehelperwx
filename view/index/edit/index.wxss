@@ -27,13 +27,8 @@ page .divider-line {
 }
 
 .form-index .t-cell-note {
-  margin-right: 44rpx;
-}
-
-.form-index .t-cell-title-all {
-  margin-left: 44rpx;
-  width: 70%;
-  flex: none;
+  justify-content: flex-start;
+  margin-left: 32rpx;
 }
 
 .form-index .t-input {
@@ -75,15 +70,4 @@ page .divider-line {
 
 .submit .btn-submit.disabled::after {
   display: none;
-}
-
-.swiper-right-del {
-  height: 100%;
-  width: 144rpx;
-  background-color: #fa4126;
-  font-size: 28rpx;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }

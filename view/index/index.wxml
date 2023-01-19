@@ -3,38 +3,44 @@
     <form class="form-content">
       <t-cell-group>
         <view class="divider-line" />
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="仓库" bind:tap="onStoragePicker">
-          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{storageValue}}" placeholder="请点击选择仓库" disabled />
+        <!-- 订单类型选择 -->
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="类型" bind:tap="onOrderPicker">
+          <view wx:if="{{orderValue.length > 0}}" class="field-text" slot="note">{{orderValue}}</view>
+          <view wx:else slot="note">请点击选择订单类型</view>
         </t-cell>
-        <t-picker visible="{{storageVisible}}" value="{{storageValue}}" title="请选择仓库" cancelBtn="取消" confirmBtn="确认" bindchange="onPickerChange" bindcancel="onPickerCancel">
+        <t-picker visible="{{orderVisible}}" value="{{orderValue}}" title="请选择订单类型" cancelBtn="取消" confirmBtn="确认" bindchange="onOrderChange" bindcancel="onOrderCancel">
+          <t-picker-item options="{{orders}}" />
+        </t-picker>
+        <!-- 仓库选择 -->
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="仓库" bind:tap="onStoragePicker">
+          <view wx:if="{{storageValue.length > 0}}" class="field-text" slot="note">{{storageValue}}</view>
+          <view wx:else slot="note">请点击选择仓库</view>
+        </t-cell>
+        <t-picker visible="{{storageVisible}}" value="{{storageValue}}" title="请选择仓库" cancelBtn="取消" confirmBtn="确认" bindchange="onStorageChange" bindcancel="onStorageCancel">
           <t-picker-item options="{{storages}}" />
         </t-picker>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="批次">
-          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{batch}}" maxlength="16" placeholder="请输入进货批次号" data-item="batch" bind:change="onInputValue" />
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{batch}}" maxlength="16" placeholder="请输入进货批次号" bind:change="onInputValue" />
         </t-cell>
       </t-cell-group>
 
       <!-- 商品列表 -->
       <t-cell-group>
         <view class="divider-line" />
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="商品列表 ({{commodityNum}}件)" note="数量" />
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="商品列表 ({{commoditys.length}}件)" note="价格 / 数量" />
         <swipeout wx:for="{{commoditys}}" wx:key="id" right-width="{{rightWidth}}">
-          <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.num}}" hover />
+          <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" hover />
           <view slot="right" class="swiper-right-del" bind:tap="delCommodity" data-value="{{item}}">删除</view>
         </swipeout>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="点击添加新商品" hover bind:tap="addCommodity" />
+        <view class="divider-line" />
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="凭证列表 (最多{{maxUpload}}张)" />
       </t-cell-group>
 
       <!-- 凭证列表 -->
-      <t-cell-group>
-        <view class="divider-line" />
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="凭证列表 ({{attachmentNum}}件)" note="数量" />
-        <swipeout wx:for="{{attachments}}" wx:key="id" right-width="{{rightWidth}}">
-          <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.num}}" hover />
-          <view slot="right" class="swiper-right-del" bind:tap="delAttachment" data-value="{{item}}">删除</view>
-        </swipeout>
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="点击添加新凭证" hover bind:tap="addAttachment" />
-      </t-cell-group>
+      <view class="wrapper">
+        <t-upload media-type="{{['image']}}" max="{{maxUpload}}" files="{{originFiles}}" gridConfig="{{gridConfig}}" bind:success="handleSuccess" bind:remove="handleRemove" />
+      </view>
 
       <view class="submit">
         <t-button t-class="btn-submit {{submitActive ? 'theme-wrapper-class' : 'disabled'}}" style="margin-left: 6%" bind:tap="login">
@@ -48,4 +54,3 @@
   <view class="divider-line" />
   <view class="divider-line" />
 </view>
-<t-toast id="t-toast" />

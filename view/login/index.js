@@ -48,7 +48,8 @@ Page({
         account: that.account,
         password: md5(that.password)
       }, data => {
-        var app = getApp()
+        const app = getApp()
+        app.globalData.token = data.token
         wx.setStorageSync('userId', data.id)
         wx.setStorageSync('token', data.token)
         wx.switchTab({

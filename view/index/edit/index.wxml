@@ -3,27 +3,33 @@
     <form class="form-content">
       <t-cell-group>
         <view class="divider-line" />
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="仓库" bind:tap="onStoragePicker">
-          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{storageValue}}" placeholder="请点击选择仓库" disabled />
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="商品" bind:tap="onCommodityPicker">
+          <view wx:if="{{commodityValue && commodityValue.id}}" class="field-text" slot="note">{{commodityValue.name}}</view>
+          <view wx:else slot="note">请点击选择商品</view>
         </t-cell>
-        <t-picker visible="{{storageVisible}}" value="{{storageValue}}" title="请选择仓库" cancelBtn="取消" confirmBtn="确认" bindchange="onPickerChange" bindcancel="onPickerCancel">
-          <t-picker-item options="{{storages}}" />
+        <t-picker visible="{{commodityVisible}}" value="{{commodityValue}}" title="请选择仓库" cancelBtn="取消" confirmBtn="确认" bindchange="onCommodityChange" bindcancel="onCommodityCancel">
+          <t-picker-item options="{{commoditys}}" />
         </t-picker>
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="批次">
-          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{batch}}" maxlength="16" placeholder="请输入进货批次号" data-item="batch" bind:change="onInputValue" />
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="价格">
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{price}}" maxlength="16" placeholder="请输入商品价格" data-item="price" bind:change="onInputValue" />
+        </t-cell>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="数量">
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{num}}" maxlength="16" placeholder="请输入商品数量" data-item="num" bind:change="onInputValue" />
         </t-cell>
       </t-cell-group>
 
+      <view wx:if="{{commodityValue && commodityValue.id}}" class="field-text" style="margin: 30rpx 80rpx 0 80rpx">
+        <view style="margin-top: 10rpx">编号: {{commodityValue.code}}</view>
+        <view style="margin-top: 10rpx">名称: {{commodityValue.name}}</view>
+        <view style="margin-top: 10rpx">价格: {{commodityValue.price}}元</view>
+        <view style="margin-top: 10rpx">备注: {{commodityValue.remark}}</view>
+      </view>
+
       <view class="submit">
-        <t-button t-class="btn-submit {{submitActive ? 'theme-wrapper-class' : 'disabled'}}" style="margin-left: 6%" bind:tap="login">
-          <text space="ensp">提 交</text>
+        <t-button t-class="btn-submit {{submitActive ? 'theme-wrapper-class' : 'disabled'}}" style="margin-left: 6%" bind:tap="addCommodity">
+          <text space="ensp">添 加</text>
         </t-button>
       </view>
     </form>
   </view>
-  <view class="divider-line" />
-  <view class="divider-line" />
-  <view class="divider-line" />
-  <view class="divider-line" />
 </view>
-<t-toast id="t-toast" />

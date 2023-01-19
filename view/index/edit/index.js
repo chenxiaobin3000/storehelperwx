@@ -1,20 +1,19 @@
 import {
-  getGroupStorage
-} from '../../../service/storage'
+  getGroupCommodity
+} from '../../../service/commodity'
 Page({
   data: {
-    storageVisible: false,
-    storageValue: [],
-    storages: [],
-    currentStorage: 0,
-    batch: '',
-    submitActive: false,
-    rightWidth: 60
+    commodityVisible: false,
+    commodityValue: {},
+    commoditys: [],
+    price: 0,
+    num: 0,
+    submitActive: false
   },
   onLoad() {
     wx.hideHomeButton()
     const app = getApp()
-    getGroupStorage({
+    getGroupCommodity({
       id: app.globalData.user.id,
       page: 1,
       limit: 100,
@@ -28,25 +27,56 @@ Page({
         })
       })
       this.setData({
-        storages: list
+        commoditys: list
       })
     })
   },
-  onStoragePicker() {
+  checkSubmitActive() {
+    const that = this.data
+    if (that.commodityValue && that.commodityValue.id && that.price > 0 && that.num > 0) {
+      this.setData({
+        submitActive: true
+      })
+    } else {
+      this.setData({
+        submitActive: false
+      })
+    }
+  },
+  onInputValue(event) {
     this.setData({
-      storageVisible: true
+      [`${event.currentTarget.dataset.item}`]: event.detail.value
+    })
+    this.checkSubmitActive()
+  },
+  onCommodityPicker() {
+    this.setData({
+      commodityVisible: true
     })
   },
-  onPickerChange(event) {
+  onCommodityChange(event) {
     this.setData({
-      storageVisible: false,
-      storageValue: event.detail.label,
-      currentStorage: event.detail.value.id
+      commodityVisible: false,
+      commodityValue: event.detail.value[0]
+    })
+    this.checkSubmitActive()
+  },
+  onCommodityCancel() {
+    this.setData({
+      commodityVisible: false,
     })
   },
-  onPickerCancel() {
-    this.setData({
-      storageVisible: false,
+  addCommodity() {
+    const that = this.data
+    const app = getApp()
+    app.globalData.temp = {
+      action: 'addCommodity',
+      commodity: that.commodityValue,
+      price: that.price,
+      num: that.num
+    }
+    wx.navigateBack({
+      delta: 1
     })
   }
 })
