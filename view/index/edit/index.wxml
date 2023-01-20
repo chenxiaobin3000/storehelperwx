@@ -3,18 +3,18 @@
     <form class="form-content">
       <t-cell-group>
         <view class="divider-line" />
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="商品" bind:tap="onCommodityPicker">
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{nameText}}" bind:tap="onCommodityPicker">
           <view wx:if="{{commodityValue && commodityValue.id}}" class="field-text" slot="note">{{commodityValue.name}}</view>
-          <view wx:else slot="note">请点击选择商品</view>
+          <view wx:else slot="note">请点击选择{{nameText}}</view>
         </t-cell>
-        <t-picker visible="{{commodityVisible}}" value="{{commodityValue}}" title="请选择仓库" cancelBtn="取消" confirmBtn="确认" bindchange="onCommodityChange" bindcancel="onCommodityCancel">
+        <t-picker visible="{{commodityVisible}}" value="{{commodityValue}}" title="请选择{{nameText}}" cancelBtn="取消" confirmBtn="确认" bindchange="onCommodityChange" bindcancel="onCommodityCancel">
           <t-picker-item options="{{commoditys}}" />
         </t-picker>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="价格">
-          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{price}}" maxlength="16" placeholder="请输入商品价格" data-item="price" bind:change="onInputValue" />
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{price}}" maxlength="16" placeholder="请输入{{nameText}}价格" data-item="price" bind:change="onInputValue" />
         </t-cell>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="数量">
-          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{num}}" maxlength="16" placeholder="请输入商品数量" data-item="num" bind:change="onInputValue" />
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{num}}" maxlength="16" placeholder="请输入{{nameText}}数量" data-item="num" bind:change="onInputValue" />
         </t-cell>
       </t-cell-group>
 
@@ -27,9 +27,10 @@
 
       <view class="submit">
         <t-button t-class="btn-submit {{submitActive ? 'theme-wrapper-class' : 'disabled'}}" style="margin-left: 6%" bind:tap="addCommodity">
-          <text space="ensp">添 加</text>
+          <text space="ensp">{{btnText}}</text>
         </t-button>
       </view>
     </form>
   </view>
 </view>
+<t-toast id="t-toast" />

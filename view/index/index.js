@@ -12,43 +12,38 @@ Page({
     orderVisible: false,
     orderValue: [],
     orders: [{
-      label: '原料进货入库订单',
+      label: '进货入库订单',
       value: 1
     }, {
-      label: '标品进货入库订单',
+      label: '进货退货订单',
       value: 2
     }, {
-      label: '生产原料出库订单',
-      value: 3
-    }, {
-      label: '生产原料入库库订单',
+      label: '生产出库订单',
       value: 4
     }, {
-      label: '生产半成品入库订单',
-      value: 5
+      label: '生产完成订单',
+      value: 3
     }, {
-      label: '生产商品入库订单',
+      label: '履约出货订单',
       value: 6
     }, {
-      label: '履约商品出库订单',
-      value: 7
-    }, {
-      label: '履约标品出库订单',
-      value: 8
-    }, {
-      label: '履约商品入库订单',
-      value: 9
-    }, {
-      label: '履约标品入库订单',
-      value: 10
+      label: '履约退货订单',
+      value: 5
     }],
     storageVisible: false,
     storageValue: [],
     storages: [],
     batch: '',
+    dateVisible: false,
+    date: new Date().getTime(),
+    dateText: '',
     commoditys: [],
+    halfgoods: [],
+    originals: [],
+    standards: [],
     originFiles: [],
     uploadFiles: [],
+    collapseValues: [],
     submitActive: false,
     gridConfig: {
       column: 4,
@@ -114,13 +109,23 @@ Page({
       // 添加商品
       const app = getApp()
       const temp = app.globalData.temp
-      if (temp && temp.action === 'addCommodity') {
-        this.data.commoditys.push({
-          id: temp.commodity.id,
-          name: temp.commodity.name,
-          price: temp.price,
-          num: temp.num
+      if (temp && temp.action === 'commodity') {
+        let find = false
+        this.data.commoditys.forEach(v => {
+          if (v.id === temp.commodity.id) {
+            v.price = temp.price
+            v.num = temp.num
+            find = true
+          }
         })
+        if (!find) {
+          this.data.commoditys.push({
+            id: temp.commodity.id,
+            name: temp.commodity.name,
+            price: temp.price,
+            num: temp.num
+          })
+        }
         this.setData({
           commoditys: this.data.commoditys
         })
@@ -128,6 +133,7 @@ Page({
       }
     }
   },
+  // 订单类型选择
   onOrderPicker() {
     this.setData({
       orderVisible: true
@@ -144,6 +150,7 @@ Page({
       orderVisible: false,
     })
   },
+  // 仓库选择
   onStoragePicker() {
     this.setData({
       storageVisible: true
@@ -160,9 +167,42 @@ Page({
       storageVisible: false,
     })
   },
+  // 日期选择
+  showDatePicker() {
+    this.setData({
+      dateVisible: true,
+    })
+  },
+  hideDatePicker() {
+    this.setData({
+      dateVisible: false,
+    })
+  },
+  onDateConfirm(event) {
+    this.setData({
+      dateText: event.detail.value,
+    })
+    this.hideDatePicker()
+  },
+  // 下拉列表
+  handleCollapseChange(event) {
+    this.setData({
+      collapseValues: event.detail.value,
+    })
+  },
+  setCommodity(event) {
+    const {
+      id,
+      price,
+      num
+    } = event.currentTarget.dataset.value
+    wx.navigateTo({
+      url: `./edit/index?type=1&id=${id}&price=${price}&num=${num}`,
+    })
+  },
   addCommodity() {
     wx.navigateTo({
-      url: `./edit/index?id=1`,
+      url: './edit/index?type=1&id=0'
     })
   },
   delCommodity(event) {
@@ -177,6 +217,88 @@ Page({
       commoditys: list
     })
   },
+  setHalfgood(event) {
+    const {
+      id,
+      price,
+      num
+    } = event.currentTarget.dataset.value
+    wx.navigateTo({
+      url: `./edit/index?type=2&id=${id}&price=${price}&num=${num}`,
+    })
+  },
+  addHalfgood() {
+    wx.navigateTo({
+      url: './edit/index?type=2&id=0'
+    })
+  },
+  delHalfgood(event) {
+    const id = event.currentTarget.dataset.value.id
+    let list = []
+    this.data.halfgoods.forEach(v => {
+      if (v.id !== id) {
+        list.push(v)
+      }
+    })
+    this.setData({
+      halfgoods: list
+    })
+  },
+  setOriginal(event) {
+    const {
+      id,
+      price,
+      num
+    } = event.currentTarget.dataset.value
+    wx.navigateTo({
+      url: `./edit/index?type=3&id=${id}&price=${price}&num=${num}`,
+    })
+  },
+  addOriginal() {
+    wx.navigateTo({
+      url: './edit/index?type=3&id=0'
+    })
+  },
+  delOriginal(event) {
+    const id = event.currentTarget.dataset.value.id
+    let list = []
+    this.data.originals.forEach(v => {
+      if (v.id !== id) {
+        list.push(v)
+      }
+    })
+    this.setData({
+      originals: list
+    })
+  },
+  setStandard(event) {
+    const {
+      id,
+      price,
+      num
+    } = event.currentTarget.dataset.value
+    wx.navigateTo({
+      url: `./edit/index?type=4&id=${id}&price=${price}&num=${num}`,
+    })
+  },
+  addStandard() {
+    wx.navigateTo({
+      url: './edit/index?type=4&id=0'
+    })
+  },
+  delStandard(event) {
+    const id = event.currentTarget.dataset.value.id
+    let list = []
+    this.data.standards.forEach(v => {
+      if (v.id !== id) {
+        list.push(v)
+      }
+    })
+    this.setData({
+      standards: list
+    })
+  },
+  // 上传
   handleSuccess(event) {
     const {
       files
