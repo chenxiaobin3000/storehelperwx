@@ -20,7 +20,7 @@
           <t-picker-item options="{{storages}}" />
         </t-picker>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="批次">
-          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{batch}}" maxlength="16" placeholder="请输入进货批次号" bind:change="onInputValue" />
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{batch}}" maxlength="16" placeholder="请输入进货批次号" data-item="batch" bind:change="onInputValue" />
         </t-cell>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="日期" bind:tap="showDatePicker">
           <view wx:if="{{dateText.length > 0}}" class="field-text" slot="note">{{dateText}}</view>

@@ -131,8 +131,23 @@ Page({
   addCommodity() {
     const that = this.data
     const app = getApp()
+    let action
+    switch (that.type) {
+      case 1:
+        action = 'commodity'
+        break;
+      case 2:
+        action = 'halfgood'
+        break;
+      case 3:
+        action = 'original'
+        break;
+      default:
+        action = 'standard'
+        break;
+    }
     app.globalData.temp = {
-      action: 'commodity',
+      action: action,
       commodity: that.commodityValue,
       price: that.price,
       num: that.num
@@ -179,7 +194,7 @@ Page({
     const app = getApp()
     getHalfgood({
       id: app.globalData.user.id,
-      cid: id
+      hid: id
     }, data => {
       console.log(data)
       this.setData({
@@ -213,7 +228,7 @@ Page({
     const app = getApp()
     getOriginal({
       id: app.globalData.user.id,
-      cid: id
+      oid: id
     }, data => {
       console.log(data)
       this.setData({
@@ -247,7 +262,7 @@ Page({
     const app = getApp()
     getStandard({
       id: app.globalData.user.id,
-      cid: id
+      sid: id
     }, data => {
       console.log(data)
       this.setData({
