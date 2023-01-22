@@ -73,12 +73,12 @@
 
         <!-- 凭证列表 -->
         <t-collapse-panel header="凭证列表 (最多{{maxUpload}}张)" value="{{5}}" expandIcon>
-          <t-upload media-type="{{['image']}}" max="{{maxUpload}}" files="{{originFiles}}" gridConfig="{{gridConfig}}" bind:success="handleSuccess" bind:remove="handleRemove" />
+          <t-upload media-type="{{['image']}}" max="{{maxUpload}}" files="{{uploadFiles}}" gridConfig="{{gridConfig}}" bind:success="handleSuccess" bind:remove="handleRemove" />
         </t-collapse-panel>
       </t-collapse>
 
       <view class="submit">
-        <t-button t-class="btn-submit {{submitActive ? 'theme-wrapper-class' : 'disabled'}}" style="margin-left: 6%" bind:tap="login">
+        <t-button t-class="btn-submit {{submitActive ? 'theme-wrapper-class' : 'disabled'}}" style="margin-left: 6%" bind:tap="clickSubmit">
           <text space="ensp">提 交</text>
         </t-button>
       </view>

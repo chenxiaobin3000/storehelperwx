@@ -162,7 +162,6 @@ Page({
       id: app.globalData.user.id,
       cid: id
     }, data => {
-      console.log(data)
       this.setData({
         commodityValue: data
       })
@@ -196,7 +195,6 @@ Page({
       id: app.globalData.user.id,
       hid: id
     }, data => {
-      console.log(data)
       this.setData({
         commodityValue: data
       })
@@ -230,7 +228,6 @@ Page({
       id: app.globalData.user.id,
       oid: id
     }, data => {
-      console.log(data)
       this.setData({
         commodityValue: data
       })
@@ -264,7 +261,6 @@ Page({
       id: app.globalData.user.id,
       sid: id
     }, data => {
-      console.log(data)
       this.setData({
         commodityValue: data
       })

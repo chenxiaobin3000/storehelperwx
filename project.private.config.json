@@ -1,7 +1,7 @@
 {
   "description": "storehelperwx",
   "setting": {
-    "compileHotReLoad": false,
+    "compileHotReLoad": true,
     "urlCheck": false
   }
 }

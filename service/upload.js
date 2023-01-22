@@ -15,7 +15,7 @@ export function addAttach(path, params, success) {
     name: 'file',
     formData: params,
     success: (res) => {
-      success(res)
+      success(JSON.parse(res.data))
     }
   })
 }
