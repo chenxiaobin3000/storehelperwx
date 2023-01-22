@@ -1,7 +1,11 @@
 export default [{
   icon: 'home',
   text: '主页',
-  url: '/view/index/index'
+  url: '/view/report/index'
+}, {
+  icon: 'home',
+  text: '主页',
+  url: '/view/add/index'
 }, {
   icon: 'sort',
   text: '查询',

@@ -52,8 +52,8 @@ Page({
         app.globalData.token = data.token
         wx.setStorageSync('userId', data.id)
         wx.setStorageSync('token', data.token)
-        wx.switchTab({
-          url: '/view/index/index'
+        wx.redirectTo({
+          url: '../welcome/index'
         })
       })
     }

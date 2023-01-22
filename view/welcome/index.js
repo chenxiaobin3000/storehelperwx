@@ -23,8 +23,16 @@ Page({
             url: '../forbid/index'
           })
         } else {
+          // 根据权限跳转
+          data.permMps.forEach(v => {
+            if (v === 10) {
+              wx.switchTab({
+                url: '/view/report/index'
+              })
+            }
+          })
           wx.switchTab({
-            url: '/view/list/index'
+            url: '/view/add/index'
           })
         }
       })

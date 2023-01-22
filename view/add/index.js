@@ -73,7 +73,6 @@ Page({
   },
   onShow() {
     this.getTabBar().init()
-
     const app = getApp()
     const temp = app.globalData.temp
     if (temp) {

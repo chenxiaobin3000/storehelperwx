@@ -1,8 +1,9 @@
 {
   "pages": [
     "view/welcome/index",
-    "view/index/index",
-    "view/index/edit/index",
+    "view/report/index",
+    "view/add/index",
+    "view/add/edit/index",
     "view/list/index",
     "view/me/index",
     "view/login/index",
@@ -15,7 +16,9 @@
     "backgroundColor": "#ffffff",
     "borderStyle": "black",
     "list": [{
-      "pagePath": "view/index/index"
+      "pagePath": "view/report/index"
+    }, {
+      "pagePath": "view/add/index"
     }, {
       "pagePath": "view/list/index"
     }, {
