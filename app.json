@@ -1,8 +1,9 @@
 {
   "pages": [
-    "view/list/index",
+    "view/welcome/index",
     "view/index/index",
     "view/index/edit/index",
+    "view/list/index",
     "view/me/index",
     "view/login/index",
     "view/forbid/index"

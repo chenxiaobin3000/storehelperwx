@@ -3,9 +3,6 @@ import {
   purchase
 } from '../../service/storage'
 import {
-  getUser
-} from '../../service/user'
-import {
   addAttach
 } from '../../service/upload'
 Page({
@@ -56,49 +53,23 @@ Page({
   onLoad() {
     wx.hideHomeButton()
     const app = getApp()
-    const userId = wx.getStorageSync('userId')
-    const token = wx.getStorageSync('token')
-    if (userId > 0 && token && token.length > 0) {
-      // 验证会话，获取权限
-      app.globalData.token = token
-      getUser({
-        id: userId
-      }, data => {
-        app.globalData.user = data.user
-        app.globalData.group = data.group
-        app.globalData.perms = data.permMps
-
-        if (data.permMps.length === 0) {
-          // 没有权限就去面壁
-          wx.redirectTo({
-            url: '../forbid/index'
-          })
-        } else {
-          getGroupStorage({
-            id: app.globalData.user.id,
-            page: 1,
-            limit: 100,
-            search: null
-          }, data => {
-            const list = []
-            data.list.forEach(v => {
-              list.push({
-                label: v.name,
-                value: v
-              })
-            })
-            this.setData({
-              storages: list
-            })
-          })
-        }
+    getGroupStorage({
+      id: app.globalData.user.id,
+      page: 1,
+      limit: 100,
+      search: null
+    }, data => {
+      const list = []
+      data.list.forEach(v => {
+        list.push({
+          label: v.name,
+          value: v
+        })
       })
-    } else {
-      // 没有账号信息就去登陆
-      wx.redirectTo({
-        url: '../login/index'
+      this.setData({
+        storages: list
       })
-    }
+    })
   },
   onShow() {
     this.getTabBar().init()
@@ -197,21 +168,21 @@ Page({
   },
   reset() {
     this.setData({
-    orderVisible: false,
-    orderValue: [],
-    storageVisible: false,
-    storageValue: [],
-    batch: '',
-    dateVisible: false,
-    date: new Date().getTime(),
-    dateText: '',
-    commoditys: [],
-    halfgoods: [],
-    originals: [],
-    standards: [],
-    uploadFiles: [],
-    collapseValues: [],
-    submitActive: false,
+      orderVisible: false,
+      orderValue: [],
+      storageVisible: false,
+      storageValue: [],
+      batch: '',
+      dateVisible: false,
+      date: new Date().getTime(),
+      dateText: '',
+      commoditys: [],
+      halfgoods: [],
+      originals: [],
+      standards: [],
+      uploadFiles: [],
+      collapseValues: [],
+      submitActive: false,
     })
   },
   checkSubmitActive() {
