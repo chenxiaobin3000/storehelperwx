@@ -1,24 +1,26 @@
-<view class="container">
-  <view class="home-page-header">
-    <view class="search" bind:tap="navToSearchPage">
-      <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="请输入要搜索的关键字" leftIcon="" disabled>
-        <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
-      </t-search>
-    </view>
+<view style="text-align: center" wx:if="{{pageLoading}}">
+  <t-loading theme="circular" size="40rpx" loading t-class-indicator="t-class-indicator">
+    <span slot="text" class="loading-text">加载中...</span>
+  </t-loading>
+</view>
+<view class="home-page-header">
+  <view class="search" bind:tap="search">
+    <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="请输入要搜索的关键字" leftIcon="">
+      <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
+    </t-search>
   </view>
 </view>
 <view class="home-page-container">
-  <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" t-class-track="tabs-external__track" defaultValue="{{0}}" bind:change="tabChangeHandle">
+  <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" t-class-track="tabs-external__track" defaultValue="{{0}}" bind:change="handleTabChange">
     <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{item.key}}" />
   </t-tabs>
-  <view class="address-list" wx:if="{{addressList.length > 0}}">
-    <block wx:for="{{addressList}}" wx:for-index="index" wx:for-item="address" wx:key="addressId">
-
-    </block>
+  <t-cell-group class="order-list" wx:if="{{orderList.length > 0}}">
+    <t-cell wx:for="{{orderList}}" wx:for-index="index" wx:key="index">
+    </t-cell>
+  </t-cell-group>
+  <view wx:else class="no-order">
+    <t-empty icon="" description="没有查询到相关订单信息" />
   </view>
-  <view wx:else class="no-address">
-    <t-empty icon="" description="暂无收货地址，赶快添加吧" />
-  </view>
-  <load-more list-is-empty="{{!goodsList.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" />
-  <t-toast id="t-toast" />
+  <load-more list-is-empty="{{!orderList.length}}" status="{{orderListLoadStatus}}" bind:retry="onReTry" />
 </view>
+<t-toast id="t-toast" />

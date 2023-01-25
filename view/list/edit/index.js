@@ -34,7 +34,6 @@ Page({
     rightWidth: 60
   },
   onLoad() {
-    wx.hideHomeButton()
     const app = getApp()
     getGroupStorage({
       id: app.globalData.user.id,

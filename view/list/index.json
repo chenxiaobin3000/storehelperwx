@@ -5,6 +5,7 @@
     "t-icon": "tdesign-miniprogram/icon/icon",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
+    "t-empty": "tdesign-miniprogram/empty/empty",
     "t-toast": "tdesign-miniprogram/toast/toast",
     "load-more": "/components/load-more/index"
   }
