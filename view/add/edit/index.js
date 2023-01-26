@@ -135,16 +135,16 @@ Page({
     switch (that.type) {
       case 1:
         action = 'commodity'
-        break;
+        break
       case 2:
         action = 'halfgood'
-        break;
+        break
       case 3:
         action = 'original'
-        break;
+        break
       default:
         action = 'standard'
-        break;
+        break
     }
     app.globalData.temp = {
       action: action,
