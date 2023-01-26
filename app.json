@@ -5,6 +5,7 @@
     "view/add/index",
     "view/add/edit/index",
     "view/list/index",
+    "view/list/edit/index",
     "view/me/index",
     "view/login/index",
     "view/forbid/index"

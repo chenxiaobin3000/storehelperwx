@@ -5,16 +5,11 @@
         <view class="divider-line" />
         <!-- 订单类型选择 -->
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="类型" bind:tap="onOrderPicker">
-          <view wx:if="{{orderValue.length > 0}}" class="field-text" slot="note">{{orderValue}}</view>
-          <view wx:else slot="note">请点击选择订单类型</view>
+          <view class="field-text" slot="note">{{orderValue}}</view>
         </t-cell>
-        <t-picker visible="{{orderVisible}}" value="{{orderValue}}" title="请选择订单类型" cancelBtn="取消" confirmBtn="确认" bindchange="onOrderChange" bindcancel="onOrderCancel">
-          <t-picker-item options="{{orders}}" />
-        </t-picker>
         <!-- 仓库选择 -->
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="仓库" bind:tap="onStoragePicker">
-          <view wx:if="{{storageValue.length > 0}}" class="field-text" slot="note">{{storageValue}}</view>
-          <view wx:else slot="note">请点击选择仓库</view>
+          <view class="field-text" slot="note">{{storageValue}}</view>
         </t-cell>
         <t-picker visible="{{storageVisible}}" value="{{storageValue}}" title="请选择仓库" cancelBtn="取消" confirmBtn="确认" bindchange="onStorageChange" bindcancel="onStorageCancel">
           <t-picker-item options="{{storages}}" />
@@ -79,7 +74,7 @@
 
       <view class="submit">
         <t-button t-class="btn-submit {{submitActive ? 'theme-wrapper-class' : 'disabled'}}" style="margin-left: 6%" bind:tap="clickSubmit">
-          <text space="ensp">提 交</text>
+          <text space="ensp">更 新</text>
         </t-button>
       </view>
     </form>

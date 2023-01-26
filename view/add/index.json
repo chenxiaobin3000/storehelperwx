@@ -11,6 +11,6 @@
     "t-input": "tdesign-miniprogram/input/input",
     "t-button": "tdesign-miniprogram/button/button",
     "t-upload": "tdesign-miniprogram/upload/upload",
-    "swipeout": "../../components/swipeout/index"
+    "swipeout": "/components/swipeout/index"
   }
 }

@@ -1,4 +1,7 @@
-import OrderData from './data'
+import OrderData from '../../util/order'
+import {
+  formatTime
+} from '../../util/util'
 import {
   getGroupStorage,
   purchase
@@ -182,10 +185,8 @@ Page({
       return
     }
 
-    if (that.commoditys.length > 0 ||
-      that.halfgoods.length > 0 ||
-      that.originals.length > 0 ||
-      that.standards.length > 0) {
+    if (that.commoditys.length > 0 || that.halfgoods.length > 0 ||
+      that.originals.length > 0 || that.standards.length > 0) {
       check = true
     }
     if (check && that.orderValue.length > 0 && that.storageValue.length > 0 && that.batch.length > 0 && that.dateText.length > 0) {
@@ -252,9 +253,10 @@ Page({
     })
   },
   onDateConfirm(event) {
+    const date = formatTime(new Date(), ' HH:mm:ss')
     this.setData({
       dateVisible: false,
-      dateText: event.detail.value
+      dateText: event.detail.value + date
     })
     this.checkSubmitActive()
   },

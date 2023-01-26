@@ -1,32 +1,29 @@
-<t-pull-down-refresh value="{{baseRefresh.value}}" loadingProps="{{loadingProps}}" loadingTexts="{{['下拉刷新', '松手刷新', '正在刷新', '刷新完成']}}" bind:refresh="onPullDownRefresh" bind:scroll="onScroll">
-  <view style="text-align: center" wx:if="{{pageLoading}}">
-    <t-loading theme="circular" size="40rpx" loading t-class-indicator="t-class-indicator">
-      <span slot="text" class="loading-text">加载中...</span>
-    </t-loading>
+<view style="text-align: center" wx:if="{{pageLoading}}">
+  <t-loading theme="circular" size="40rpx" loading t-class-indicator="t-class-indicator">
+    <span slot="text" class="loading-text">加载中...</span>
+  </t-loading>
+</view>
+<view class="home-page-header">
+  <view class="search" bind:tap="search">
+    <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="请输入要搜索的关键字" leftIcon="">
+      <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
+    </t-search>
   </view>
-  <view class="home-page-header">
-    <view class="search" bind:tap="search">
-      <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="请输入要搜索的关键字" leftIcon="">
-        <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
-      </t-search>
-    </view>
+</view>
+<view class="home-page-container">
+  <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" t-class-track="tabs-external__track" defaultValue="{{0}}" bind:change="handleTabChange">
+    <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{item.key}}" />
+  </t-tabs>
+  <t-cell-group wx:if="{{orderList.length > 0}}" class="order-list">
+    <swipeout wx:for="{{orderList}}" wx:key="index" right-width="{{rightWidth}}">
+      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.orderType}}:{{item.batch}}" note="{{item.applyTime}}" data-value="{{item}}" bind:tap="clickOrder" hover />
+      <view slot="right" class="swiper-right-del" bind:tap="delOrder" data-value="{{item}}">删除</view>
+    </swipeout>
+  </t-cell-group>
+  <view wx:else class="no-order">
+    <t-empty icon="" description="没有查询到相关订单信息" />
   </view>
-  <view class="home-page-container">
-    <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" t-class-track="tabs-external__track" defaultValue="{{0}}" bind:change="handleTabChange">
-      <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{item.key}}" />
-    </t-tabs>
-    <t-cell-group wx:if="{{orderList.length > 0}}" class="order-list">
-      <swipeout wx:for="{{orderList}}" wx:key="index" right-width="{{rightWidth}}">
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item}}" note="123" data-value="{{item}}" bind:tap=" setOriginal" hover />
-        <view slot="right" class="swiper-right-del" bind:tap="delCommodity" data-value="{{item}}">删除</view>
-      </swipeout>
-    </t-cell-group>
-    <view wx:else class="no-order">
-      <t-empty icon="" description="没有查询到相关订单信息" />
-      <view class="divider-line" />
-    </view>
-    <load-more list-is-empty="{{!orderList.length}}" status="{{orderListLoadStatus}}" bind:retry="onReTry" />
-    <t-back-top wx:if="{{backTopVisible}}" />
-  </view>
-</t-pull-down-refresh>
+  <load-more list-is-empty="{{!orderList.length}}" status="{{orderListLoadStatus}}" />
+  <t-back-top wx:if="{{backTopVisible}}" />
+</view>
 <t-toast id="t-toast" />

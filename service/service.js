@@ -1,12 +1,12 @@
-const baseUrl = 'http://127.0.0.1:8080/api/'
+let baseUrl = 'http://127.0.0.1:8080/api/'
 if (typeof __wxConfig == 'object') {
-  let version = __wxConfig.envVersion;
+  const version = __wxConfig.envVersion;
   if (version == 'develop') {
-    const baseUrl = 'http://127.0.0.1:8080/api/'
+    baseUrl = 'http://127.0.0.1:8080/api/'
   } else if (version == 'trial') {
-    const baseUrl = 'http://127.0.0.1:8080/api/'
+    baseUrl = 'http://127.0.0.1:8080/api/'
   } else if (version == 'release') {
-    const baseUrl = 'http://127.0.0.1:8080/api/'
+    baseUrl = 'http://127.0.0.1:8080/api/'
   }
 }
 
