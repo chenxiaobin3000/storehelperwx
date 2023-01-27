@@ -80,10 +80,19 @@ Page({
           case 1:
             v.orderType = '进货入库'
             break
-          case 3:
+          case 2:
+            v.orderType = '进货退货'
+            break
+          case 4:
             v.orderType = '生产出库'
             break
+          case 3:
+            v.orderType = '生产完成'
+            break
           case 5:
+            v.orderType = '履约退货'
+            break
+          case 6:
             v.orderType = '履约出货'
             break
         }

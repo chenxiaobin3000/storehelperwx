@@ -16,6 +16,7 @@ Page({
     halfgoods: [],
     originals: [],
     standards: [],
+    destroy: [],
     uploadFiles: [],
     collapseValues: [],
     gridConfig: {
@@ -44,6 +45,7 @@ Page({
       const halfgoods = []
       const originals = []
       const standards = []
+      const destroys = []
       if (data.comms && data.comms.length > 0) {
         data.comms.forEach(v => {
           const item = {
@@ -64,6 +66,9 @@ Page({
               break
             case 4:
               standards.push(item)
+              break
+            default:
+              destroys.push(item)
               break
           }
         })
@@ -99,6 +104,7 @@ Page({
         halfgoods: halfgoods,
         originals: originals,
         standards: standards,
+        destroys: destroys,
         uploadFiles: attrs,
         maxUpload: attrs.length
       })

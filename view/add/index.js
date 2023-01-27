@@ -1,7 +1,16 @@
 import OrderData from '../../util/order'
 import {
+  myToast,
   formatTime
 } from '../../util/util'
+import {
+  shipped,
+  returnc
+} from '../../service/agreement'
+import {
+  process,
+  complete
+} from '../../service/product'
 import {
   getGroupStorage,
   purchase
@@ -25,6 +34,7 @@ Page({
     halfgoods: [],
     originals: [],
     standards: [],
+    destroys: [],
     uploadFiles: [],
     collapseValues: [],
     submitActive: false,
@@ -146,6 +156,27 @@ Page({
         this.setData({
           standards: this.data.standards
         })
+      } else if (temp.action === 'destroy') {
+        // 添加废料
+        let find = false
+        this.data.destroys.forEach(v => {
+          if (v.id === temp.commodity.id) {
+            v.price = temp.price
+            v.num = temp.num
+            find = true
+          }
+        })
+        if (!find) {
+          this.data.destroys.push({
+            id: temp.commodity.id,
+            name: temp.commodity.name,
+            price: temp.price,
+            num: temp.num
+          })
+        }
+        this.setData({
+          destroys: this.data.destroys
+        })
       }
       app.globalData.temp = {}
       this.checkSubmitActive()
@@ -165,6 +196,7 @@ Page({
       halfgoods: [],
       originals: [],
       standards: [],
+      destroys: [],
       uploadFiles: [],
       collapseValues: [],
       submitActive: false,
@@ -186,7 +218,7 @@ Page({
     }
 
     if (that.commoditys.length > 0 || that.halfgoods.length > 0 ||
-      that.originals.length > 0 || that.standards.length > 0) {
+      that.originals.length > 0 || that.standards.length > 0 || that.destroys.length > 0) {
       check = true
     }
     if (check && that.orderValue.length > 0 && that.storageValue.length > 0 && that.batch.length > 0 && that.dateText.length > 0) {
@@ -378,6 +410,34 @@ Page({
     })
     this.checkSubmitActive()
   },
+  setDestroy(event) {
+    const {
+      id,
+      price,
+      num
+    } = event.currentTarget.dataset.value
+    wx.navigateTo({
+      url: `./edit/index?type=5&id=${id}&price=${price}&num=${num}`
+    })
+  },
+  addDestroy() {
+    wx.navigateTo({
+      url: './edit/index?type=5&id=0'
+    })
+  },
+  delDestroy(event) {
+    const id = event.currentTarget.dataset.value.id
+    let list = []
+    this.data.destroys.forEach(v => {
+      if (v.id !== id) {
+        list.push(v)
+      }
+    })
+    this.setData({
+      destroys: list
+    })
+    this.checkSubmitActive()
+  },
   // 上传
   handleSuccess(event) {
     const {
@@ -471,27 +531,105 @@ Page({
       data.values.push(v.num)
       data.prices.push(v.price)
     })
+    that.destroys.forEach(v => {
+      data.types.push(5)
+      data.commoditys.push(v.id)
+      data.values.push(v.num)
+      data.prices.push(v.price)
+    })
     that.uploadFiles.forEach(v => {
       data.attrs.push(v.id)
     })
 
     if (that.orderValue[0] === '进货入库订单') {
-      purchase(data, data => {
+      if (that.commoditys.length > 0) {
+        myToast(this, '进货不能包含商品')
+        return
+      }
+      if (that.halfgoods.length > 0) {
+        myToast(this, '进货不能包含半成品')
+        return
+      }
+      if (that.destroys.length > 0) {
+        myToast(this, '进货不能包含废料')
+        return
+      }
+      purchase(data, () => {
         this.reset()
         wx.switchTab({
           url: '/view/me/index'
         })
       })
     } else if (that.orderValue[0] === '进货退货订单') {
-
+      myToast(this, '暂不支持退货订单')
     } else if (that.orderValue[0] === '生产出库订单') {
-
+      if (that.commoditys.length > 0) {
+        myToast(this, '进货不能包含商品')
+        return
+      }
+      if (that.standards.length > 0) {
+        myToast(this, '进货不能包含标品')
+        return
+      }
+      if (that.destroys.length > 0) {
+        myToast(this, '进货不能包含废料')
+        return
+      }
+      process(data, () => {
+        this.reset()
+        wx.switchTab({
+          url: '/view/me/index'
+        })
+      })
     } else if (that.orderValue[0] === '生产完成订单') {
-
+      if (that.standards.length > 0) {
+        myToast(this, '进货不能包含标品')
+        return
+      }
+      complete(data, () => {
+        this.reset()
+        wx.switchTab({
+          url: '/view/me/index'
+        })
+      })
     } else if (that.orderValue[0] === '履约出货订单') {
-
+      if (that.original.length > 0) {
+        myToast(this, '进货不能包含原料')
+        return
+      }
+      if (that.halfgoods.length > 0) {
+        myToast(this, '进货不能包含半成品')
+        return
+      }
+      if (that.destroys.length > 0) {
+        myToast(this, '进货不能包含废料')
+        return
+      }
+      shipped(data, () => {
+        this.reset()
+        wx.switchTab({
+          url: '/view/me/index'
+        })
+      })
     } else if (that.orderValue[0] === '履约退货订单') {
-
+      if (that.original.length > 0) {
+        myToast(this, '进货不能包含原料')
+        return
+      }
+      if (that.halfgoods.length > 0) {
+        myToast(this, '进货不能包含半成品')
+        return
+      }
+      if (that.destroys.length > 0) {
+        myToast(this, '进货不能包含废料')
+        return
+      }
+      returnc(data, () => {
+        this.reset()
+        wx.switchTab({
+          url: '/view/me/index'
+        })
+      })
     }
   }
 })

@@ -17,6 +17,10 @@ import {
   getStandard,
   getGroupStandard
 } from '../../../service/standard'
+import {
+  getDestroy,
+  getGroupDestroy
+} from '../../../service/destroy'
 Page({
   data: {
     lock: false,
@@ -77,13 +81,22 @@ Page({
           this.getOriginal(that.id)
         }
         break
-      default: // standard
+      case 4: // standard
         this.getGroupStandard()
         this.setData({
           nameText: '标品'
         })
         if (that.id !== 0) {
           this.getStandard(that.id)
+        }
+        break
+      default: // destroy
+        this.getGroupDestroy()
+        this.setData({
+          nameText: '废料'
+        })
+        if (that.id !== 0) {
+          this.getDestroy(that.id)
         }
         break
     }
@@ -142,8 +155,11 @@ Page({
       case 3:
         action = 'original'
         break
-      default:
+      case 4:
         action = 'standard'
+        break
+      default:
+        action = 'destroy'
         break
     }
     app.globalData.temp = {
@@ -269,6 +285,39 @@ Page({
   getGroupStandard() {
     const app = getApp()
     getGroupStandard({
+      id: app.globalData.user.id,
+      page: 1,
+      limit: 100,
+      search: null
+    }, data => {
+      const list = []
+      if (data.list && data.list.length > 0) {
+        data.list.forEach(v => {
+          list.push({
+            label: v.name,
+            value: v
+          })
+        })
+        this.setData({
+          commoditys: list
+        })
+      }
+    })
+  },
+  getDestroy(id) {
+    const app = getApp()
+    getDestroy({
+      id: app.globalData.user.id,
+      did: id
+    }, data => {
+      this.setData({
+        commodityValue: data
+      })
+    })
+  },
+  getGroupDestroy() {
+    const app = getApp()
+    getGroupDestroy({
       id: app.globalData.user.id,
       page: 1,
       limit: 100,
