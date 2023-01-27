@@ -138,17 +138,6 @@ page {
   margin-top: 24rpx;
 }
 
-.swiper-right-del {
-  height: 100%;
-  width: 144rpx;
-  background-color: #fa4126;
-  font-size: 28rpx;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .t-class-indicator,
 .loading-text {
   color: #b9b9b9 !important;

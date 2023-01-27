@@ -1,19 +1,21 @@
-import OrderData from '../../util/order'
+import OrderData from '../../../util/order'
+import {
+  imageSrc
+} from '../../../util/imagesrc'
 import {
   formatTime
-} from '../../util/util'
+} from '../../../util/util'
 import {
   getGroupStorage,
-  purchase
-} from '../../service/storage'
+  setPurchase
+} from '../../../service/storage'
 import {
   addAttach
-} from '../../service/upload'
+} from '../../../service/upload'
 Page({
   data: {
-    orderVisible: false,
+    orderId: 0,
     orderValue: [],
-    orders: OrderData,
     storageVisible: false,
     storageValue: [],
     storages: [],
@@ -37,7 +39,6 @@ Page({
     rightWidth: 60
   },
   onLoad() {
-    wx.hideHomeButton()
     const app = getApp()
     getGroupStorage({
       id: app.globalData.user.id,
@@ -58,11 +59,80 @@ Page({
     })
   },
   onShow() {
-    this.getTabBar().init()
     const app = getApp()
     const temp = app.globalData.temp
     if (temp) {
-      if (temp.action === 'commodity') {
+      if (temp.action === 'order') {
+        const data = temp.data
+        const orderValue = []
+        OrderData.forEach(v => {
+          if (v.value === data.type) {
+            orderValue.push(v.label)
+          }
+        })
+
+        const commoditys = []
+        const halfgoods = []
+        const originals = []
+        const standards = []
+        if (data.comms && data.comms.length > 0) {
+          data.comms.forEach(v => {
+            const item = {
+              id: v.cid,
+              name: v.name,
+              price: v.price,
+              num: v.value
+            }
+            switch (v.ctype) {
+              case 1:
+                commoditys.push(item)
+                break
+              case 2:
+                halfgoods.push(item)
+                break
+              case 3:
+                originals.push(item)
+                break
+              case 4:
+                standards.push(item)
+                break
+            }
+          })
+        }
+
+        const attrs = []
+        if (data.attrs && data.attrs.length > 0) {
+          data.attrs.forEach(v => {
+            attrs.push({
+              duration: undefined,
+              height: undefined,
+              id: v.id,
+              name: v.name.substring(2, v.name.length),
+              percent: 0,
+              size: 0,
+              status: '',
+              thumb: undefined,
+              type: 'image',
+              url: imageSrc[v.src] + v.path + '/' + v.name,
+              width: undefined
+            })
+          })
+        }
+
+        this.setData({
+          orderId: data.id,
+          orderValue: orderValue,
+          storageValue: data.sname,
+          batch: data.batch,
+          date: new Date(data.applyTime).getTime(),
+          dateText: data.applyTime,
+          commoditys: commoditys,
+          halfgoods: halfgoods,
+          originals: originals,
+          standards: standards,
+          uploadFiles: attrs
+        })
+      } else if (temp.action === 'commodity') {
         // 添加商品
         let find = false
         this.data.commoditys.forEach(v => {
@@ -153,7 +223,7 @@ Page({
   },
   reset() {
     this.setData({
-      orderVisible: false,
+      orderId: 0,
       orderValue: [],
       storageVisible: false,
       storageValue: [],
@@ -205,24 +275,6 @@ Page({
     })
     this.checkSubmitActive()
   },
-  // 订单类型选择
-  onOrderPicker() {
-    this.setData({
-      orderVisible: true
-    })
-  },
-  onOrderChange(event) {
-    this.setData({
-      orderVisible: false,
-      orderValue: event.detail.label
-    })
-    this.checkSubmitActive()
-  },
-  onOrderCancel() {
-    this.setData({
-      orderVisible: false
-    })
-  },
   // 仓库选择
   onStoragePicker() {
     this.setData({
@@ -273,12 +325,12 @@ Page({
       num
     } = event.currentTarget.dataset.value
     wx.navigateTo({
-      url: `./edit/index?type=1&id=${id}&price=${price}&num=${num}`
+      url: `../../add/edit/index?type=1&id=${id}&price=${price}&num=${num}`
     })
   },
   addCommodity() {
     wx.navigateTo({
-      url: './edit/index?type=1&id=0'
+      url: '../../add/edit/index?type=1&id=0'
     })
   },
   delCommodity(event) {
@@ -301,12 +353,12 @@ Page({
       num
     } = event.currentTarget.dataset.value
     wx.navigateTo({
-      url: `./edit/index?type=2&id=${id}&price=${price}&num=${num}`
+      url: `../../add/edit/index?type=2&id=${id}&price=${price}&num=${num}`
     })
   },
   addHalfgood() {
     wx.navigateTo({
-      url: './edit/index?type=2&id=0'
+      url: '../../add/edit/index?type=2&id=0'
     })
   },
   delHalfgood(event) {
@@ -329,12 +381,12 @@ Page({
       num
     } = event.currentTarget.dataset.value
     wx.navigateTo({
-      url: `./edit/index?type=3&id=${id}&price=${price}&num=${num}`
+      url: `../../add/edit/index?type=3&id=${id}&price=${price}&num=${num}`
     })
   },
   addOriginal() {
     wx.navigateTo({
-      url: './edit/index?type=3&id=0'
+      url: '../../add/edit/index?type=3&id=0'
     })
   },
   delOriginal(event) {
@@ -357,12 +409,12 @@ Page({
       num
     } = event.currentTarget.dataset.value
     wx.navigateTo({
-      url: `./edit/index?type=4&id=${id}&price=${price}&num=${num}`
+      url: `../../add/edit/index?type=4&id=${id}&price=${price}&num=${num}`
     })
   },
   addStandard() {
     wx.navigateTo({
-      url: './edit/index?type=4&id=0'
+      url: '../../add/edit/index?type=4&id=0'
     })
   },
   delStandard(event) {
@@ -388,6 +440,7 @@ Page({
     this.setData({
       uploadFiles: files
     })
+    console.log(files)
 
     // 启动上传
     const app = getApp()
@@ -433,6 +486,7 @@ Page({
     let data = {
       id: app.globalData.user.id,
       gid: app.globalData.group.id,
+      oid: that.orderId,
       sid: 0,
       batch: that.batch,
       date: that.dateText,
@@ -475,11 +529,12 @@ Page({
       data.attrs.push(v.id)
     })
 
+    console.log(that.orderValue[0])
     if (that.orderValue[0] === '进货入库订单') {
-      purchase(data, data => {
+      setPurchase(data, data => {
         this.reset()
         wx.switchTab({
-          url: '/view/me/index'
+          url: '/view/list/index'
         })
       })
     } else if (that.orderValue[0] === '进货退货订单') {

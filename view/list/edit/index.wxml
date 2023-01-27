@@ -4,65 +4,43 @@
       <t-cell-group>
         <view class="divider-line" />
         <!-- 订单类型选择 -->
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="类型" bind:tap="onOrderPicker">
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="类型">
           <view class="field-text" slot="note">{{orderValue}}</view>
         </t-cell>
         <!-- 仓库选择 -->
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="仓库" bind:tap="onStoragePicker">
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="仓库">
           <view class="field-text" slot="note">{{storageValue}}</view>
         </t-cell>
-        <t-picker visible="{{storageVisible}}" value="{{storageValue}}" title="请选择仓库" cancelBtn="取消" confirmBtn="确认" bindchange="onStorageChange" bindcancel="onStorageCancel">
-          <t-picker-item options="{{storages}}" />
-        </t-picker>
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="批次">
-          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{batch}}" maxlength="16" placeholder="请输入进货批次号" data-item="batch" bind:change="onInputValue" />
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="批次">
+          <view class="field-text" slot="note">{{batch}}</view>
         </t-cell>
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="日期" bind:tap="showDatePicker">
-          <view wx:if="{{dateText.length > 0}}" class="field-text" slot="note">{{dateText}}</view>
-          <view wx:else slot="note">请点击选择制单日期</view>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="日期">
+          <view class="field-text" slot="note">{{dateText}}</view>
         </t-cell>
-        <t-date-time-picker title="选择日期" visible="{{dateVisible}}" mode="date" defaultValue="{{date}}" format="YYYY-MM-DD" bindchange="onDateConfirm" bindcancel="hideDatePicker" start="{{'2023-01-01 00:00:00'}}" end="{{'2025-12-31 23:00:00'}}" />
-        <view class="divider-line" />
       </t-cell-group>
 
       <t-collapse value="{{collapseValues}}" style="padding-left: 0;margin-left: 0;" bind:change="handleCollapseChange">
         <!-- 商品列表 -->
         <t-collapse-panel header="商品列表 ({{commoditys.length}}件)" value="{{1}}" header-right-content="价格 / 数量" expandIcon>
-          <swipeout wx:for="{{commoditys}}" wx:key="id" right-width="{{rightWidth}}">
-            <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" bind:tap="setCommodity" hover />
-            <view slot="right" class="swiper-right-del" bind:tap="delCommodity" data-value="{{item}}">删除</view>
-          </swipeout>
-          <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="点击添加新商品" hover bind:tap="addCommodity" />
+          <t-cell wx:for="{{commoditys}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" hover />
         </t-collapse-panel>
         <view class="divider-line" />
 
         <!-- 标品列表 -->
         <t-collapse-panel header="标品列表 ({{standards.length}}件)" value="{{2}}" header-right-content="价格 / 数量" expandIcon>
-          <swipeout wx:for="{{standards}}" wx:key="id" right-width="{{rightWidth}}">
-            <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" bind:tap="setStandard" hover />
-            <view slot="right" class="swiper-right-del" bind:tap="delStandard" data-value="{{item}}">删除</view>
-          </swipeout>
-          <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="点击添加新标品" hover bind:tap="addStandard" />
+          <t-cell wx:for="{{standards}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" bind:tap="setStandard" hover />
         </t-collapse-panel>
         <view class="divider-line" />
 
         <!-- 原料列表 -->
         <t-collapse-panel header="原料列表 ({{originals.length}}件)" value="{{3}}" header-right-content="价格 / 数量" expandIcon>
-          <swipeout wx:for="{{originals}}" wx:key="id" right-width="{{rightWidth}}">
-            <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" bind:tap="setOriginal" hover />
-            <view slot="right" class="swiper-right-del" bind:tap="delOriginal" data-value="{{item}}">删除</view>
-          </swipeout>
-          <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="点击添加新原料" hover bind:tap="addOriginal" />
+          <t-cell wx:for="{{originals}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" bind:tap="setOriginal" hover />
         </t-collapse-panel>
         <view class="divider-line" />
 
         <!-- 半成品列表 -->
         <t-collapse-panel header="半成品列表 ({{halfgoods.length}}件)" value="{{4}}" header-right-content="数量" expandIcon>
-          <swipeout wx:for="{{halfgoods}}" wx:key="id" right-width="{{rightWidth}}">
-            <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" bind:tap="setHalfgood" hover />
-            <view slot="right" class="swiper-right-del" bind:tap="delHalfgood" data-value="{{item}}">删除</view>
-          </swipeout>
-          <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="点击添加新半成品" hover bind:tap="addHalfgood" />
+          <t-cell wx:for="{{halfgoods}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" bind:tap="setHalfgood" hover />
         </t-collapse-panel>
         <view class="divider-line" />
 
@@ -71,12 +49,6 @@
           <t-upload media-type="{{['image']}}" max="{{maxUpload}}" files="{{uploadFiles}}" gridConfig="{{gridConfig}}" bind:success="handleSuccess" bind:remove="handleRemove" />
         </t-collapse-panel>
       </t-collapse>
-
-      <view class="submit">
-        <t-button t-class="btn-submit {{submitActive ? 'theme-wrapper-class' : 'disabled'}}" style="margin-left: 6%" bind:tap="clickSubmit">
-          <text space="ensp">更 新</text>
-        </t-button>
-      </view>
     </form>
   </view>
   <view class="divider-line" />
@@ -84,3 +56,4 @@
   <view class="divider-line" />
   <view class="divider-line" />
 </view>
+<t-toast id="t-toast" />

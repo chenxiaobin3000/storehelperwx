@@ -1,12 +1,9 @@
-import TabData from './data'
 import {
   getMyWait,
   getMyComplete
 } from '../../service/order'
 Page({
   data: {
-    tabList: TabData,
-    tabIndex: 0,
     total: 0,
     orderList: [],
     orderListLoadStatus: 0,
@@ -53,25 +50,14 @@ Page({
       orderListLoadStatus: 1
     })
     const that = this.data
-    if (that.tabIndex === 0) {
-      getMyWait({
-        id: that.id,
-        page: that.page,
-        limit: that.pageLimit,
-        search: that.search
-      }, data => {
-        this.getOrderListSuccess(that, data)
-      })
-    } else {
-      getMyComplete({
-        id: that.id,
-        page: that.page,
-        limit: that.pageLimit,
-        search: that.search
-      }, data => {
-        this.getOrderListSuccess(that, data)
-      })
-    }
+    getMyWait({
+      id: that.id,
+      page: that.page,
+      limit: that.pageLimit,
+      search: that.search
+    }, data => {
+      this.getOrderListSuccess(that, data)
+    })
   },
   getOrderListSuccess(that, data) {
     if (data.list && data.list.length > 0) {
@@ -102,17 +88,6 @@ Page({
       }
     }
   },
-  handleTabChange(e) {
-    wx.pageScrollTo({
-      scrollTop: 0,
-    })
-    this.setData({
-      tabIndex: e.detail.value,
-      page: 1,
-      orderList: []
-    })
-    this.getOrderList()
-  },
   clickOrder(item) {
     getApp().globalData.temp = {
       action: 'order',
@@ -121,8 +96,5 @@ Page({
     wx.navigateTo({
       url: './edit/index'
     })
-  },
-  delOrder(item) {
-    console.log(item)
   }
 })
