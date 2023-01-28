@@ -26,3 +26,4 @@
   <load-more list-is-empty="{{!orderList.length}}" status="{{orderListLoadStatus}}" />
   <t-back-top wx:if="{{backTopVisible}}" />
 </view>
+<t-toast id="t-toast" />

@@ -55,6 +55,12 @@
           <t-upload media-type="{{['image']}}" max="{{maxUpload}}" files="{{uploadFiles}}" gridConfig="{{gridConfig}}" bind:success="handleSuccess" bind:remove="handleRemove" />
         </t-collapse-panel>
       </t-collapse>
+
+      <view class="submit">
+        <t-button t-class="btn-submit theme-wrapper-class" style="margin-left: 6%" bind:tap="clickSubmit">
+          <text space="ensp">结 单</text>
+        </t-button>
+      </view>
     </form>
   </view>
   <view class="divider-line" />

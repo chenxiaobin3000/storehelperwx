@@ -9,11 +9,11 @@ import {
 import {
   setShipped,
   setReturn
-} from '../../service/agreement'
+} from '../../../service/agreement'
 import {
   setProcess,
   setComplete
-} from '../../service/product'
+} from '../../../service/product'
 import {
   getGroupStorage,
   setPurchase
@@ -293,10 +293,12 @@ Page({
     }
 
     if (that.commoditys.length > 0 || that.halfgoods.length > 0 ||
-      that.originals.length > 0 || that.standards.length > 0 || that.destroys.length > 0) {
+      that.originals.length > 0 || that.standards.length > 0 ||
+      that.destroys.length > 0) {
       check = true
     }
-    if (check && that.orderValue.length > 0 && that.storageValue.length > 0 && that.batch.length > 0 && that.dateText.length > 0) {
+    if (check && that.orderValue.length > 0 && that.storageValue.length > 0 &&
+      that.batch.length > 0 && that.dateText.length > 0) {
       this.setData({
         submitActive: true
       })
@@ -548,7 +550,7 @@ Page({
   clickSubmit() {
     const app = getApp()
     const that = this.data
-    let data = {
+    const data = {
       id: app.globalData.user.id,
       gid: app.globalData.group.id,
       oid: that.orderId,

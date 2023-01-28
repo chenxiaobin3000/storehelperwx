@@ -1,10 +1,21 @@
 import OrderData from '../../../util/order'
 import {
+  imageSrc
+} from '../../../util/imagesrc'
+import {
   myToast
 } from '../../../util/util'
 import {
-  imageSrc
-} from '../../../util/imagesrc'
+  reviewShipped,
+  reviewReturn
+} from '../../../service/agreement'
+import {
+  reviewProcess,
+  reviewComplete
+} from '../../../service/product'
+import {
+  reviewPurchase
+} from '../../../service/storage'
 Page({
   data: {
     orderId: 0,
@@ -16,7 +27,7 @@ Page({
     halfgoods: [],
     originals: [],
     standards: [],
-    destroy: [],
+    destroys: [],
     uploadFiles: [],
     collapseValues: [],
     gridConfig: {
@@ -26,8 +37,7 @@ Page({
     },
     maxUpload: 3
   },
-  onLoad() {
-  },
+  onLoad() {},
   onShow() {
     const app = getApp()
     const temp = app.globalData.temp
@@ -138,5 +148,45 @@ Page({
   },
   handleRemove() {
     myToast(this, '不能修改附件')
+  },
+  clickSubmit() {
+    const that = this.data
+    const data = {
+      id: getApp().globalData.user.id,
+      oid: that.orderId
+    }
+    if (that.orderValue[0] === '进货入库订单') {
+      reviewPurchase(data, () => {
+        wx.navigateBack({
+          delta: 1
+        })
+      })
+    } else if (that.orderValue[0] === '进货退货订单') {
+      myToast(this, '暂不支持退货订单')
+    } else if (that.orderValue[0] === '生产出库订单') {
+      reviewProcess(data, () => {
+        wx.navigateBack({
+          delta: 1
+        })
+      })
+    } else if (that.orderValue[0] === '生产完成订单') {
+      reviewComplete(data, () => {
+        wx.navigateBack({
+          delta: 1
+        })
+      })
+    } else if (that.orderValue[0] === '履约出货订单') {
+      reviewShipped(data, () => {
+        wx.navigateBack({
+          delta: 1
+        })
+      })
+    } else if (that.orderValue[0] === '履约退货订单') {
+      reviewReturn(data, () => {
+        wx.navigateBack({
+          delta: 1
+        })
+      })
+    }
   }
 })

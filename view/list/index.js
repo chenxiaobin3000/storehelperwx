@@ -1,5 +1,4 @@
 import {
-  getMyWait,
   getMyComplete
 } from '../../service/order'
 Page({
@@ -50,43 +49,53 @@ Page({
       orderListLoadStatus: 1
     })
     const that = this.data
-    getMyWait({
+    getMyComplete({
       id: that.id,
       page: that.page,
       limit: that.pageLimit,
       search: that.search
     }, data => {
-      this.getOrderListSuccess(that, data)
-    })
-  },
-  getOrderListSuccess(that, data) {
-    if (data.list && data.list.length > 0) {
-      data.list.forEach(v => {
-        switch (v.type) {
-          case 1:
-            v.orderType = '进货入库'
-            break
-          case 3:
-            v.orderType = '生产出库'
-            break
-          case 5:
-            v.orderType = '履约出货'
-            break
-        }
-      })
-      const curPage = that.page
-      this.setData({
-        total: data.total,
-        page: curPage + 1,
-        orderList: that.orderList.concat(data.list),
-        orderListLoadStatus: 0
-      })
-      if ((curPage * that.pageLimit) >= that.total) {
+      if (data.list && data.list.length > 0) {
+        data.list.forEach(v => {
+          switch (v.type) {
+            case 1:
+              v.orderType = '进货入库'
+              break
+            case 2:
+              v.orderType = '进货退货'
+              break
+            case 4:
+              v.orderType = '生产出库'
+              break
+            case 3:
+              v.orderType = '生产完成'
+              break
+            case 5:
+              v.orderType = '履约退货'
+              break
+            default:
+              v.orderType = '履约出货'
+              break
+          }
+        })
+        const curPage = that.page
         this.setData({
-          orderListLoadStatus: 2
+          total: data.total,
+          page: curPage + 1,
+          orderList: that.orderList.concat(data.list),
+          orderListLoadStatus: 0
+        })
+        if ((curPage * that.pageLimit) >= that.total) {
+          this.setData({
+            orderListLoadStatus: 2
+          })
+        }
+      } else {
+        this.setData({
+          orderListLoadStatus: 0
         })
       }
-    }
+    })
   },
   clickOrder(item) {
     getApp().globalData.temp = {

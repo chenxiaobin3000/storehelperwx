@@ -1,7 +1,10 @@
 import TabData from './data'
 import {
+  myToast
+} from '../../util/util'
+import {
   getMyWait,
-  getMyComplete
+  getMyCheck
 } from '../../service/order'
 Page({
   data: {
@@ -63,7 +66,7 @@ Page({
         this.getOrderListSuccess(that, data)
       })
     } else {
-      getMyComplete({
+      getMyCheck({
         id: that.id,
         page: that.page,
         limit: that.pageLimit,
@@ -92,7 +95,7 @@ Page({
           case 5:
             v.orderType = '履约退货'
             break
-          case 6:
+          default:
             v.orderType = '履约出货'
             break
         }
@@ -109,6 +112,10 @@ Page({
           orderListLoadStatus: 2
         })
       }
+    } else {
+      this.setData({
+        orderListLoadStatus: 0
+      })
     }
   },
   handleTabChange(e) {
@@ -127,11 +134,21 @@ Page({
       action: 'order',
       data: item.currentTarget.dataset.value
     }
-    wx.navigateTo({
-      url: './edit/index'
-    })
+    if (this.data.tabIndex === 0) {
+      wx.navigateTo({
+        url: './edit/index'
+      })
+    } else {
+      wx.navigateTo({
+        url: './review/index'
+      })
+    }
   },
   delOrder(item) {
-    console.log(item)
+    if (this.data.tabIndex === 0) {
+      console.log(item)
+    } else {
+      myToast(this, '只能删除自己的订单')
+    }
   }
 })

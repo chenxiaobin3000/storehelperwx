@@ -14,7 +14,7 @@
         <t-picker visible="{{storageVisible}}" value="{{storageValue}}" title="请选择仓库" cancelBtn="取消" confirmBtn="确认" bindchange="onStorageChange" bindcancel="onStorageCancel">
           <t-picker-item options="{{storages}}" />
         </t-picker>
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="批次">
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="批次">
           <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{batch}}" maxlength="16" placeholder="请输入进货批次号" data-item="batch" bind:change="onInputValue" />
         </t-cell>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="日期" bind:tap="showDatePicker">
@@ -67,7 +67,7 @@
         <view class="divider-line" />
 
         <!-- 废料列表 -->
-        <t-collapse-panel header="废料列表 ({{destroys.length}}件)" value="{{4}}" header-right-content="数量" expandIcon>
+        <t-collapse-panel header="废料列表 ({{destroys.length}}件)" value="{{5}}" header-right-content="数量" expandIcon>
           <swipeout wx:for="{{destroys}}" wx:key="id" right-width="{{rightWidth}}">
             <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" bind:tap="setDestroy" hover />
             <view slot="right" class="swiper-right-del" bind:tap="delDestroy" data-value="{{item}}">删除</view>
@@ -77,7 +77,7 @@
         <view class="divider-line" />
 
         <!-- 凭证列表 -->
-        <t-collapse-panel header="凭证列表 (最多{{maxUpload}}张)" value="{{5}}" expandIcon>
+        <t-collapse-panel header="凭证列表 (最多{{maxUpload}}张)" value="{{6}}" expandIcon>
           <t-upload media-type="{{['image']}}" max="{{maxUpload}}" files="{{uploadFiles}}" gridConfig="{{gridConfig}}" bind:success="handleSuccess" bind:remove="handleRemove" />
         </t-collapse-panel>
       </t-collapse>

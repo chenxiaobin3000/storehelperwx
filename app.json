@@ -8,6 +8,7 @@
     "view/list/edit/index",
     "view/me/index",
     "view/me/edit/index",
+    "view/me/review/index",
     "view/login/index",
     "view/forbid/index"
   ],

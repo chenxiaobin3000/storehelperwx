@@ -218,10 +218,12 @@ Page({
     }
 
     if (that.commoditys.length > 0 || that.halfgoods.length > 0 ||
-      that.originals.length > 0 || that.standards.length > 0 || that.destroys.length > 0) {
+      that.originals.length > 0 || that.standards.length > 0 ||
+      that.destroys.length > 0) {
       check = true
     }
-    if (check && that.orderValue.length > 0 && that.storageValue.length > 0 && that.batch.length > 0 && that.dateText.length > 0) {
+    if (check && that.orderValue.length > 0 && that.storageValue.length > 0 &&
+      that.batch.length > 0 && that.dateText.length > 0) {
       this.setData({
         submitActive: true
       })

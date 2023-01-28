@@ -32,7 +32,7 @@ Page({
             }
           })
           wx.switchTab({
-            url: '/view/list/index'
+            url: '/view/add/index'
           })
         }
       })
