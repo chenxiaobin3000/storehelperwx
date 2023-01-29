@@ -7,6 +7,6 @@
     "t-picker-item": "tdesign-miniprogram/picker-item/picker-item",
     "t-input": "tdesign-miniprogram/input/input",
     "t-button": "tdesign-miniprogram/button/button",
-    "t-toast": "tdesign-miniprogram/toast/toast"
+    "t-message": "tdesign-miniprogram/message/message"
   }
 }

@@ -1,4 +1,7 @@
 import {
+  relogin
+} from '../../util/util'
+import {
   getMyComplete
 } from '../../service/order'
 Page({
@@ -18,10 +21,10 @@ Page({
     this.setData({
       id: getApp().globalData.user.id
     })
-    this.getOrderList()
   },
   onShow() {
     this.getTabBar().init()
+    this.flushPage()
   },
   onPullDownRefresh() {
     wx.stopPullDownRefresh()
@@ -41,8 +44,15 @@ Page({
       backTopVisible: e.scrollTop > 80,
     })
   },
-  search(event) {
-    console.log('search' + event)
+  flushPage() {
+    wx.pageScrollTo({
+      scrollTop: 0,
+    })
+    this.setData({
+      page: 1,
+      orderList: []
+    })
+    this.getOrderList()
   },
   getOrderList() {
     this.setData({
@@ -70,14 +80,14 @@ Page({
             case 3:
               v.orderType = '生产完成'
               break
+            case 6:
+              v.orderType = '履约出货'
+              break
             case 5:
               v.orderType = '履约退货'
               break
-            default:
-              v.orderType = '履约出货'
-              break
           }
-          v.applyTime2 = v.applyTime.substring(0,10)
+          v.applyTime2 = v.applyTime.substring(0, 10)
         })
         const curPage = that.page
         this.setData({
@@ -104,7 +114,10 @@ Page({
       data: item.currentTarget.dataset.value
     }
     wx.navigateTo({
-      url: './detail/index'
+      url: '/view/list/detail/index'
     })
+  },
+  relogin() {
+    relogin()
   }
 })

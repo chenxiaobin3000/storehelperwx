@@ -1,6 +1,7 @@
 import OrderData from '../../../util/order'
 import {
-  myToast
+  myToast,
+  relogin
 } from '../../../util/util'
 import {
   imageSrc
@@ -138,5 +139,8 @@ Page({
   },
   handleRemove() {
     myToast(this, '不能修改附件')
+  },
+  relogin() {
+    relogin()
   }
 })

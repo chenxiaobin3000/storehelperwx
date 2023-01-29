@@ -1,3 +1,6 @@
+import {
+  relogin
+} from '../../util/util'
 Page({
   data: {
 
@@ -8,4 +11,7 @@ Page({
   onShow() {
     this.getTabBar().init()
   },
+  relogin() {
+    relogin()
+  }
 })

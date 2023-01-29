@@ -1,4 +1,7 @@
 import {
+  relogin
+} from '../../util/util'
+import {
   logout
 } from '../../service/account'
 Page({
@@ -14,8 +17,11 @@ Page({
       wx.setStorageSync('userId', 0)
       wx.setStorageSync('token', '')
       wx.redirectTo({
-        url: '../login/login'
+        url: '/view/login/index'
       })
     })
+  },
+  relogin() {
+    relogin()
   }
 })

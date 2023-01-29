@@ -1,4 +1,7 @@
 import {
+  relogin
+} from '../../util/util'
+import {
   getUser
 } from '../../service/user'
 Page({
@@ -20,7 +23,7 @@ Page({
         if (data.permMps.length === 0) {
           // 没有权限就去面壁
           wx.redirectTo({
-            url: '../forbid/index'
+            url: '/view/forbid/index'
           })
         } else {
           // 根据权限跳转
@@ -39,8 +42,11 @@ Page({
     } else {
       // 没有账号信息就去登陆
       wx.redirectTo({
-        url: '../login/index'
+        url: '/view/login/index'
       })
     }
+  },
+  relogin() {
+    relogin()
   }
 })

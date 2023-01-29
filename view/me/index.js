@@ -1,5 +1,8 @@
 import TabData from './data'
 import {
+  relogin
+} from '../../util/util'
+import {
   logout
 } from '../../service/account'
 import {
@@ -44,10 +47,10 @@ Page({
       group: app.globalData.group,
       perms: this.perm2String(app.globalData.perms)
     })
-    this.getOrderList()
   },
   onShow() {
     this.getTabBar().init()
+    this.flushPage()
   },
   onPullDownRefresh() {
     wx.stopPullDownRefresh()
@@ -67,8 +70,15 @@ Page({
       backTopVisible: e.scrollTop > 80,
     })
   },
-  search(event) {
-    console.log('search' + event)
+  flushPage() {
+    wx.pageScrollTo({
+      scrollTop: 0,
+    })
+    this.setData({
+      page: 1,
+      orderList: []
+    })
+    this.getOrderList()
   },
   getOrderList() {
     this.setData({
@@ -116,14 +126,14 @@ Page({
           case 3:
             v.orderType = '生产完成'
             break
+          case 6:
+            v.orderType = '履约出货'
+            break
           case 5:
             v.orderType = '履约退货'
             break
-          default:
-            v.orderType = '履约出货'
-            break
         }
-        v.applyTime2 = v.applyTime.substring(0,10)
+        v.applyTime2 = v.applyTime.substring(0, 10)
       })
       const curPage = that.page
       this.setData({
@@ -144,15 +154,10 @@ Page({
     }
   },
   handleTabChange(e) {
-    wx.pageScrollTo({
-      scrollTop: 0,
-    })
     this.setData({
-      tabIndex: e.detail.value,
-      page: 1,
-      orderList: []
+      tabIndex: e.detail.value
     })
-    this.getOrderList()
+    this.flushPage()
   },
   clickOrder(item) {
     getApp().globalData.temp = {
@@ -162,12 +167,12 @@ Page({
     switch (this.data.tabIndex) {
       case 0:
         wx.navigateTo({
-          url: './edit/index'
+          url: '/view/me/edit/index'
         })
         break
       case 1:
         wx.navigateTo({
-          url: './review/index'
+          url: '/view/me/review/index'
         })
         break
       default:
@@ -183,44 +188,32 @@ Page({
     switch (order.type) {
       case 1:
         delPurchase(this, data, () => {
-          wx.navigateBack({
-            delta: 1
-          })
+          this.flushPage()
         })
         break
       case 2:
         delSReturn(this, data, () => {
-          wx.navigateBack({
-            delta: 1
-          })
-        })
-        break
-      case 3:
-        delProcess(this, data, () => {
-          wx.navigateBack({
-            delta: 1
-          })
+          this.flushPage()
         })
         break
       case 4:
-        delComplete(this, data, () => {
-          wx.navigateBack({
-            delta: 1
-          })
+        delProcess(this, data, () => {
+          this.flushPage()
         })
         break
-      case 5:
-        delShipped(this, data, () => {
-          wx.navigateBack({
-            delta: 1
-          })
+      case 3:
+        delComplete(this, data, () => {
+          this.flushPage()
         })
         break
       case 6:
+        delShipped(this, data, () => {
+          this.flushPage()
+        })
+        break
+      case 5:
         delReturn(this, data, () => {
-          wx.navigateBack({
-            delta: 1
-          })
+          this.flushPage()
         })
         break
     }
@@ -233,7 +226,7 @@ Page({
       wx.setStorageSync('userId', 0)
       wx.setStorageSync('token', '')
       wx.redirectTo({
-        url: '../login/login'
+        url: '/view/login/index'
       })
     })
   },
@@ -280,5 +273,8 @@ Page({
       }
     })
     return ret
+  },
+  relogin() {
+    relogin()
   }
 })

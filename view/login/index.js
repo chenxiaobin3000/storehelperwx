@@ -1,6 +1,7 @@
 import md5 from '../../util/md5'
 import {
-  myToast
+  myToast,
+  relogin
 } from '../../util/util'
 import {
   login
@@ -48,14 +49,16 @@ Page({
         account: that.account,
         password: md5(that.password)
       }, data => {
-        const app = getApp()
-        app.globalData.token = data.token
+        getApp().globalData.token = data.token
         wx.setStorageSync('userId', data.id)
         wx.setStorageSync('token', data.token)
         wx.redirectTo({
-          url: '../welcome/index'
+          url: '/view/welcome/index'
         })
       })
     }
+  },
+  relogin() {
+    relogin()
   }
 })

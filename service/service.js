@@ -1,3 +1,4 @@
+import Message from 'tdesign-miniprogram/message/index'
 import {
   myToast
 } from '../util/util'
@@ -38,8 +39,20 @@ function post(url, that, data, success) {
         // 成功
         success(res.data.data)
       } else {
-        // 业务错误
-        myToast(that, res.data.msg)
+        if (res.data.code === -3) {
+          // 重新登录
+          Message.info({
+            context: that,
+            offset: [20, 32],
+            icon: false,
+            content: res.data.msg,
+            duration: -1,
+            action: '重新登陆',
+          });
+        } else {
+          // 业务错误
+          myToast(that, res.data.msg)
+        }
       }
     },
     fail() {

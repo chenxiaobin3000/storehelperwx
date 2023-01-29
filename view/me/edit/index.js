@@ -4,7 +4,8 @@ import {
 } from '../../../util/imagesrc'
 import {
   myToast,
-  formatTime
+  formatTime,
+  relogin
 } from '../../../util/util'
 import {
   setShipped,
@@ -27,6 +28,7 @@ Page({
     orderId: 0,
     orderType: 0,
     orderValue: [],
+    sid: 0,
     storageVisible: false,
     storageValue: [],
     storages: [],
@@ -139,6 +141,7 @@ Page({
           orderId: data.id,
           orderType: data.type,
           orderValue: orderValue,
+          sid: data.sid,
           storageValue: data.sname,
           batch: data.batch,
           date: new Date(data.applyTime).getTime(),
@@ -264,6 +267,7 @@ Page({
     this.setData({
       orderId: 0,
       orderValue: [],
+      sid: 0,
       storageVisible: false,
       storageValue: [],
       batch: '',
@@ -324,8 +328,15 @@ Page({
     })
   },
   onStorageChange(event) {
+    let value = event.detail.value
+    if (value.length > 0) {
+      value = value[0].id
+    } else {
+      value = 0
+    }
     this.setData({
       storageVisible: false,
+      sid: value,
       storageValue: event.detail.label
     })
     this.checkSubmitActive()
@@ -367,12 +378,12 @@ Page({
       num
     } = event.currentTarget.dataset.value
     wx.navigateTo({
-      url: `../../add/edit/index?type=1&id=${id}&price=${price}&num=${num}`
+      url: `/view/add/edit/index?type=1&id=${id}&price=${price}&num=${num}`
     })
   },
   addCommodity() {
     wx.navigateTo({
-      url: '../../add/edit/index?type=1&id=0'
+      url: '/view/add/edit/index?type=1&id=0'
     })
   },
   delCommodity(event) {
@@ -395,12 +406,12 @@ Page({
       num
     } = event.currentTarget.dataset.value
     wx.navigateTo({
-      url: `../../add/edit/index?type=2&id=${id}&price=${price}&num=${num}`
+      url: `/view/add/edit/index?type=2&id=${id}&price=${price}&num=${num}`
     })
   },
   addHalfgood() {
     wx.navigateTo({
-      url: '../../add/edit/index?type=2&id=0'
+      url: '/view/add/edit/index?type=2&id=0'
     })
   },
   delHalfgood(event) {
@@ -423,12 +434,12 @@ Page({
       num
     } = event.currentTarget.dataset.value
     wx.navigateTo({
-      url: `../../add/edit/index?type=3&id=${id}&price=${price}&num=${num}`
+      url: `/view/add/edit/index?type=3&id=${id}&price=${price}&num=${num}`
     })
   },
   addOriginal() {
     wx.navigateTo({
-      url: '../../add/edit/index?type=3&id=0'
+      url: '/view/add/edit/index?type=3&id=0'
     })
   },
   delOriginal(event) {
@@ -451,12 +462,12 @@ Page({
       num
     } = event.currentTarget.dataset.value
     wx.navigateTo({
-      url: `../../add/edit/index?type=4&id=${id}&price=${price}&num=${num}`
+      url: `/view/add/edit/index?type=4&id=${id}&price=${price}&num=${num}`
     })
   },
   addStandard() {
     wx.navigateTo({
-      url: '../../add/edit/index?type=4&id=0'
+      url: '/view/add/edit/index?type=4&id=0'
     })
   },
   delStandard(event) {
@@ -479,12 +490,12 @@ Page({
       num
     } = event.currentTarget.dataset.value
     wx.navigateTo({
-      url: `../../add/edit/index?type=5&id=${id}&price=${price}&num=${num}`
+      url: `/view/add/edit/index?type=5&id=${id}&price=${price}&num=${num}`
     })
   },
   addDestroy() {
     wx.navigateTo({
-      url: '../../add/edit/index?type=5&id=0'
+      url: '/view/add/edit/index?type=5&id=0'
     })
   },
   delDestroy(event) {
@@ -519,7 +530,7 @@ Page({
     } = app.globalData.user
     addAttach(file.url, {
       id: id,
-      type: 1,
+      type: that.orderType,
       name: id + '-' + file.name
     }, data => {
       if (that.uploadFiles && that.uploadFiles.length > 0) {
@@ -556,7 +567,7 @@ Page({
       id: app.globalData.user.id,
       gid: app.globalData.group.id,
       oid: that.orderId,
-      sid: 0,
+      sid: that.sid,
       batch: that.batch,
       date: that.dateText,
       types: [],
@@ -565,11 +576,6 @@ Page({
       prices: [],
       attrs: []
     }
-    that.storages.forEach(v => {
-      if (v.value.name == that.storageValue) {
-        data.sid = v.value.id
-      }
-    })
     that.commoditys.forEach(v => {
       data.types.push(1)
       data.commoditys.push(v.id)
@@ -604,119 +610,110 @@ Page({
       data.attrs.push(v.id)
     })
 
-    switch (that.ordertype) {
+    switch (that.orderType) {
       case 1:
         if (that.commoditys.length > 0) {
-          myToast(this, '进货不能包含商品')
+          myToast(this, '仓储入库不能包含商品')
           return
         }
         if (that.halfgoods.length > 0) {
-          myToast(this, '进货不能包含半成品')
+          myToast(this, '仓储入库不能包含半成品')
           return
         }
         if (that.destroys.length > 0) {
-          myToast(this, '进货不能包含废料')
+          myToast(this, '仓储入库不能包含废料')
           return
         }
         setPurchase(this, data, () => {
           this.reset()
-          wx.switchTab({
-            url: '/view/me/index'
-          })
+          wx.navigateBack()
         })
         break
       case 2:
         if (that.commoditys.length > 0) {
-          myToast(this, '退货不能包含商品')
+          myToast(this, '仓储退货不能包含商品')
           return
         }
         if (that.halfgoods.length > 0) {
-          myToast(this, '退货不能包含半成品')
+          myToast(this, '仓储退货不能包含半成品')
           return
         }
         if (that.destroys.length > 0) {
-          myToast(this, '退货不能包含废料')
+          myToast(this, '仓储退货不能包含废料')
           return
         }
         setSReturn(this, data, () => {
           this.reset()
-          wx.switchTab({
-            url: '/view/me/index'
-          })
+          wx.navigateBack()
         })
         break
-      case 3:
+      case 4:
         if (that.commoditys.length > 0) {
-          myToast(this, '进货不能包含商品')
+          myToast(this, '生产出库不能包含商品')
           return
         }
         if (that.standards.length > 0) {
-          myToast(this, '进货不能包含标品')
+          myToast(this, '生产出库不能包含标品')
           return
         }
         if (that.destroys.length > 0) {
-          myToast(this, '进货不能包含废料')
+          myToast(this, '生产出库不能包含废料')
           return
         }
         setProcess(this, data, () => {
           this.reset()
-          wx.switchTab({
-            url: '/view/me/index'
-          })
+          wx.navigateBack()
         })
         break
-      case 4:
+      case 3:
         if (that.standards.length > 0) {
-          myToast(this, '进货不能包含标品')
+          myToast(this, '生产完成不能包含标品')
           return
         }
         setComplete(this, data, () => {
           this.reset()
-          wx.switchTab({
-            url: '/view/me/index'
-          })
+          wx.navigateBack()
         })
         break
-      case 5:
-        if (that.original.length > 0) {
-          myToast(this, '进货不能包含原料')
+      case 6:
+        if (that.originals.length > 0) {
+          myToast(this, '履约出货不能包含原料')
           return
         }
         if (that.halfgoods.length > 0) {
-          myToast(this, '进货不能包含半成品')
+          myToast(this, '履约出货不能包含半成品')
           return
         }
         if (that.destroys.length > 0) {
-          myToast(this, '进货不能包含废料')
+          myToast(this, '履约出货不能包含废料')
           return
         }
         setShipped(this, data, () => {
           this.reset()
-          wx.switchTab({
-            url: '/view/me/index'
-          })
+          wx.navigateBack()
         })
         break
-      case 6:
-        if (that.original.length > 0) {
-          myToast(this, '进货不能包含原料')
+      case 5:
+        if (that.originals.length > 0) {
+          myToast(this, '履约退货不能包含原料')
           return
         }
         if (that.halfgoods.length > 0) {
-          myToast(this, '进货不能包含半成品')
+          myToast(this, '履约退货不能包含半成品')
           return
         }
         if (that.destroys.length > 0) {
-          myToast(this, '进货不能包含废料')
+          myToast(this, '履约退货不能包含废料')
           return
         }
         setReturn(this, data, () => {
           this.reset()
-          wx.switchTab({
-            url: '/view/me/index'
-          })
+          wx.navigateBack()
         })
         break
     }
+  },
+  relogin() {
+    relogin()
   }
 })

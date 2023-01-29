@@ -3,7 +3,8 @@ import {
   imageSrc
 } from '../../../util/imagesrc'
 import {
-  myToast
+  myToast,
+  relogin
 } from '../../../util/util'
 import {
   reviewShipped,
@@ -158,49 +159,40 @@ Page({
       id: getApp().globalData.user.id,
       oid: that.orderId
     }
-    switch (that.ordertype) {
+    switch (that.orderType) {
       case 1:
         reviewPurchase(this, data, () => {
-          wx.navigateBack({
-            delta: 1
-          })
+          wx.navigateBack()
         })
         break
       case 2:
         reviewSReturn(this, data, () => {
-          wx.navigateBack({
-            delta: 1
-          })
-        })
-        break
-      case 3:
-        reviewProcess(this, data, () => {
-          wx.navigateBack({
-            delta: 1
-          })
+          wx.navigateBack()
         })
         break
       case 4:
-        reviewComplete(this, data, () => {
-          wx.navigateBack({
-            delta: 1
-          })
+        reviewProcess(this, data, () => {
+          wx.navigateBack()
         })
         break
-      case 5:
-        reviewShipped(this, data, () => {
-          wx.navigateBack({
-            delta: 1
-          })
+      case 3:
+        reviewComplete(this, data, () => {
+          wx.navigateBack()
         })
         break
       case 6:
+        reviewShipped(this, data, () => {
+          wx.navigateBack()
+        })
+        break
+      case 5:
         reviewReturn(this, data, () => {
-          wx.navigateBack({
-            delta: 1
-          })
+          wx.navigateBack()
         })
         break
     }
+  },
+  relogin() {
+    relogin()
   }
 })

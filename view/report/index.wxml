@@ -1,4 +1,4 @@
 <view class="container">
   报告
 </view>
-<t-toast id="t-toast" />
+<t-message id="t-message" bind:actionBtnClick="relogin" />

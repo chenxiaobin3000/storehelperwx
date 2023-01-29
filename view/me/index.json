@@ -12,7 +12,7 @@
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-empty": "tdesign-miniprogram/empty/empty",
     "t-button": "tdesign-miniprogram/button/button",
-    "t-toast": "tdesign-miniprogram/toast/toast",
+    "t-message": "tdesign-miniprogram/message/message",
     "swipeout": "/components/swipeout/index",
     "load-more": "/components/load-more/index"
   }

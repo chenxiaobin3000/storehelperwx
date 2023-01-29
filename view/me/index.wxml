@@ -4,11 +4,9 @@
   </t-loading>
 </view>
 <view class="home-page-header">
-  <view class="search" bind:tap="search">
-    <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="请输入要搜索的关键字" leftIcon="">
-      <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
-    </t-search>
-  </view>
+  <t-search model:value="{{search}}" t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="请输入要搜索的关键字" leftIcon="">
+    <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
+  </t-search>
 </view>
 <view class="home-page-container">
   <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" t-class-track="tabs-external__track" defaultValue="{{0}}" bind:change="handleTabChange">
@@ -65,4 +63,4 @@
     </view>
   </view>
 </view>
-<t-toast id="t-toast" />
+<t-message id="t-message" bind:actionBtnClick="relogin" />

@@ -2,7 +2,7 @@ import {
   baseUrl,
   post
 } from './service'
-const preUrl = baseUrl + 'storage'
+const preUrl = baseUrl + 'agreement'
 
 export function shipped(that, params, success) {
   return post(`${preUrl}/shipped`, that, params, success)

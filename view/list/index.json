@@ -10,6 +10,6 @@
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-empty": "tdesign-miniprogram/empty/empty",
     "load-more": "/components/load-more/index",
-    "t-toast": "tdesign-miniprogram/toast/toast"
+    "t-message": "tdesign-miniprogram/message/message"
   }
 }

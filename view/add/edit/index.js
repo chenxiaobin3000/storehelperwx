@@ -1,5 +1,6 @@
 import {
-  myToast
+  myToast,
+  relogin
 } from '../../../util/util'
 import {
   getCommodity,
@@ -168,9 +169,7 @@ Page({
       price: that.price,
       num: that.num
     }
-    wx.navigateBack({
-      delta: 1
-    })
+    wx.navigateBack()
   },
   getCommodity(id) {
     const app = getApp()
@@ -336,5 +335,8 @@ Page({
         })
       }
     })
+  },
+  relogin() {
+    relogin()
   }
 })
