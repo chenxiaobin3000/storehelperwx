@@ -5,7 +5,7 @@
     "view/add/index",
     "view/add/edit/index",
     "view/list/index",
-    "view/list/edit/index",
+    "view/list/detail/index",
     "view/me/index",
     "view/me/edit/index",
     "view/me/review/index",

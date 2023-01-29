@@ -104,7 +104,7 @@ Page({
       data: item.currentTarget.dataset.value
     }
     wx.navigateTo({
-      url: './edit/index'
+      url: './detail/index'
     })
   }
 })

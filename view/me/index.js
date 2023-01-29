@@ -44,7 +44,6 @@ Page({
       group: app.globalData.group,
       perms: this.perm2String(app.globalData.perms)
     })
-    console.log(this.data.perms)
     this.getOrderList()
   },
   onShow() {
