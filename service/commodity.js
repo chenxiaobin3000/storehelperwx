@@ -4,10 +4,10 @@ import {
 } from './service'
 const preUrl = baseUrl + 'commodity'
 
-export function getCommodity(params, success) {
-  return post(`${preUrl}/getCommodity`, params, success)
+export function getCommodity(that, params, success) {
+  return post(`${preUrl}/getCommodity`, that, params, success)
 }
 
-export function getGroupCommodity(params, success) {
-  return post(`${preUrl}/getGroupCommodity`, params, success)
+export function getGroupCommodity(that, params, success) {
+  return post(`${preUrl}/getGroupCommodity`, that, params, success)
 }

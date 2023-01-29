@@ -8,9 +8,9 @@ Page({
   },
   logout() {
     const app = getApp()
-    logout({
+    logout(this, {
       id: app.globalData.user.id
-    }, data => {
+    }, () => {
       wx.setStorageSync('userId', 0)
       wx.setStorageSync('token', '')
       wx.redirectTo({

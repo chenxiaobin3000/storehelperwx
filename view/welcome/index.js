@@ -11,7 +11,7 @@ Page({
     if (userId > 0 && token && token.length > 0) {
       // 验证会话，获取权限
       app.globalData.token = token
-      getUser({
+      getUser(this, {
         id: userId
       }, data => {
         app.globalData.user = data.user

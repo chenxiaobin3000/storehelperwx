@@ -14,16 +14,55 @@
   <t-tabs t-class="t-tabs" t-class-active="tabs-external__active" t-class-item="tabs-external__item" t-class-track="tabs-external__track" defaultValue="{{0}}" bind:change="handleTabChange">
     <t-tab-panel wx:for="{{tabList}}" wx:for-index="index" wx:key="index" label="{{item.text}}" value="{{item.key}}" />
   </t-tabs>
-  <t-cell-group wx:if="{{orderList.length > 0}}" class="order-list">
-    <swipeout wx:for="{{orderList}}" wx:key="index" right-width="{{rightWidth}}">
-      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.orderType}}:{{item.batch}}" note="{{item.applyTime}}" data-value="{{item}}" bind:tap="clickOrder" hover />
-      <view slot="right" class="swiper-right-del" bind:tap="delOrder" data-value="{{item}}">删除</view>
-    </swipeout>
-  </t-cell-group>
-  <view wx:else class="no-order">
-    <t-empty icon="" description="没有查询到相关订单信息" />
+  <view wx:if="{{tabIndex===0}}">
+    <t-cell-group wx:if="{{orderList.length > 0}}" class="order-list">
+      <swipeout wx:for="{{orderList}}" wx:key="index" right-width="{{rightWidth}}">
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.orderType}}:{{item.batch}}" note="{{item.applyTime2}}" data-value="{{item}}" bind:tap="clickOrder" hover />
+        <view slot="right" class="swiper-right-del" bind:tap="delOrder" data-value="{{item}}">删除</view>
+      </swipeout>
+    </t-cell-group>
+    <view wx:else class="no-order">
+      <t-empty icon="" description="没有查询到相关订单信息" />
+    </view>
+    <load-more list-is-empty="{{!orderList.length}}" status="{{orderListLoadStatus}}" />
+    <t-back-top wx:if="{{backTopVisible}}" />
   </view>
-  <load-more list-is-empty="{{!orderList.length}}" status="{{orderListLoadStatus}}" />
-  <t-back-top wx:if="{{backTopVisible}}" />
+  <view wx:elif="{{tabIndex===1}}">
+    <t-cell-group wx:if="{{orderList.length > 0}}" class="order-list">
+      <t-cell wx:for="{{orderList}}" wx:key="index" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.orderType}}:{{item.batch}}" note="{{item.applyTime2}}" data-value="{{item}}" bind:tap="clickOrder" hover />
+    </t-cell-group>
+    <view wx:else class="no-order">
+      <t-empty icon="" description="没有查询到相关订单信息" />
+    </view>
+    <load-more list-is-empty="{{!orderList.length}}" status="{{orderListLoadStatus}}" />
+    <t-back-top wx:if="{{backTopVisible}}" />
+  </view>
+  <view wx:else>
+    <t-cell-group>
+      <view class="divider-line" />
+      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="用户名">
+        <view class="field-text" slot="note">{{user.name}}</view>
+      </t-cell>
+      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="电话">
+        <view class="field-text" slot="note">{{user.phone}}</view>
+      </t-cell>
+      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="公司">
+        <view class="field-text" slot="note">{{group.name}}</view>
+      </t-cell>
+      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="地址">
+        <view class="field-text" slot="note">{{group.address}}</view>
+      </t-cell>
+      <view class="divider-line" />
+      <t-cell wx:for="{{perms}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="权限">
+        <view class="field-text" slot="note">{{item}}</view>
+      </t-cell>
+      <view class="divider-line" />
+    </t-cell-group>
+    <view class="submit">
+      <t-button t-class="btn-submit theme-wrapper-class" style="margin-left: 6%" bind:tap="clickLogout">
+        <text space="ensp">切 换 账 号</text>
+      </t-button>
+    </view>
+  </view>
 </view>
 <t-toast id="t-toast" />

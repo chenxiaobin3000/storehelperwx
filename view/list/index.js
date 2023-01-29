@@ -49,7 +49,7 @@ Page({
       orderListLoadStatus: 1
     })
     const that = this.data
-    getMyComplete({
+    getMyComplete(this, {
       id: that.id,
       page: that.page,
       limit: that.pageLimit,
@@ -59,10 +59,10 @@ Page({
         data.list.forEach(v => {
           switch (v.type) {
             case 1:
-              v.orderType = '进货入库'
+              v.orderType = '仓储入库'
               break
             case 2:
-              v.orderType = '进货退货'
+              v.orderType = '仓储退货'
               break
             case 4:
               v.orderType = '生产出库'
@@ -77,6 +77,7 @@ Page({
               v.orderType = '履约出货'
               break
           }
+          v.applyTime2 = v.applyTime.substring(0,10)
         })
         const curPage = that.page
         this.setData({

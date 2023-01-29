@@ -4,34 +4,34 @@ import {
 } from './service'
 const preUrl = baseUrl + 'storage'
 
-export function shipped(params, success) {
-  return post(`${preUrl}/shipped`, params, success)
+export function shipped(that, params, success) {
+  return post(`${preUrl}/shipped`, that, params, success)
 }
 
-export function setShipped(params, success) {
-  return post(`${preUrl}/setShipped`, params, success)
+export function setShipped(that, params, success) {
+  return post(`${preUrl}/setShipped`, that, params, success)
 }
 
-export function delShipped(params, success) {
-  return post(`${preUrl}/delShipped`, params, success)
+export function delShipped(that, params, success) {
+  return post(`${preUrl}/delShipped`, that, params, success)
 }
 
-export function reviewShipped(params, success) {
-  return post(`${preUrl}/reviewShipped`, params, success)
+export function reviewShipped(that, params, success) {
+  return post(`${preUrl}/reviewShipped`, that, params, success)
 }
 
-export function returnc(params, success) {
-  return post(`${preUrl}/returnc`, params, success)
+export function returnc(that, params, success) {
+  return post(`${preUrl}/returnc`, that, params, success)
 }
 
-export function setReturn(params, success) {
-  return post(`${preUrl}/setReturn`, params, success)
+export function setReturn(that, params, success) {
+  return post(`${preUrl}/setReturn`, that, params, success)
 }
 
-export function delReturn(params, success) {
-  return post(`${preUrl}/delReturn`, params, success)
+export function delReturn(that, params, success) {
+  return post(`${preUrl}/delReturn`, that, params, success)
 }
 
-export function reviewReturn(params, success) {
-  return post(`${preUrl}/reviewReturn`, params, success)
+export function reviewReturn(that, params, success) {
+  return post(`${preUrl}/reviewReturn`, that, params, success)
 }

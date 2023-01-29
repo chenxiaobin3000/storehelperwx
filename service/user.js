@@ -4,6 +4,6 @@ import {
 } from './service'
 const preUrl = baseUrl + 'user'
 
-export function getUser(params, success) {
-  return post(`${preUrl}/getUser`, params, success)
+export function getUser(that, params, success) {
+  return post(`${preUrl}/getUser`, that, params, success)
 }

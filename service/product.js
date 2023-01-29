@@ -4,34 +4,34 @@ import {
 } from './service'
 const preUrl = baseUrl + 'product'
 
-export function process(params, success) {
-  return post(`${preUrl}/process`, params, success)
+export function process(that, params, success) {
+  return post(`${preUrl}/process`, that, params, success)
 }
 
-export function setProcess(params, success) {
-  return post(`${preUrl}/setProcess`, params, success)
+export function setProcess(that, params, success) {
+  return post(`${preUrl}/setProcess`, that, params, success)
 }
 
-export function delProcess(params, success) {
-  return post(`${preUrl}/delProcess`, params, success)
+export function delProcess(that, params, success) {
+  return post(`${preUrl}/delProcess`, that, params, success)
 }
 
-export function reviewProcess(params, success) {
-  return post(`${preUrl}/reviewProcess`, params, success)
+export function reviewProcess(that, params, success) {
+  return post(`${preUrl}/reviewProcess`, that, params, success)
 }
 
-export function complete(params, success) {
-  return post(`${preUrl}/complete`, params, success)
+export function complete(that, params, success) {
+  return post(`${preUrl}/complete`, that, params, success)
 }
 
-export function setComplete(params, success) {
-  return post(`${preUrl}/setComplete`, params, success)
+export function setComplete(that, params, success) {
+  return post(`${preUrl}/setComplete`, that, params, success)
 }
 
-export function delComplete(params, success) {
-  return post(`${preUrl}/delComplete`, params, success)
+export function delComplete(that, params, success) {
+  return post(`${preUrl}/delComplete`, that, params, success)
 }
 
-export function reviewComplete(params, success) {
-  return post(`${preUrl}/reviewComplete`, params, success)
+export function reviewComplete(that, params, success) {
+  return post(`${preUrl}/reviewComplete`, that, params, success)
 }

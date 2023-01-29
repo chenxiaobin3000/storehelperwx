@@ -1,11 +1,23 @@
 import TabData from './data'
 import {
-  myToast
-} from '../../util/util'
+  logout
+} from '../../service/account'
 import {
   getMyWait,
   getMyCheck
 } from '../../service/order'
+import {
+  delShipped,
+  delReturn
+} from '../../service/agreement'
+import {
+  delProcess,
+  delComplete
+} from '../../service/product'
+import {
+  delPurchase,
+  delSReturn
+} from '../../service/storage'
 Page({
   data: {
     tabList: TabData,
@@ -18,13 +30,21 @@ Page({
     page: 1,
     pageLimit: 10,
     search: null,
+    user: {},
+    group: {},
+    perms: {},
     rightWidth: 60
   },
   onLoad() {
     wx.hideHomeButton()
+    const app = getApp()
     this.setData({
-      id: getApp().globalData.user.id
+      id: app.globalData.user.id,
+      user: app.globalData.user,
+      group: app.globalData.group,
+      perms: this.perm2String(app.globalData.perms)
     })
+    console.log(this.data.perms)
     this.getOrderList()
   },
   onShow() {
@@ -56,24 +76,29 @@ Page({
       orderListLoadStatus: 1
     })
     const that = this.data
-    if (that.tabIndex === 0) {
-      getMyWait({
-        id: that.id,
-        page: that.page,
-        limit: that.pageLimit,
-        search: that.search
-      }, data => {
-        this.getOrderListSuccess(that, data)
-      })
-    } else {
-      getMyCheck({
-        id: that.id,
-        page: that.page,
-        limit: that.pageLimit,
-        search: that.search
-      }, data => {
-        this.getOrderListSuccess(that, data)
-      })
+    switch (that.tabIndex) {
+      case 0:
+        getMyWait(this, {
+          id: that.id,
+          page: that.page,
+          limit: that.pageLimit,
+          search: that.search
+        }, data => {
+          this.getOrderListSuccess(that, data)
+        })
+        break
+      case 1:
+        getMyCheck(this, {
+          id: that.id,
+          page: that.page,
+          limit: that.pageLimit,
+          search: that.search
+        }, data => {
+          this.getOrderListSuccess(that, data)
+        })
+        break
+      default:
+        break
     }
   },
   getOrderListSuccess(that, data) {
@@ -81,10 +106,10 @@ Page({
       data.list.forEach(v => {
         switch (v.type) {
           case 1:
-            v.orderType = '进货入库'
+            v.orderType = '仓储入库'
             break
           case 2:
-            v.orderType = '进货退货'
+            v.orderType = '仓储退货'
             break
           case 4:
             v.orderType = '生产出库'
@@ -99,6 +124,7 @@ Page({
             v.orderType = '履约出货'
             break
         }
+        v.applyTime2 = v.applyTime.substring(0,10)
       })
       const curPage = that.page
       this.setData({
@@ -134,21 +160,126 @@ Page({
       action: 'order',
       data: item.currentTarget.dataset.value
     }
-    if (this.data.tabIndex === 0) {
-      wx.navigateTo({
-        url: './edit/index'
-      })
-    } else {
-      wx.navigateTo({
-        url: './review/index'
-      })
+    switch (this.data.tabIndex) {
+      case 0:
+        wx.navigateTo({
+          url: './edit/index'
+        })
+        break
+      case 1:
+        wx.navigateTo({
+          url: './review/index'
+        })
+        break
+      default:
+        break
     }
   },
   delOrder(item) {
-    if (this.data.tabIndex === 0) {
-      console.log(item)
-    } else {
-      myToast(this, '只能删除自己的订单')
+    const order = item.currentTarget.dataset.value
+    const data = {
+      id: getApp().globalData.user.id,
+      oid: order.id
     }
+    switch (order.type) {
+      case 1:
+        delPurchase(this, data, () => {
+          wx.navigateBack({
+            delta: 1
+          })
+        })
+        break
+      case 2:
+        delSReturn(this, data, () => {
+          wx.navigateBack({
+            delta: 1
+          })
+        })
+        break
+      case 3:
+        delProcess(this, data, () => {
+          wx.navigateBack({
+            delta: 1
+          })
+        })
+        break
+      case 4:
+        delComplete(this, data, () => {
+          wx.navigateBack({
+            delta: 1
+          })
+        })
+        break
+      case 5:
+        delShipped(this, data, () => {
+          wx.navigateBack({
+            delta: 1
+          })
+        })
+        break
+      case 6:
+        delReturn(this, data, () => {
+          wx.navigateBack({
+            delta: 1
+          })
+        })
+        break
+    }
+  },
+  clickLogout() {
+    const app = getApp()
+    logout(this, {
+      id: app.globalData.user.id
+    }, () => {
+      wx.setStorageSync('userId', 0)
+      wx.setStorageSync('token', '')
+      wx.redirectTo({
+        url: '../login/login'
+      })
+    })
+  },
+  perm2String(perms) {
+    const ret = []
+    perms.forEach(v => {
+      switch (v) {
+        case 11:
+          ret.push('仓储入库申请')
+          break
+        case 12:
+          ret.push('仓储退货申请')
+          break
+        case 13:
+          ret.push('生产出库申请')
+          break
+        case 14:
+          ret.push('生产完成申请')
+          break
+        case 15:
+          ret.push('履约出货申请')
+          break
+        case 16:
+          ret.push('履约退货申请')
+          break
+        case 17:
+          ret.push('仓储入库审核')
+          break
+        case 18:
+          ret.push('仓储退货审核')
+          break
+        case 19:
+          ret.push('生产出库审核')
+          break
+        case 20:
+          ret.push('生产完成审核')
+          break
+        case 21:
+          ret.push('履约出货审核')
+          break
+        case 22:
+          ret.push('履约退货审核')
+          break
+      }
+    })
+    return ret
   }
 })

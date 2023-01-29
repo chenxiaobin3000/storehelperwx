@@ -174,7 +174,7 @@ Page({
   },
   getCommodity(id) {
     const app = getApp()
-    getCommodity({
+    getCommodity(this, {
       id: app.globalData.user.id,
       cid: id
     }, data => {
@@ -185,7 +185,7 @@ Page({
   },
   getGroupCommodity() {
     const app = getApp()
-    getGroupCommodity({
+    getGroupCommodity(this, {
       id: app.globalData.user.id,
       page: 1,
       limit: 100,
@@ -207,7 +207,7 @@ Page({
   },
   getHalfgood(id) {
     const app = getApp()
-    getHalfgood({
+    getHalfgood(this, {
       id: app.globalData.user.id,
       hid: id
     }, data => {
@@ -218,7 +218,7 @@ Page({
   },
   getGroupHalfgood() {
     const app = getApp()
-    getGroupHalfgood({
+    getGroupHalfgood(this, {
       id: app.globalData.user.id,
       page: 1,
       limit: 100,
@@ -240,7 +240,7 @@ Page({
   },
   getOriginal(id) {
     const app = getApp()
-    getOriginal({
+    getOriginal(this, {
       id: app.globalData.user.id,
       oid: id
     }, data => {
@@ -251,7 +251,7 @@ Page({
   },
   getGroupOriginal() {
     const app = getApp()
-    getGroupOriginal({
+    getGroupOriginal(this, {
       id: app.globalData.user.id,
       page: 1,
       limit: 100,
@@ -273,7 +273,7 @@ Page({
   },
   getStandard(id) {
     const app = getApp()
-    getStandard({
+    getStandard(this, {
       id: app.globalData.user.id,
       sid: id
     }, data => {
@@ -284,7 +284,7 @@ Page({
   },
   getGroupStandard() {
     const app = getApp()
-    getGroupStandard({
+    getGroupStandard(this, {
       id: app.globalData.user.id,
       page: 1,
       limit: 100,
@@ -306,7 +306,7 @@ Page({
   },
   getDestroy(id) {
     const app = getApp()
-    getDestroy({
+    getDestroy(this, {
       id: app.globalData.user.id,
       did: id
     }, data => {
@@ -317,7 +317,7 @@ Page({
   },
   getGroupDestroy() {
     const app = getApp()
-    getGroupDestroy({
+    getGroupDestroy(this, {
       id: app.globalData.user.id,
       page: 1,
       limit: 100,

@@ -1,8 +1,8 @@
 export default [{
-  label: '进货入库订单',
+  label: '仓储入库订单',
   value: 1
 }, {
-  label: '进货退货订单',
+  label: '仓储退货订单',
   value: 2
 }, {
   label: '生产出库订单',

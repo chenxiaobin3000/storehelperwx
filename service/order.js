@@ -4,14 +4,14 @@ import {
 } from './service'
 const preUrl = baseUrl + 'order'
 
-export function getMyWait(params, success) {
-  return post(`${preUrl}/getMyWait`, params, success)
+export function getMyWait(that, params, success) {
+  return post(`${preUrl}/getMyWait`, that, params, success)
 }
 
-export function getMyCheck(params, success) {
-  return post(`${preUrl}/getMyCheck`, params, success)
+export function getMyCheck(that, params, success) {
+  return post(`${preUrl}/getMyCheck`, that, params, success)
 }
 
-export function getMyComplete(params, success) {
-  return post(`${preUrl}/getMyComplete`, params, success)
+export function getMyComplete(that, params, success) {
+  return post(`${preUrl}/getMyComplete`, that, params, success)
 }

@@ -1,3 +1,7 @@
+import {
+  myToast
+} from '../util/util'
+
 let baseUrl = 'http://127.0.0.1:8080/api/'
 if (typeof __wxConfig == 'object') {
   const version = __wxConfig.envVersion;
@@ -16,7 +20,7 @@ if (typeof __wxConfig == 'object') {
  * @param {*} data 数据
  * @param {*} success 成功回调
  */
-function post(url, data, success) {
+function post(url, that, data, success) {
   const app = getApp()
   wx.showLoading({
     mask: true // 防止重复操作
@@ -35,20 +39,12 @@ function post(url, data, success) {
         success(res.data.data)
       } else {
         // 业务错误
-        wx.showToast({
-          icon: 'error',
-          duration: 1000,
-          title: res.data.msg
-        })
+        myToast(that, res.data.msg)
       }
     },
     fail() {
       // 网络异常
-      wx.showToast({
-        icon: 'error',
-        duration: 1000,
-        title: '网络异常'
-      })
+      myToast(that, '网络异常')
     },
     complete() {
       wx.hideLoading()

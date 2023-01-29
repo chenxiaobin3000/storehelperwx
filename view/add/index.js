@@ -13,7 +13,8 @@ import {
 } from '../../service/product'
 import {
   getGroupStorage,
-  purchase
+  purchase,
+  sreturnc
 } from '../../service/storage'
 import {
   addAttach
@@ -49,7 +50,7 @@ Page({
   onLoad() {
     wx.hideHomeButton()
     const app = getApp()
-    getGroupStorage({
+    getGroupStorage(this, {
       id: app.globalData.user.id,
       page: 1,
       limit: 100,
@@ -543,7 +544,7 @@ Page({
       data.attrs.push(v.id)
     })
 
-    if (that.orderValue[0] === '进货入库订单') {
+    if (that.orderValue[0] === '仓储入库订单') {
       if (that.commoditys.length > 0) {
         myToast(this, '进货不能包含商品')
         return
@@ -556,14 +557,31 @@ Page({
         myToast(this, '进货不能包含废料')
         return
       }
-      purchase(data, () => {
+      purchase(this, data, () => {
         this.reset()
         wx.switchTab({
           url: '/view/me/index'
         })
       })
-    } else if (that.orderValue[0] === '进货退货订单') {
-      myToast(this, '暂不支持退货订单')
+    } else if (that.orderValue[0] === '仓储退货订单') {
+      if (that.commoditys.length > 0) {
+        myToast(this, '进货不能包含商品')
+        return
+      }
+      if (that.halfgoods.length > 0) {
+        myToast(this, '进货不能包含半成品')
+        return
+      }
+      if (that.destroys.length > 0) {
+        myToast(this, '进货不能包含废料')
+        return
+      }
+      sreturnc(this, data, () => {
+        this.reset()
+        wx.switchTab({
+          url: '/view/me/index'
+        })
+      })
     } else if (that.orderValue[0] === '生产出库订单') {
       if (that.commoditys.length > 0) {
         myToast(this, '进货不能包含商品')
@@ -577,7 +595,7 @@ Page({
         myToast(this, '进货不能包含废料')
         return
       }
-      process(data, () => {
+      process(this, data, () => {
         this.reset()
         wx.switchTab({
           url: '/view/me/index'
@@ -588,7 +606,7 @@ Page({
         myToast(this, '进货不能包含标品')
         return
       }
-      complete(data, () => {
+      complete(this, data, () => {
         this.reset()
         wx.switchTab({
           url: '/view/me/index'
@@ -607,7 +625,7 @@ Page({
         myToast(this, '进货不能包含废料')
         return
       }
-      shipped(data, () => {
+      shipped(this, data, () => {
         this.reset()
         wx.switchTab({
           url: '/view/me/index'
@@ -626,7 +644,7 @@ Page({
         myToast(this, '进货不能包含废料')
         return
       }
-      returnc(data, () => {
+      returnc(this, data, () => {
         this.reset()
         wx.switchTab({
           url: '/view/me/index'

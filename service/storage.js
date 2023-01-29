@@ -4,38 +4,38 @@ import {
 } from './service'
 const preUrl = baseUrl + 'storage'
 
-export function getGroupStorage(params, success) {
-  return post(`${preUrl}/getGroupStorage`, params, success)
+export function getGroupStorage(that, params, success) {
+  return post(`${preUrl}/getGroupStorage`, that, params, success)
 }
 
-export function purchase(params, success) {
-  return post(`${preUrl}/purchase`, params, success)
+export function purchase(that, params, success) {
+  return post(`${preUrl}/purchase`, that, params, success)
 }
 
-export function setPurchase(params, success) {
-  return post(`${preUrl}/setPurchase`, params, success)
+export function setPurchase(that, params, success) {
+  return post(`${preUrl}/setPurchase`, that, params, success)
 }
 
-export function delPurchase(params, success) {
-  return post(`${preUrl}/delPurchase`, params, success)
+export function delPurchase(that, params, success) {
+  return post(`${preUrl}/delPurchase`, that, params, success)
 }
 
-export function reviewPurchase(params, success) {
-  return post(`${preUrl}/reviewPurchase`, params, success)
+export function reviewPurchase(that, params, success) {
+  return post(`${preUrl}/reviewPurchase`, that, params, success)
 }
 
-export function returnc(params, success) {
-  return post(`${preUrl}/returnc`, params, success)
+export function sreturnc(that, params, success) {
+  return post(`${preUrl}/returnc`, that, params, success)
 }
 
-export function setReturn(params, success) {
-  return post(`${preUrl}/setReturn`, params, success)
+export function setSReturn(that, params, success) {
+  return post(`${preUrl}/setReturn`, that, params, success)
 }
 
-export function delReturn(params, success) {
-  return post(`${preUrl}/delReturn`, params, success)
+export function delSReturn(that, params, success) {
+  return post(`${preUrl}/delReturn`, that, params, success)
 }
 
-export function reviewReturn(params, success) {
-  return post(`${preUrl}/reviewReturn`, params, success)
+export function reviewSReturn(that, params, success) {
+  return post(`${preUrl}/reviewReturn`, that, params, success)
 }

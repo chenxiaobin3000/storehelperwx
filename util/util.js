@@ -8,7 +8,7 @@ function myToast(that, msg) {
     context: that,
     selector: '#t-toast',
     message: msg,
-    duration: 1000
+    duration: 2000
   })
 }
 

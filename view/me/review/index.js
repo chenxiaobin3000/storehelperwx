@@ -14,11 +14,13 @@ import {
   reviewComplete
 } from '../../../service/product'
 import {
-  reviewPurchase
+  reviewPurchase,
+  reviewSReturn
 } from '../../../service/storage'
 Page({
   data: {
     orderId: 0,
+    orderType: 0,
     orderValue: [],
     storageValue: [],
     batch: '',
@@ -120,6 +122,7 @@ Page({
       }
       this.setData({
         orderId: data.id,
+        orderType: data.type,
         orderValue: orderValue,
         storageValue: data.sname,
         batch: data.batch,
@@ -155,38 +158,49 @@ Page({
       id: getApp().globalData.user.id,
       oid: that.orderId
     }
-    if (that.orderValue[0] === '进货入库订单') {
-      reviewPurchase(data, () => {
-        wx.navigateBack({
-          delta: 1
+    switch (that.ordertype) {
+      case 1:
+        reviewPurchase(this, data, () => {
+          wx.navigateBack({
+            delta: 1
+          })
         })
-      })
-    } else if (that.orderValue[0] === '进货退货订单') {
-      myToast(this, '暂不支持退货订单')
-    } else if (that.orderValue[0] === '生产出库订单') {
-      reviewProcess(data, () => {
-        wx.navigateBack({
-          delta: 1
+        break
+      case 2:
+        reviewSReturn(this, data, () => {
+          wx.navigateBack({
+            delta: 1
+          })
         })
-      })
-    } else if (that.orderValue[0] === '生产完成订单') {
-      reviewComplete(data, () => {
-        wx.navigateBack({
-          delta: 1
+        break
+      case 3:
+        reviewProcess(this, data, () => {
+          wx.navigateBack({
+            delta: 1
+          })
         })
-      })
-    } else if (that.orderValue[0] === '履约出货订单') {
-      reviewShipped(data, () => {
-        wx.navigateBack({
-          delta: 1
+        break
+      case 4:
+        reviewComplete(this, data, () => {
+          wx.navigateBack({
+            delta: 1
+          })
         })
-      })
-    } else if (that.orderValue[0] === '履约退货订单') {
-      reviewReturn(data, () => {
-        wx.navigateBack({
-          delta: 1
+        break
+      case 5:
+        reviewShipped(this, data, () => {
+          wx.navigateBack({
+            delta: 1
+          })
         })
-      })
+        break
+      case 6:
+        reviewReturn(this, data, () => {
+          wx.navigateBack({
+            delta: 1
+          })
+        })
+        break
     }
   }
 })

@@ -44,7 +44,7 @@ Page({
     if (that.checkGroup.length === 0) {
       myToast(this, '请勾选用户协议')
     } else {
-      login({
+      login(this, {
         account: that.account,
         password: md5(that.password)
       }, data => {

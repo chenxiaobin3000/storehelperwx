@@ -4,10 +4,10 @@ import {
 } from './service'
 const preUrl = baseUrl + 'original'
 
-export function getOriginal(params, success) {
-  return post(`${preUrl}/getOriginal`, params, success)
+export function getOriginal(that, params, success) {
+  return post(`${preUrl}/getOriginal`, that, params, success)
 }
 
-export function getGroupOriginal(params, success) {
-  return post(`${preUrl}/getGroupOriginal`, params, success)
+export function getGroupOriginal(that, params, success) {
+  return post(`${preUrl}/getGroupOriginal`, that, params, success)
 }
