@@ -53,7 +53,7 @@ Page({
         wx.setStorageSync('userId', data.id)
         wx.setStorageSync('token', data.token)
         wx.redirectTo({
-          url: '/pages/welcome/index'
+          url: '/pages/index/index'
         })
       })
     }
