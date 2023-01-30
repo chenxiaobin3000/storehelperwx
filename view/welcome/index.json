@@ -1,6 +1,9 @@
 {
   "navigationBarTitleText": "集数助手",
+  "enablePullDownRefresh": false,
+  "disableScroll": true,
   "usingComponents": {
+    "t-image": "tdesign-miniprogram/image/image",
     "t-message": "tdesign-miniprogram/message/message"
   }
 }

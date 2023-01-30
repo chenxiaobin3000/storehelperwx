@@ -5,7 +5,9 @@ import {
   getUser
 } from '../../service/user'
 Page({
-  data: {},
+  data: {
+    logoSrc: '/image/logo.png'
+  },
   onLoad() {
     wx.hideHomeButton()
     const app = getApp()
