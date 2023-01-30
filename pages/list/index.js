@@ -114,7 +114,7 @@ Page({
       data: item.currentTarget.dataset.value
     }
     wx.navigateTo({
-      url: '/view/list/detail/index'
+      url: '/pages/list/detail/index'
     })
   },
   relogin() {

@@ -25,26 +25,26 @@ Page({
         if (data.permMps.length === 0) {
           // 没有权限就去面壁
           wx.redirectTo({
-            url: '/view/forbid/index'
+            url: '/pages/forbid/index'
           })
         } else {
           // 根据权限跳转
           data.permMps.forEach(v => {
             if (v === 10) {
               wx.switchTab({
-                url: '/view/report/index'
+                url: '/pages/report/index'
               })
             }
           })
           wx.switchTab({
-            url: '/view/add/index'
+            url: '/pages/add/index'
           })
         }
       })
     } else {
       // 没有账号信息就去登陆
       wx.redirectTo({
-        url: '/view/login/index'
+        url: '/pages/login/index'
       })
     }
   },

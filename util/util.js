@@ -22,7 +22,7 @@ function relogin() {
   wx.setStorageSync('userId', 0)
   wx.setStorageSync('token', '')
   wx.redirectTo({
-    url: '/view/login/index'
+    url: '/pages/login/index'
   })
 }
 

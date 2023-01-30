@@ -167,12 +167,12 @@ Page({
     switch (this.data.tabIndex) {
       case 0:
         wx.navigateTo({
-          url: '/view/me/edit/index'
+          url: '/pages/me/edit/index'
         })
         break
       case 1:
         wx.navigateTo({
-          url: '/view/me/review/index'
+          url: '/pages/me/review/index'
         })
         break
       default:
@@ -226,7 +226,7 @@ Page({
       wx.setStorageSync('userId', 0)
       wx.setStorageSync('token', '')
       wx.redirectTo({
-        url: '/view/login/index'
+        url: '/pages/login/index'
       })
     })
   },

@@ -378,12 +378,12 @@ Page({
       num
     } = event.currentTarget.dataset.value
     wx.navigateTo({
-      url: `/view/add/edit/index?type=1&id=${id}&price=${price}&num=${num}`
+      url: `/pages/add/edit/index?type=1&id=${id}&price=${price}&num=${num}`
     })
   },
   addCommodity() {
     wx.navigateTo({
-      url: '/view/add/edit/index?type=1&id=0'
+      url: '/pages/add/edit/index?type=1&id=0'
     })
   },
   delCommodity(event) {
@@ -406,12 +406,12 @@ Page({
       num
     } = event.currentTarget.dataset.value
     wx.navigateTo({
-      url: `/view/add/edit/index?type=2&id=${id}&price=${price}&num=${num}`
+      url: `/pages/add/edit/index?type=2&id=${id}&price=${price}&num=${num}`
     })
   },
   addHalfgood() {
     wx.navigateTo({
-      url: '/view/add/edit/index?type=2&id=0'
+      url: '/pages/add/edit/index?type=2&id=0'
     })
   },
   delHalfgood(event) {
@@ -434,12 +434,12 @@ Page({
       num
     } = event.currentTarget.dataset.value
     wx.navigateTo({
-      url: `/view/add/edit/index?type=3&id=${id}&price=${price}&num=${num}`
+      url: `/pages/add/edit/index?type=3&id=${id}&price=${price}&num=${num}`
     })
   },
   addOriginal() {
     wx.navigateTo({
-      url: '/view/add/edit/index?type=3&id=0'
+      url: '/pages/add/edit/index?type=3&id=0'
     })
   },
   delOriginal(event) {
@@ -462,12 +462,12 @@ Page({
       num
     } = event.currentTarget.dataset.value
     wx.navigateTo({
-      url: `/view/add/edit/index?type=4&id=${id}&price=${price}&num=${num}`
+      url: `/pages/add/edit/index?type=4&id=${id}&price=${price}&num=${num}`
     })
   },
   addStandard() {
     wx.navigateTo({
-      url: '/view/add/edit/index?type=4&id=0'
+      url: '/pages/add/edit/index?type=4&id=0'
     })
   },
   delStandard(event) {
@@ -490,12 +490,12 @@ Page({
       num
     } = event.currentTarget.dataset.value
     wx.navigateTo({
-      url: `/view/add/edit/index?type=5&id=${id}&price=${price}&num=${num}`
+      url: `/pages/add/edit/index?type=5&id=${id}&price=${price}&num=${num}`
     })
   },
   addDestroy() {
     wx.navigateTo({
-      url: '/view/add/edit/index?type=5&id=0'
+      url: '/pages/add/edit/index?type=5&id=0'
     })
   },
   delDestroy(event) {

@@ -1,16 +1,16 @@
 {
   "pages": [
-    "view/welcome/index",
-    "view/report/index",
-    "view/add/index",
-    "view/add/edit/index",
-    "view/list/index",
-    "view/list/detail/index",
-    "view/me/index",
-    "view/me/edit/index",
-    "view/me/review/index",
-    "view/login/index",
-    "view/forbid/index"
+    "pages/index/index",
+    "pages/report/index",
+    "pages/add/index",
+    "pages/add/edit/index",
+    "pages/list/index",
+    "pages/list/detail/index",
+    "pages/me/index",
+    "pages/me/edit/index",
+    "pages/me/review/index",
+    "pages/login/index",
+    "pages/forbid/index"
   ],
   "tabBar": {
     "custom": true,
@@ -19,13 +19,13 @@
     "backgroundColor": "#ffffff",
     "borderStyle": "black",
     "list": [{
-      "pagePath": "view/report/index"
+      "pagePath": "pages/report/index"
     }, {
-      "pagePath": "view/add/index"
+      "pagePath": "pages/add/index"
     }, {
-      "pagePath": "view/list/index"
+      "pagePath": "pages/list/index"
     }, {
-      "pagePath": "view/me/index"
+      "pagePath": "pages/me/index"
     }]
   },
   "window": {
