@@ -6,7 +6,7 @@ import {
 } from '../../service/user'
 Page({
   data: {
-    logoSrc: '/image/logo.png'
+    logoSrc: '/image/index.png'
   },
   onLoad() {
     wx.hideHomeButton()

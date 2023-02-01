@@ -11,7 +11,8 @@ Page({
     account: '',
     password: '',
     checkGroup: [],
-    submitActive: false
+    submitActive: false,
+    logoSrc: '/image/login.png'
   },
   onLoad() {
     wx.hideHomeButton()

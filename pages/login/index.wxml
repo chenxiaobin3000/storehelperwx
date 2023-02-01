@@ -1,8 +1,10 @@
 <view class="container">
   <view class="form-login">
     <form class="form-content">
+      <view class="logo">
+        <t-image src="{{logoSrc}}" width="256" height="256" />
+      </view>
       <t-cell-group>
-        <view class="divider-line" />
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="账号">
           <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{account}}" maxlength="16" placeholder="请使用集数账号登陆" data-item="account" bind:change="onInputValue" />
         </t-cell>

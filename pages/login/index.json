@@ -3,6 +3,7 @@
   "enablePullDownRefresh": false,
   "disableScroll": true,
   "usingComponents": {
+    "t-image": "tdesign-miniprogram/image/image",
     "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-input": "tdesign-miniprogram/input/input",
