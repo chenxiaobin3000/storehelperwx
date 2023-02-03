@@ -4,23 +4,23 @@ import {
 } from '../../../util/util'
 import {
   getCommodity,
-  getGroupCommodity
+  getGroupAllCommodity
 } from '../../../service/commodity'
 import {
   getHalfgood,
-  getGroupHalfgood
+  getGroupAllHalfgood
 } from '../../../service/halfgood'
 import {
   getOriginal,
-  getGroupOriginal
+  getGroupAllOriginal
 } from '../../../service/original'
 import {
   getStandard,
-  getGroupStandard
+  getGroupAllStandard
 } from '../../../service/standard'
 import {
   getDestroy,
-  getGroupDestroy
+  getGroupAllDestroy
 } from '../../../service/destroy'
 Page({
   data: {
@@ -184,11 +184,8 @@ Page({
   },
   getGroupCommodity() {
     const app = getApp()
-    getGroupCommodity(this, {
-      id: app.globalData.user.id,
-      page: 1,
-      limit: 100,
-      search: null
+    getGroupAllCommodity(this, {
+      id: app.globalData.user.id
     }, data => {
       const list = []
       if (data.list && data.list.length > 0) {
@@ -217,11 +214,8 @@ Page({
   },
   getGroupHalfgood() {
     const app = getApp()
-    getGroupHalfgood(this, {
-      id: app.globalData.user.id,
-      page: 1,
-      limit: 100,
-      search: null
+    getGroupAllHalfgood(this, {
+      id: app.globalData.user.id
     }, data => {
       const list = []
       if (data.list && data.list.length > 0) {
@@ -250,11 +244,8 @@ Page({
   },
   getGroupOriginal() {
     const app = getApp()
-    getGroupOriginal(this, {
-      id: app.globalData.user.id,
-      page: 1,
-      limit: 100,
-      search: null
+    getGroupAllOriginal(this, {
+      id: app.globalData.user.id
     }, data => {
       const list = []
       if (data.list && data.list.length > 0) {
@@ -283,11 +274,8 @@ Page({
   },
   getGroupStandard() {
     const app = getApp()
-    getGroupStandard(this, {
-      id: app.globalData.user.id,
-      page: 1,
-      limit: 100,
-      search: null
+    getGroupAllStandard(this, {
+      id: app.globalData.user.id
     }, data => {
       const list = []
       if (data.list && data.list.length > 0) {
@@ -316,11 +304,8 @@ Page({
   },
   getGroupDestroy() {
     const app = getApp()
-    getGroupDestroy(this, {
-      id: app.globalData.user.id,
-      page: 1,
-      limit: 100,
-      search: null
+    getGroupAllDestroy(this, {
+      id: app.globalData.user.id
     }, data => {
       const list = []
       if (data.list && data.list.length > 0) {

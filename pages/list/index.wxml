@@ -10,7 +10,7 @@
 </view>
 <view class="home-page-container">
   <view wx:if="{{orderList.length > 0}}">
-    <t-cell-group wx:for="{{orderList}}" wx:key="index" right-width="{{rightWidth}}" class=" order-list">
+    <t-cell-group wx:for="{{orderList}}" wx:key="index" class="order-list">
       <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.orderType}}:{{item.batch}}" note="{{item.applyTime2}}" data-value="{{item}}" bind:tap="clickOrder" hover />
     </t-cell-group>
   </view>

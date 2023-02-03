@@ -91,11 +91,6 @@ page {
   -webkit-overflow-scrolling: touch;
 }
 
-.order-list .t-cell {
-  height: 600rpx;
-  font-size: 300rpx;
-}
-
 .order-list .t-cell-left {
   margin-right: 0;
 }

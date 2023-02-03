@@ -8,6 +8,6 @@ export function getDestroy(that, params, success) {
   return post(`${preUrl}/getDestroy`, that, params, success)
 }
 
-export function getGroupDestroy(that, params, success) {
-  return post(`${preUrl}/getGroupDestroy`, that, params, success)
+export function getGroupAllDestroy(that, params, success) {
+  return post(`${preUrl}/getGroupAllDestroy`, that, params, success)
 }

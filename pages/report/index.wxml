@@ -1,4 +1,45 @@
 <view class="container">
-  报告
+  <!-- 销售数据 -->
+  <view class="divider-line" />
+  <t-collapse value="{{collapseValues}}" class="report-list" bind:change="handleCollapseChange">
+    <t-collapse-panel value="{{1}}" header="总销售量" header-right-content="{{storage.applyTime2}}" expandIcon>
+      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{storage.in}}" note="{{item.applyTime2}}" />
+    </t-collapse-panel>
+  </t-collapse>
+
+  <!-- 履约数据 -->
+  <view class="divider-line" />
+  <t-collapse value="{{collapseValues}}" class="report-list" bind:change="handleCollapseChange">
+    <t-collapse-panel value="{{2}}" header="履约量" header-right-content="{{storage.applyTime2}}" expandIcon>
+      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="履约出货" note="{{item.applyTime2}}" />
+      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="履约退货" note="{{item.applyTime2}}" />
+    </t-collapse-panel>
+  </t-collapse>
+
+  <!-- 生产数据 -->
+  <view class="divider-line" />
+  <t-collapse value="{{collapseValues}}" class="report-list" bind:change="handleCollapseChange">
+    <t-collapse-panel value="{{3}}" header="生产量" header-right-content="{{storage.applyTime2}}" expandIcon>
+      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="生产完成" note="{{item.applyTime2}}" />
+      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="生产消耗" note="{{item.applyTime2}}" />
+    </t-collapse-panel>
+  </t-collapse>
+
+  <!-- 进货数据 -->
+  <view class="divider-line" />
+  <t-collapse value="{{collapseValues}}" class="report-list" bind:change="handleCollapseChange">
+    <t-collapse-panel value="{{4}}" header="仓储进货" header-right-content="{{storage.applyTime2}}" expandIcon>
+      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="仓储退货" note="{{storage.applyTime2}}" />
+    </t-collapse-panel>
+  </t-collapse>
+
+  <!-- 库存数据 -->
+  <view class="divider-line" />
+  <t-collapse value="{{collapseValues}}" class="report-list" bind:change="handleCollapseChange">
+    <t-collapse-panel value="{{5}}" header="总库存量" header-right-content="{{storage.applyTime2}}" expandIcon>
+      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{storage.in}}" note="{{item.applyTime2}}" />
+    </t-collapse-panel>
+  </t-collapse>
+  <view class="divider-line" style="height: 100rpx;" />
 </view>
 <t-message id="t-message" bind:actionBtnClick="relogin" />

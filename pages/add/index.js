@@ -13,7 +13,7 @@ import {
   complete
 } from '../../service/product'
 import {
-  getGroupStorage,
+  getGroupAllStorage,
   purchase,
   sreturnc
 } from '../../service/storage'
@@ -53,11 +53,8 @@ Page({
   onLoad() {
     wx.hideHomeButton()
     const app = getApp()
-    getGroupStorage(this, {
+    getGroupAllStorage(this, {
       id: app.globalData.user.id,
-      page: 1,
-      limit: 100,
-      search: null
     }, data => {
       const list = []
       data.list.forEach(v => {

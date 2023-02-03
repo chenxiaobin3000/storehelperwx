@@ -8,6 +8,6 @@ export function getCommodity(that, params, success) {
   return post(`${preUrl}/getCommodity`, that, params, success)
 }
 
-export function getGroupCommodity(that, params, success) {
-  return post(`${preUrl}/getGroupCommodity`, that, params, success)
+export function getGroupAllCommodity(that, params, success) {
+  return post(`${preUrl}/getGroupAllCommodity`, that, params, success)
 }

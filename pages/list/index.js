@@ -13,8 +13,7 @@ Page({
     id: 0,
     page: 1,
     pageLimit: 10,
-    search: null,
-    rightWidth: 60
+    search: null
   },
   onLoad() {
     wx.hideHomeButton()

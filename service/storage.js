@@ -4,8 +4,8 @@ import {
 } from './service'
 const preUrl = baseUrl + 'storage'
 
-export function getGroupStorage(that, params, success) {
-  return post(`${preUrl}/getGroupStorage`, that, params, success)
+export function getGroupAllStorage(that, params, success) {
+  return post(`${preUrl}/getGroupAllStorage`, that, params, success)
 }
 
 export function purchase(that, params, success) {

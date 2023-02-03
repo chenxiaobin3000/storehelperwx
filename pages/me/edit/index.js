@@ -16,7 +16,7 @@ import {
   setComplete
 } from '../../../service/product'
 import {
-  getGroupStorage,
+  getGroupAllStorage,
   setPurchase,
   setSReturn
 } from '../../../service/storage'
@@ -54,11 +54,8 @@ Page({
   },
   onLoad() {
     const app = getApp()
-    getGroupStorage(this, {
-      id: app.globalData.user.id,
-      page: 1,
-      limit: 100,
-      search: null
+    getGroupAllStorage(this, {
+      id: app.globalData.user.id
     }, data => {
       const list = []
       data.list.forEach(v => {
