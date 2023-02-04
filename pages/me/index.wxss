@@ -150,11 +150,6 @@ page .divider-line {
   align-items: center;
 }
 
-.t-class-indicator,
-.loading-text {
-  color: #b9b9b9 !important;
-}
-
 .t-back-top.t-back-top--fixed {
   bottom: var(--td-spacer-2, 120rpx);
 }

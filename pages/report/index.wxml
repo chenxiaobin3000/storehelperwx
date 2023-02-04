@@ -2,42 +2,40 @@
   <!-- 销售数据 -->
   <view class="divider-line" />
   <t-collapse value="{{collapseValues}}" class="report-list" bind:change="handleCollapseChange">
-    <t-collapse-panel value="{{1}}" header="总销售量" header-right-content="{{storage.applyTime2}}" expandIcon>
-      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{storage.in}}" note="{{item.applyTime2}}" />
+    <t-collapse-panel value="{{1}}" header="总销售量" header-right-content="共 {{market.total}} 件" expandIcon>
+      <t-cell wx:for="{{market.list}}" wx:key="index" t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{item.batch}}" note="{{item.otype?'进':'出'}}" />
     </t-collapse-panel>
   </t-collapse>
 
   <!-- 履约数据 -->
   <view class="divider-line" />
   <t-collapse value="{{collapseValues}}" class="report-list" bind:change="handleCollapseChange">
-    <t-collapse-panel value="{{2}}" header="履约量" header-right-content="{{storage.applyTime2}}" expandIcon>
-      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="履约出货" note="{{item.applyTime2}}" />
-      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="履约退货" note="{{item.applyTime2}}" />
+    <t-collapse-panel value="{{2}}" header="履约量" header-right-content="共 {{agreement.total}} 单" expandIcon>
+      <t-cell wx:for="{{agreement.list}}" wx:key="index" t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{item.otype?'履约出货':'履约退货'}}" note="{{item.batch}}" />
     </t-collapse-panel>
   </t-collapse>
 
   <!-- 生产数据 -->
   <view class="divider-line" />
   <t-collapse value="{{collapseValues}}" class="report-list" bind:change="handleCollapseChange">
-    <t-collapse-panel value="{{3}}" header="生产量" header-right-content="{{storage.applyTime2}}" expandIcon>
-      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="生产完成" note="{{item.applyTime2}}" />
-      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="生产消耗" note="{{item.applyTime2}}" />
+    <t-collapse-panel value="{{3}}" header="生产量" header-right-content="共 {{product.total}} 单" expandIcon>
+      <t-cell wx:for="{{product.list}}" wx:key="index" t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{item.otype?'生产消耗':'生产完成'}}" note="{{item.batch}}" />
     </t-collapse-panel>
   </t-collapse>
 
   <!-- 进货数据 -->
   <view class="divider-line" />
   <t-collapse value="{{collapseValues}}" class="report-list" bind:change="handleCollapseChange">
-    <t-collapse-panel value="{{4}}" header="仓储进货" header-right-content="{{storage.applyTime2}}" expandIcon>
-      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="仓储退货" note="{{storage.applyTime2}}" />
+    <t-collapse-panel value="{{4}}" header="仓储进货" header-right-content="共 {{storage.total}} 单" expandIcon>
+      <t-cell wx:for="{{storage.list}}" wx:key="index" t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{item.otype?'仓储退货':'仓储进货'}}" note="{{item.batch}}" />
     </t-collapse-panel>
   </t-collapse>
 
   <!-- 库存数据 -->
   <view class="divider-line" />
   <t-collapse value="{{collapseValues}}" class="report-list" bind:change="handleCollapseChange">
-    <t-collapse-panel value="{{5}}" header="总库存量" header-right-content="{{storage.applyTime2}}" expandIcon>
-      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{storage.in}}" note="{{item.applyTime2}}" />
+    <t-collapse-panel value="{{5}}" header="总库存量" header-right-content="共 {{stock.total}} 件" expandIcon>
+      <t-cell wx:for="{{stock.list}}" wx:key="index" t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.total}}" />
     </t-collapse-panel>
   </t-collapse>
   <view class="divider-line" style="height: 100rpx;" />

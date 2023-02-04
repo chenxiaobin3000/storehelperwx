@@ -54,7 +54,7 @@ Page({
     wx.hideHomeButton()
     const app = getApp()
     getGroupAllStorage(this, {
-      id: app.globalData.user.id,
+      id: app.globalData.user.id
     }, data => {
       const list = []
       data.list.forEach(v => {
@@ -255,7 +255,6 @@ Page({
     } else {
       value = 0
     }
-    console.log(value)
     this.setData({
       orderVisible: false,
       orderType: value,
