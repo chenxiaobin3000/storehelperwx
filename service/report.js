@@ -4,6 +4,6 @@ import {
 } from './service'
 const preUrl = baseUrl + 'report'
 
-export function getToday(that, params, success) {
-  return post(`${preUrl}/getToday`, that, params, success)
+export function getTodayReport(that, params, success) {
+  return post(`${preUrl}/getTodayReport`, that, params, success)
 }

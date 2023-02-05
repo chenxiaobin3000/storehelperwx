@@ -2,7 +2,7 @@ import {
   relogin
 } from '../../util/util'
 import {
-  getToday
+  getTodayReport
 } from '../../service/report'
 Page({
   data: {
@@ -45,7 +45,7 @@ Page({
   },
   getReport() {
     const that = this.data
-    getToday(this, {
+    getTodayReport(this, {
       id: that.id,
       gid: that.gid
     }, data => {
