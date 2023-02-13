@@ -7,7 +7,7 @@ let baseUrl = ''
 if (typeof __wxConfig == 'object') {
   const version = __wxConfig.envVersion;
   if (version == 'develop') {
-    baseUrl = 'http://192.168.0.100:8080/api/'
+    baseUrl = 'http://127.0.0.1:8080/api/'
   } else if (version == 'trial') {
     baseUrl = 'https://www.jishuzhushou.com/api/'
   } else if (version == 'release') {
