@@ -78,7 +78,7 @@
 
         <!-- 凭证列表 -->
         <t-collapse-panel wx:if="{{orderType!==0}}" header="凭证列表 (最多{{maxUpload}}张)" value="{{6}}" expandIcon>
-          <t-upload media-type="{{['image']}}" max="{{maxUpload}}" files="{{uploadFiles}}" gridConfig="{{gridConfig}}" bind:success="handleSuccess" bind:remove="handleRemove" />
+          <t-upload media-type="{{['image']}}" max="{{maxUpload}}" files="{{uploadFiles}}" gridConfig="{{gridConfig}}" size-type="compressed" bind:success="handleSuccess" bind:remove="handleRemove" />
         </t-collapse-panel>
       </t-collapse>
 

@@ -1,6 +1,5 @@
 import {
-  baseUrl,
-  post
+  baseUrl
 } from './service'
 const preUrl = baseUrl + 'upload'
 
