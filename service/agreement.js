@@ -20,18 +20,18 @@ export function reviewShipped(that, params, success) {
   return post(`${preUrl}/reviewShipped`, that, params, success)
 }
 
-export function returnc(that, params, success) {
+export function areturn(that, params, success) {
   return post(`${preUrl}/returnc`, that, params, success)
 }
 
-export function setReturn(that, params, success) {
+export function setAReturn(that, params, success) {
   return post(`${preUrl}/setReturn`, that, params, success)
 }
 
-export function delReturn(that, params, success) {
+export function delAReturn(that, params, success) {
   return post(`${preUrl}/delReturn`, that, params, success)
 }
 
-export function reviewReturn(that, params, success) {
+export function reviewAReturn(that, params, success) {
   return post(`${preUrl}/reviewReturn`, that, params, success)
 }

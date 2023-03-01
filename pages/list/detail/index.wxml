@@ -19,7 +19,7 @@
         </t-cell>
       </t-cell-group>
 
-      <t-collapse value="{{collapseValues}}" style="padding-left: 0;margin-left: 0;" bind:change="handleCollapseChange">
+      <t-collapse value="{{collapseValues}}" style="padding-left:0; margin-left:0;" bind:change="handleCollapseChange">
         <!-- 商品列表 -->
         <t-collapse-panel wx:if="{{commoditys.length>0}}" header="商品列表 ({{commoditys.length}}件)" value="{{1}}" header-right-content="价格 / 数量" expandIcon>
           <t-cell wx:for="{{commoditys}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" hover />

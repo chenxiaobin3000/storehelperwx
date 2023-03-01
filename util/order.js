@@ -1,19 +1,61 @@
 export default [{
-  label: '仓储入库订单',
-  value: 1
+  label: '采购进货订单',
+  value: 1,
+  apply: 12
+}, {
+  label: '采购退货订单',
+  value: 2,
+  apply: 13
+}, {
+  label: '仓储采购入库订单',
+  value: 3,
+  apply: 16
+}, {
+  label: '仓储调度出库订单',
+  value: 4,
+  apply: 17
+}, {
+  label: '仓储调度入库订单',
+  value: 5,
+  apply: 18
+}, {
+  label: '仓储损耗订单',
+  value: 6,
+  apply: 19
 }, {
   label: '仓储退货订单',
-  value: 2
+  value: 7,
+  apply: 20
 }, {
-  label: '生产出库订单',
-  value: 4
+  label: '生产开始订单',
+  value: 8,
+  apply: 26
 }, {
   label: '生产完成订单',
-  value: 3
+  value: 9,
+  apply: 27
 }, {
-  label: '履约出货订单',
-  value: 6
+  label: '生产损耗订单',
+  value: 10,
+  apply: 28
 }, {
-  label: '履约退货订单',
-  value: 5
+  label: '履约入库订单',
+  value: 11,
+  apply: 31
+}, {
+  label: '履约出库订单',
+  value: 12,
+  apply: 32
+}, {
+  label: '云仓入库订单',
+  value: 13,
+  apply: 36
+}, {
+  label: '云仓退货订单',
+  value: 14,
+  apply: 37
+}, {
+  label: '云仓损耗订单',
+  value: 16,
+  apply: 39
 }]

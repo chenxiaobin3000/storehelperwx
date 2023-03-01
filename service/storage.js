@@ -8,23 +8,71 @@ export function getGroupAllStorage(that, params, success) {
   return post(`${preUrl}/getGroupAllStorage`, that, params, success)
 }
 
-export function purchase(that, params, success) {
+export function spurchase(that, params, success) {
   return post(`${preUrl}/purchase`, that, params, success)
 }
 
-export function setPurchase(that, params, success) {
+export function setSPurchase(that, params, success) {
   return post(`${preUrl}/setPurchase`, that, params, success)
 }
 
-export function delPurchase(that, params, success) {
+export function delSPurchase(that, params, success) {
   return post(`${preUrl}/delPurchase`, that, params, success)
 }
 
-export function reviewPurchase(that, params, success) {
+export function reviewSPurchase(that, params, success) {
   return post(`${preUrl}/reviewPurchase`, that, params, success)
 }
 
-export function sreturnc(that, params, success) {
+export function dispatch(that, params, success) {
+  return post(`${preUrl}/dispatch`, that, params, success)
+}
+
+export function setDispatch(that, params, success) {
+  return post(`${preUrl}/setDispatch`, that, params, success)
+}
+
+export function delDispatch(that, params, success) {
+  return post(`${preUrl}/delDispatch`, that, params, success)
+}
+
+export function reviewDispatch(that, params, success) {
+  return post(`${preUrl}/reviewDispatch`, that, params, success)
+}
+
+export function purchase2(that, params, success) {
+  return post(`${preUrl}/purchase`, that, params, success)
+}
+
+export function setPurchase2(that, params, success) {
+  return post(`${preUrl}/setPurchase`, that, params, success)
+}
+
+export function delPurchase2(that, params, success) {
+  return post(`${preUrl}/delPurchase`, that, params, success)
+}
+
+export function reviewPurchase2(that, params, success) {
+  return post(`${preUrl}/reviewPurchase`, that, params, success)
+}
+
+export function sloss(that, params, success) {
+  return post(`${preUrl}/loss`, that, params, success)
+}
+
+export function setSLoss(that, params, success) {
+  return post(`${preUrl}/setLoss`, that, params, success)
+}
+
+export function delSLoss(that, params, success) {
+  return post(`${preUrl}/delLoss`, that, params, success)
+}
+
+export function reviewSLoss(that, params, success) {
+  return post(`${preUrl}/reviewLoss`, that, params, success)
+}
+
+export function sreturn(that, params, success) {
   return post(`${preUrl}/returnc`, that, params, success)
 }
 

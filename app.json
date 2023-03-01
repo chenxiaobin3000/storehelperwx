@@ -4,6 +4,7 @@
     "pages/report/index",
     "pages/add/index",
     "pages/add/edit/index",
+    "pages/add/editp/index",
     "pages/list/index",
     "pages/list/detail/index",
     "pages/me/index",

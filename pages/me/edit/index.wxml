@@ -15,17 +15,16 @@
           <t-picker-item options="{{storages}}" />
         </t-picker>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="批次">
-          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{batch}}" maxlength="16" placeholder="请输入进货批次号" data-item="batch" bind:change="onInputValue" />
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{batch}}" maxlength="16" placeholder="请输入进货批次号" />
         </t-cell>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="日期" bind:tap="showDatePicker">
-          <view wx:if="{{dateText.length > 0}}" class="field-text" slot="note">{{dateText}}</view>
-          <view wx:else slot="note">请点击选择制单日期</view>
+          <view class="field-text" slot="note">{{dateText}}</view>
         </t-cell>
         <t-date-time-picker title="选择日期" visible="{{dateVisible}}" mode="date" defaultValue="{{date}}" format="YYYY-MM-DD" bindchange="onDateConfirm" bindcancel="hideDatePicker" start="{{'2023-01-01 00:00:00'}}" end="{{'2025-12-31 23:00:00'}}" />
         <view class="divider-line" />
       </t-cell-group>
 
-      <t-collapse value="{{collapseValues}}" style="padding-left: 0;margin-left: 0;" bind:change="handleCollapseChange">
+      <t-collapse value="{{collapseValues}}" style="padding-left:0; margin-left:0;" bind:change="handleCollapseChange">
         <!-- 商品列表 -->
         <t-collapse-panel wx:if="{{orderType===3||orderType===5||orderType===6}}" header="商品列表 ({{commoditys.length}}件)" value="{{1}}" header-right-content="价格 / 数量" expandIcon>
           <swipeout wx:for="{{commoditys}}" wx:key="id" right-width="{{rightWidth}}">

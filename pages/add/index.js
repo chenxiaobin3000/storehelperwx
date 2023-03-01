@@ -6,16 +6,29 @@ import {
 } from '../../util/util'
 import {
   shipped,
-  returnc
+  areturn
 } from '../../service/agreement'
 import {
+  cpurchase,
+  closs,
+  creturn
+} from '../../service/cloud'
+import {
   process,
-  complete
+  complete,
+  ploss
 } from '../../service/product'
 import {
-  getGroupAllStorage,
   purchase,
-  sreturnc
+  preturn
+} from '../../service/purchase'
+import {
+  getGroupAllStorage,
+  spurchase,
+  dispatch,
+  purchase2,
+  loss,
+  sreturn
 } from '../../service/storage'
 import {
   addAttach
@@ -25,12 +38,12 @@ Page({
     orderType: 0,
     orderVisible: false,
     orderValue: [],
-    orders: OrderData,
+    orders: [],
+    orderShow: [],
     sid: 0,
     storageVisible: false,
     storageValue: [],
     storages: [],
-    batch: '',
     dateVisible: false,
     date: new Date().getTime(),
     dateText: '',
@@ -38,7 +51,6 @@ Page({
     halfgoods: [],
     originals: [],
     standards: [],
-    destroys: [],
     uploadFiles: [],
     collapseValues: [],
     submitActive: false,
@@ -64,9 +76,11 @@ Page({
         })
       })
       this.setData({
-        storages: list
+        storages: list,
+        dateText: formatTime(this.date, 'YYYY-MM-DD HH:mm:ss')
       })
     })
+    this.filterOrder(app.globalData.perms)
   },
   onShow() {
     this.getTabBar().init()
@@ -157,27 +171,6 @@ Page({
         this.setData({
           standards: this.data.standards
         })
-      } else if (temp.action === 'destroy') {
-        // 添加废料
-        let find = false
-        this.data.destroys.forEach(v => {
-          if (v.id === temp.commodity.id) {
-            v.price = temp.price
-            v.num = temp.num
-            find = true
-          }
-        })
-        if (!find) {
-          this.data.destroys.push({
-            id: temp.commodity.id,
-            name: temp.commodity.name,
-            price: temp.price,
-            num: temp.num
-          })
-        }
-        this.setData({
-          destroys: this.data.destroys
-        })
       }
       app.globalData.temp = {}
       this.checkSubmitActive()
@@ -191,7 +184,6 @@ Page({
       sid: 0,
       storageVisible: false,
       storageValue: [],
-      batch: '',
       dateVisible: false,
       date: new Date().getTime(),
       dateText: '',
@@ -199,10 +191,22 @@ Page({
       halfgoods: [],
       originals: [],
       standards: [],
-      destroys: [],
       uploadFiles: [],
       collapseValues: [],
       submitActive: false,
+    })
+  },
+  filterOrder(perms) {
+    const orders = []
+    perms.forEach(p => {
+      OrderData.forEach(v => {
+        if (p == v.apply) {
+          orders.push(v)
+        }
+      })
+    })
+    this.setData({
+      orders
     })
   },
   checkSubmitActive() {
@@ -221,12 +225,10 @@ Page({
     }
 
     if (that.commoditys.length > 0 || that.halfgoods.length > 0 ||
-      that.originals.length > 0 || that.standards.length > 0 ||
-      that.destroys.length > 0) {
+      that.originals.length > 0 || that.standards.length > 0) {
       check = true
     }
-    if (check && that.orderValue.length > 0 && that.storageValue.length > 0 &&
-      that.batch.length > 0 && that.dateText.length > 0) {
+    if (check && that.orderValue.length > 0 && that.storageValue.length > 0 && that.dateText.length > 0) {
       this.setData({
         submitActive: true
       })
@@ -235,12 +237,6 @@ Page({
         submitActive: false
       })
     }
-  },
-  onInputValue(event) {
-    this.setData({
-      [`${event.currentTarget.dataset.item}`]: event.detail.value
-    })
-    this.checkSubmitActive()
   },
   // 订单类型选择
   onOrderPicker() {
@@ -255,10 +251,41 @@ Page({
     } else {
       value = 0
     }
+    let orderShow = []
+    switch (value) {
+      case 1: // 采购进货
+      case 2: // 采购退货
+      case 3: // 仓储采购
+      case 7: // 仓储退货
+        orderShow = [1, 0, 1, 0]
+        break
+      case 4: // 调度出库
+      case 5: // 调度入库
+      case 6: // 仓储损耗
+        orderShow = [1, 1, 1, 1]
+        break
+      case 8: // 生产开始
+        orderShow = [0, 0, 1, 1]
+        break
+      case 9: // 生产完成
+      case 10: // 生产损耗
+        orderShow = [0, 1, 1, 1]
+        break
+      case 11: // 履约入库
+      case 12: // 履约出库
+      case 13: // 云仓入库
+      case 14: // 云仓退货
+      case 16: // 云仓损耗
+        orderShow = [1, 1, 0, 0]
+        break
+      default:
+        break
+    }
     this.setData({
       orderVisible: false,
       orderType: value,
-      orderValue: event.detail.label
+      orderValue: event.detail.label,
+      orderShow: orderShow
     })
     this.checkSubmitActive()
   },
@@ -323,14 +350,10 @@ Page({
       price,
       num
     } = event.currentTarget.dataset.value
-    wx.navigateTo({
-      url: `/pages/add/edit/index?type=1&id=${id}&price=${price}&num=${num}`
-    })
+    this.jumpAdd(1, id, price, num)
   },
   addCommodity() {
-    wx.navigateTo({
-      url: '/pages/add/edit/index?type=1&id=0'
-    })
+    this.jumpAdd(1, 0, 0, 0)
   },
   delCommodity(event) {
     const id = event.currentTarget.dataset.value.id
@@ -351,14 +374,10 @@ Page({
       price,
       num
     } = event.currentTarget.dataset.value
-    wx.navigateTo({
-      url: `/pages/add/edit/index?type=2&id=${id}&price=${price}&num=${num}`
-    })
+    this.jumpAdd(2, id, price, num)
   },
   addHalfgood() {
-    wx.navigateTo({
-      url: '/pages/add/edit/index?type=2&id=0'
-    })
+    this.jumpAdd(2, 0, 0, 0)
   },
   delHalfgood(event) {
     const id = event.currentTarget.dataset.value.id
@@ -379,14 +398,10 @@ Page({
       price,
       num
     } = event.currentTarget.dataset.value
-    wx.navigateTo({
-      url: `/pages/add/edit/index?type=3&id=${id}&price=${price}&num=${num}`
-    })
+    this.jumpAdd(3, id, price, num)
   },
   addOriginal() {
-    wx.navigateTo({
-      url: '/pages/add/edit/index?type=3&id=0'
-    })
+    this.jumpAdd(3, 0, 0, 0)
   },
   delOriginal(event) {
     const id = event.currentTarget.dataset.value.id
@@ -407,14 +422,10 @@ Page({
       price,
       num
     } = event.currentTarget.dataset.value
-    wx.navigateTo({
-      url: `/pages/add/edit/index?type=4&id=${id}&price=${price}&num=${num}`
-    })
+    this.jumpAdd(4, id, price, num)
   },
   addStandard() {
-    wx.navigateTo({
-      url: '/pages/add/edit/index?type=4&id=0'
-    })
+    this.jumpAdd(4, 0, 0, 0)
   },
   delStandard(event) {
     const id = event.currentTarget.dataset.value.id
@@ -429,33 +440,35 @@ Page({
     })
     this.checkSubmitActive()
   },
-  setDestroy(event) {
-    const {
-      id,
-      price,
-      num
-    } = event.currentTarget.dataset.value
-    wx.navigateTo({
-      url: `/pages/add/edit/index?type=5&id=${id}&price=${price}&num=${num}`
-    })
-  },
-  addDestroy() {
-    wx.navigateTo({
-      url: '/pages/add/edit/index?type=5&id=0'
-    })
-  },
-  delDestroy(event) {
-    const id = event.currentTarget.dataset.value.id
-    let list = []
-    this.data.destroys.forEach(v => {
-      if (v.id !== id) {
-        list.push(v)
-      }
-    })
-    this.setData({
-      destroys: list
-    })
-    this.checkSubmitActive()
+  jumpAdd(type, id, price, num) {
+    const that = this.data
+    switch (that.orderType) {
+      case 1: // 采购进货
+      case 2: // 采购退货
+      case 7: // 仓储退货
+      case 14: // 云仓退货
+        wx.navigateTo({
+          url: `/pages/add/editp/index?type=${type}&id=${id}&price=${price}&num=${num}`
+        })
+        break;
+      case 3: // 仓储采购
+      case 4: // 调度出库
+      case 5: // 调度入库
+      case 6: // 仓储损耗
+      case 8: // 生产开始
+      case 9: // 生产完成
+      case 10: // 生产损耗
+      case 11: // 履约发货
+      case 12: // 履约退货
+      case 13: // 云仓入库
+      case 16: // 云仓损耗
+        wx.navigateTo({
+          url: `/pages/add/edit/index?type=${type}&id=${id}&num=${num}`
+        })
+        break;
+      default:
+        break;
+    }
   },
   // 上传
   handleSuccess(event) {
@@ -514,7 +527,6 @@ Page({
       id: app.globalData.user.id,
       gid: app.globalData.group.id,
       sid: that.sid,
-      batch: that.batch,
       date: that.dateText,
       types: [],
       commoditys: [],
@@ -546,129 +558,63 @@ Page({
       data.values.push(v.num)
       data.prices.push(v.price)
     })
-    that.destroys.forEach(v => {
-      data.types.push(5)
-      data.commoditys.push(v.id)
-      data.values.push(v.num)
-      data.prices.push(v.price)
-    })
     that.uploadFiles.forEach(v => {
       data.attrs.push(v.id)
     })
 
     switch (that.orderType) {
-      case 1:
-        if (that.commoditys.length > 0) {
-          myToast(this, '仓储入库不能包含商品')
-          return
-        }
-        if (that.halfgoods.length > 0) {
-          myToast(this, '仓储入库不能包含半成品')
-          return
-        }
-        if (that.destroys.length > 0) {
-          myToast(this, '仓储入库不能包含废料')
-          return
-        }
-        purchase(this, data, () => {
-          this.reset()
-          wx.switchTab({
-            url: '/pages/me/index'
-          })
-        })
+      case 1: // 采购进货
+        purchase(this, data, this.handleSubmit)
         break
-      case 2:
-        if (that.commoditys.length > 0) {
-          myToast(this, '仓储退货不能包含商品')
-          return
-        }
-        if (that.halfgoods.length > 0) {
-          myToast(this, '仓储退货不能包含半成品')
-          return
-        }
-        if (that.destroys.length > 0) {
-          myToast(this, '仓储退货不能包含废料')
-          return
-        }
-        sreturnc(this, data, () => {
-          this.reset()
-          wx.switchTab({
-            url: '/pages/me/index'
-          })
-        })
+      case 2: // 采购退货
+        preturn(this, data, this.handleSubmit)
         break
-      case 4:
-        if (that.commoditys.length > 0) {
-          myToast(this, '生产出库不能包含商品')
-          return
-        }
-        if (that.standards.length > 0) {
-          myToast(this, '生产出库不能包含标品')
-          return
-        }
-        if (that.destroys.length > 0) {
-          myToast(this, '生产出库不能包含废料')
-          return
-        }
-        process(this, data, () => {
-          this.reset()
-          wx.switchTab({
-            url: '/pages/me/index'
-          })
-        })
+      case 3: // 仓储采购
+        spurchase(this, data, this.handleSubmit)
         break
-      case 3:
-        if (that.standards.length > 0) {
-          myToast(this, '生产完成不能包含标品')
-          return
-        }
-        complete(this, data, () => {
-          this.reset()
-          wx.switchTab({
-            url: '/pages/me/index'
-          })
-        })
-      case 6:
-        if (that.originals.length > 0) {
-          myToast(this, '履约出货不能包含原料')
-          return
-        }
-        if (that.halfgoods.length > 0) {
-          myToast(this, '履约出货不能包含半成品')
-          return
-        }
-        if (that.destroys.length > 0) {
-          myToast(this, '履约出货不能包含废料')
-          return
-        }
-        shipped(this, data, () => {
-          this.reset()
-          wx.switchTab({
-            url: '/pages/me/index'
-          })
-        })
+      case 4: // 调度出库
+        dispatch(this, data, this.handleSubmit)
         break
-      case 5:
-        if (that.originals.length > 0) {
-          myToast(this, '履约退货不能包含原料')
-          return
-        }
-        if (that.halfgoods.length > 0) {
-          myToast(this, '履约退货不能包含半成品')
-          return
-        }
-        if (that.destroys.length > 0) {
-          myToast(this, '履约退货不能包含废料')
-          return
-        }
-        returnc(this, data, () => {
-          this.reset()
-          wx.switchTab({
-            url: '/pages/me/index'
-          })
-        })
+      case 5: // 调度入库
+        purchase2(this, data, this.handleSubmit)
+        break
+      case 6: // 仓储损耗
+        sloss(this, data, this.handleSubmit)
+        break
+      case 7: // 仓储退货
+        sreturn(this, data, this.handleSubmit)
+        break
+      case 8: // 生产开始
+        process(this, data, this.handleSubmit)
+        break
+      case 9: // 生产完成
+        complete(this, data, this.handleSubmit)
+        break
+      case 10: // 生产损耗
+        ploss(this, data, this.handleSubmit)
+        break
+      case 11: // 履约发货
+        shipped(this, data, this.handleSubmit)
+        break
+      case 12: // 履约退货
+        areturn(this, data, this.handleSubmit)
+        break
+      case 13: // 云仓入库
+        cpurchase(this, data, this.handleSubmit)
+        break
+      case 14: // 云仓退货
+        creturn(this, data, this.handleSubmit)
+        break
+      case 16: // 云仓损耗
+        closs(this, data, this.handleSubmit)
         break
     }
+  },
+  handleSubmit() {
+    this.reset()
+    wx.switchTab({
+      url: '/pages/me/index'
+    })
   },
   relogin() {
     relogin()

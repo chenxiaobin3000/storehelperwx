@@ -301,8 +301,7 @@ Page({
       that.destroys.length > 0) {
       check = true
     }
-    if (check && that.orderValue.length > 0 && that.storageValue.length > 0 &&
-      that.batch.length > 0 && that.dateText.length > 0) {
+    if (check && that.orderValue.length > 0 && that.storageValue.length > 0 && that.dateText.length > 0) {
       this.setData({
         submitActive: true
       })
@@ -311,12 +310,6 @@ Page({
         submitActive: false
       })
     }
-  },
-  onInputValue(event) {
-    this.setData({
-      [`${event.currentTarget.dataset.item}`]: event.detail.value
-    })
-    this.checkSubmitActive()
   },
   // 仓库选择
   onStoragePicker() {
@@ -565,7 +558,6 @@ Page({
       gid: app.globalData.group.id,
       oid: that.orderId,
       sid: that.sid,
-      batch: that.batch,
       date: that.dateText,
       types: [],
       commoditys: [],

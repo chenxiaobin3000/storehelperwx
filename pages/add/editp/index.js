@@ -26,6 +26,7 @@ Page({
     commodityVisible: false,
     commodityValue: {},
     commoditys: [],
+    price: 0,
     num: 0,
     submitActive: false,
     nameText: '商品',
@@ -38,9 +39,10 @@ Page({
       type: parseInt(options.type),
       id: parseInt(options.id)
     })
-    if (options.num > 0) {
+    if (options.price > 0 && options.num > 0) {
       this.setData({
         lock: true,
+        price: options.price,
         num: options.num,
         submitActive: true,
         btnText: '修 改'
@@ -89,7 +91,7 @@ Page({
   },
   checkSubmitActive() {
     const that = this.data
-    if (that.commodityValue && that.commodityValue.id && that.num > 0) {
+    if (that.commodityValue && that.commodityValue.id && that.price > 0 && that.num > 0) {
       this.setData({
         submitActive: true
       })
@@ -149,6 +151,7 @@ Page({
       app.globalData.temp = {
         action: action,
         commodity: that.commodityValue,
+        price: that.price,
         num: that.num
       }
       wx.navigateBack()
