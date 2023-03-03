@@ -3,7 +3,7 @@
     <form class="form-content">
       <t-cell-group>
         <view class="divider-line" />
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{nameText}}" bind:tap="onCommodityPicker">
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="批次" bind:tap="onCommodityPicker">
           <view wx:if="{{commodityValue && commodityValue.id}}" class="field-text" slot="note">{{commodityValue.name}}</view>
           <view wx:else slot="note">请点击选择{{nameText}}</view>
         </t-cell>
@@ -22,23 +22,5 @@
       </view>
     </form>
   </view>
-</view>
-
-<view wx-if="{{!lock}}" class="home-page-header">
-  <t-search model:value="{{search}}" t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="请输入要搜索的关键字" leftIcon="">
-    <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
-  </t-search>
-</view>
-<view wx-if="{{!lock}}" class="home-page-container">
-  <view wx:if="{{commodityList.length > 0}}">
-    <t-cell-group wx:for="{{commodityList}}" wx:key="index" class="order-list">
-      <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.code}}" data-value="{{item}}" bind:tap="clickCommodity" hover />
-    </t-cell-group>
-  </view>
-  <view wx:else class="no-order">
-    <t-empty icon="" description="没有查询到相关{{nameText}}信息" />
-  </view>
-  <load-more list-is-empty="{{!commodityList.length}}" status="{{commodityListLoadStatus}}" />
-  <t-back-top wx:if="{{backTopVisible}}" />
 </view>
 <t-message id="t-message" bind:actionBtnClick="relogin" />

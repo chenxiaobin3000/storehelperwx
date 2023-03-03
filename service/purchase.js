@@ -4,6 +4,10 @@ import {
 } from './service'
 const preUrl = baseUrl + 'purchase'
 
+export function getPurchaseOrder(that, params, success) {
+  return post(`${preUrl}/getPurchaseOrder`, that, params, success)
+}
+
 export function purchase(that, params, success) {
   return post(`${preUrl}/purchase`, that, params, success)
 }
@@ -29,7 +33,7 @@ export function setPReturn(that, params, success) {
 }
 
 export function delPReturn(that, params, success) {
-  return post(`${preUrl}/delPReturn`, that, params, success)
+  return post(`${preUrl}/delReturn`, that, params, success)
 }
 
 export function reviewPReturn(that, params, success) {

@@ -11,18 +11,26 @@
         <t-picker visible="{{orderVisible}}" value="{{orderValue}}" title="请选择订单类型" cancelBtn="取消" confirmBtn="确认" bindchange="onOrderChange" bindcancel="onOrderCancel">
           <t-picker-item options="{{orders}}" />
         </t-picker>
-        <!-- 仓库选择 -->
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="仓库" bind:tap="onStoragePicker">
-          <view wx:if="{{storageValue.length > 0}}" class="field-text" slot="note">{{storageValue}}</view>
-          <view wx:else slot="note">请点击选择仓库</view>
-        </t-cell>
-        <t-picker visible="{{storageVisible}}" value="{{storageValue}}" title="请选择仓库" cancelBtn="取消" confirmBtn="确认" bindchange="onStorageChange" bindcancel="onStorageCancel">
-          <t-picker-item options="{{storages}}" />
-        </t-picker>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="日期" bind:tap="showDatePicker">
           <view class="field-text" slot="note">{{dateText}}</view>
         </t-cell>
         <t-date-time-picker title="选择日期" visible="{{dateVisible}}" mode="date" defaultValue="{{date}}" format="YYYY-MM-DD" bindchange="onDateConfirm" bindcancel="hideDatePicker" start="{{'2023-01-01 00:00:00'}}" end="{{'2025-12-31 23:00:00'}}" />
+        <!-- 仓库选择 -->
+        <div wx-if="{{orderShow[4]===1}}">
+          <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="仓库" bind:tap="onStoragePicker">
+            <view wx:if="{{storageValue.length > 0}}" class="field-text" slot="note">{{storageValue}}</view>
+            <view wx:else slot="note">请点击选择仓库</view>
+          </t-cell>
+          <t-picker visible="{{storageVisible}}" value="{{storageValue}}" title="请选择仓库" cancelBtn="取消" confirmBtn="确认" bindchange="onStorageChange" bindcancel="onStorageCancel">
+            <t-picker-item options="{{storages}}" />
+          </t-picker>
+        </div>
+        <div wx-if="{{orderShow[4]===0}}">
+          <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="采购单" hover bind:tap="selectPurchase">
+            <view wx:if="{{purchaseValue.length > 0}}" class="field-text" slot="note">{{purchaseValue}}</view>
+            <view wx:else slot="note">请点击选择采购单</view>
+          </t-cell>
+        </div>
         <view class="divider-line" />
       </t-cell-group>
 

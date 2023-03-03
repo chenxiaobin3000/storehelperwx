@@ -27,7 +27,7 @@ import {
   spurchase,
   dispatch,
   purchase2,
-  loss,
+  sloss,
   sreturn
 } from '../../service/storage'
 import {
@@ -37,16 +37,18 @@ Page({
   data: {
     orderType: 0,
     orderVisible: false,
-    orderValue: [],
+    orderValue: '',
     orders: [],
     orderShow: [],
-    sid: 0,
-    storageVisible: false,
-    storageValue: [],
-    storages: [],
     dateVisible: false,
     date: new Date().getTime(),
     dateText: '',
+    sid: 0,
+    storageVisible: false,
+    storageValue: '',
+    storages: [],
+    pid: 0,
+    purchaseValue: '',
     commoditys: [],
     halfgoods: [],
     originals: [],
@@ -57,7 +59,7 @@ Page({
     gridConfig: {
       column: 4,
       width: 160,
-      height: 160,
+      height: 160
     },
     maxUpload: 3,
     rightWidth: 60
@@ -76,14 +78,16 @@ Page({
         })
       })
       this.setData({
-        storages: list,
-        dateText: formatTime(this.date, 'YYYY-MM-DD HH:mm:ss')
+        storages: list
       })
     })
     this.filterOrder(app.globalData.perms)
   },
   onShow() {
     this.getTabBar().init()
+    this.setData({
+      dateText: formatTime(this.date, 'YYYY-MM-DD HH:mm:ss')
+    })
     const app = getApp()
     const temp = app.globalData.temp
     if (temp) {
@@ -171,6 +175,16 @@ Page({
         this.setData({
           standards: this.data.standards
         })
+      } else if (temp.action === 'purchase') {
+        // 进货单
+        this.setData({
+          pid: temp.id,
+          purchaseValue: temp.value,
+          commoditys: temp.commoditys,
+          halfgoods: temp.halfgoods,
+          originals: temp.originals,
+          standards: temp.standards
+        })
       }
       app.globalData.temp = {}
       this.checkSubmitActive()
@@ -180,13 +194,16 @@ Page({
     this.setData({
       orderType: 0,
       orderVisible: false,
-      orderValue: [],
-      sid: 0,
-      storageVisible: false,
-      storageValue: [],
+      orderValue: '',
+      orderShow: [],
       dateVisible: false,
       date: new Date().getTime(),
       dateText: '',
+      sid: 0,
+      storageVisible: false,
+      storageValue: '',
+      pid: 0,
+      purchaseValue: '',
       commoditys: [],
       halfgoods: [],
       originals: [],
@@ -226,9 +243,18 @@ Page({
 
     if (that.commoditys.length > 0 || that.halfgoods.length > 0 ||
       that.originals.length > 0 || that.standards.length > 0) {
-      check = true
+      if (that.orderShow[4] === 1) {
+        if (that.storageValue.length > 0) {
+          check = true
+        }
+      } else {
+        if (that.purchaseValue.length > 0) {
+          check = true
+        }
+      }
     }
-    if (check && that.orderValue.length > 0 && that.storageValue.length > 0 && that.dateText.length > 0) {
+
+    if (check && that.orderValue.length > 0 && that.dateText.length > 0) {
       this.setData({
         submitActive: true
       })
@@ -254,29 +280,33 @@ Page({
     let orderShow = []
     switch (value) {
       case 1: // 采购进货
-      case 2: // 采购退货
       case 3: // 仓储采购
+        orderShow = [1, 0, 1, 0, 1]
+        break
+      case 2: // 采购退货
       case 7: // 仓储退货
-        orderShow = [1, 0, 1, 0]
+        orderShow = [1, 0, 1, 0, 0]
         break
       case 4: // 调度出库
       case 5: // 调度入库
       case 6: // 仓储损耗
-        orderShow = [1, 1, 1, 1]
+        orderShow = [1, 1, 1, 1, 1]
         break
       case 8: // 生产开始
-        orderShow = [0, 0, 1, 1]
+        orderShow = [0, 0, 1, 1, 1]
         break
       case 9: // 生产完成
       case 10: // 生产损耗
-        orderShow = [0, 1, 1, 1]
+        orderShow = [0, 1, 1, 1, 1]
         break
       case 11: // 履约入库
       case 12: // 履约出库
       case 13: // 云仓入库
-      case 14: // 云仓退货
       case 16: // 云仓损耗
-        orderShow = [1, 1, 0, 0]
+        orderShow = [1, 1, 0, 0, 1]
+        break
+      case 14: // 云仓退货
+        orderShow = [1, 1, 0, 0, 0]
         break
       default:
         break
@@ -293,6 +323,25 @@ Page({
     this.setData({
       orderVisible: false
     })
+  },
+  // 日期选择
+  showDatePicker() {
+    this.setData({
+      dateVisible: true
+    })
+  },
+  hideDatePicker() {
+    this.setData({
+      dateVisible: false
+    })
+  },
+  onDateConfirm(event) {
+    const date = formatTime(new Date(), ' HH:mm:ss')
+    this.setData({
+      dateVisible: false,
+      dateText: event.detail.value + date
+    })
+    this.checkSubmitActive()
   },
   // 仓库选择
   onStoragePicker() {
@@ -319,29 +368,15 @@ Page({
       storageVisible: false
     })
   },
-  // 日期选择
-  showDatePicker() {
-    this.setData({
-      dateVisible: true
-    })
-  },
-  hideDatePicker() {
-    this.setData({
-      dateVisible: false
-    })
-  },
-  onDateConfirm(event) {
-    const date = formatTime(new Date(), ' HH:mm:ss')
-    this.setData({
-      dateVisible: false,
-      dateText: event.detail.value + date
-    })
-    this.checkSubmitActive()
-  },
   // 下拉列表
   handleCollapseChange(event) {
     this.setData({
       collapseValues: event.detail.value
+    })
+  },
+  selectPurchase() {
+    wx.navigateTo({
+      url: '/pages/add/purchase/index'
     })
   },
   setCommodity(event) {
@@ -527,6 +562,7 @@ Page({
       id: app.globalData.user.id,
       gid: app.globalData.group.id,
       sid: that.sid,
+      rid: that.pid,
       date: that.dateText,
       types: [],
       commoditys: [],
@@ -607,6 +643,8 @@ Page({
         break
       case 16: // 云仓损耗
         closs(this, data, this.handleSubmit)
+        break
+      default:
         break
     }
   },

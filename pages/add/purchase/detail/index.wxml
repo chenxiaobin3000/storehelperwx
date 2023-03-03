@@ -49,7 +49,7 @@
 
       <view class="submit">
         <t-button t-class="btn-submit theme-wrapper-class" style="margin-left: 6%" bind:tap="clickSubmit">
-          <text space="ensp">结 单</text>
+          <text space="ensp">确 定</text>
         </t-button>
       </view>
     </form>

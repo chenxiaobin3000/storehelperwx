@@ -17,17 +17,14 @@ Page({
     halfgoods: [],
     originals: [],
     standards: [],
-    destroy: [],
     uploadFiles: [],
     collapseValues: [],
     gridConfig: {
       column: 4,
       width: 160,
-      height: 160,
+      height: 160
     },
     maxUpload: 3
-  },
-  onLoad() {
   },
   onShow() {
     const app = getApp()
@@ -45,7 +42,6 @@ Page({
       const halfgoods = []
       const originals = []
       const standards = []
-      const destroys = []
       if (data.comms && data.comms.length > 0) {
         data.comms.forEach(v => {
           const item = {
@@ -68,7 +64,6 @@ Page({
               standards.push(item)
               break
             default:
-              destroys.push(item)
               break
           }
         })
@@ -106,9 +101,6 @@ Page({
       if (halfgoods.length > 0) {
         collapseValues.push(4)
       }
-      if (destroys.length > 0) {
-        collapseValues.push(5)
-      }
       this.setData({
         orderId: data.id,
         orderValue: orderValue,
@@ -120,7 +112,6 @@ Page({
         halfgoods: halfgoods,
         originals: originals,
         standards: standards,
-        destroys: destroys,
         uploadFiles: attrs,
         collapseValues: collapseValues,
         maxUpload: attrs.length

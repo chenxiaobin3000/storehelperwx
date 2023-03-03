@@ -4,40 +4,46 @@ import {
 } from '../../../util/util'
 import {
   getCommodity,
-  getGroupAllCommodity
+  getGroupCommodity
 } from '../../../service/commodity'
 import {
   getHalfgood,
-  getGroupAllHalfgood
+  getGroupHalfgood
 } from '../../../service/halfgood'
 import {
   getOriginal,
-  getGroupAllOriginal
+  getGroupOriginal
 } from '../../../service/original'
 import {
   getStandard,
-  getGroupAllStandard
+  getGroupStandard
 } from '../../../service/standard'
 Page({
   data: {
     lock: false,
     type: 0,
+    cid: 0,
     id: 0,
-    commodityVisible: false,
+    page: 1,
+    pageLimit: 10,
+    search: null,
     commodityValue: {},
-    commoditys: [],
     price: 0,
     num: 0,
     submitActive: false,
-    nameText: '商品',
-    btnText: '添 加'
+    nameText: '',
+    btnText: '添 加',
+    total: 0,
+    commodityList: [],
+    commodityListLoadStatus: 0,
+    backTopVisible: false
   },
   onLoad(options) {
     wx.hideHomeButton()
-    const that = this.data
     this.setData({
       type: parseInt(options.type),
-      id: parseInt(options.id)
+      cid: parseInt(options.id),
+      id: getApp().globalData.user.id
     })
     if (options.price > 0 && options.num > 0) {
       this.setData({
@@ -48,44 +54,81 @@ Page({
         btnText: '修 改'
       })
     }
-
-    // 获取列表
+  },
+  onShow() {
+    this.flushPage()
+  },
+  onPullDownRefresh() {
+    wx.stopPullDownRefresh()
+    this.setData({
+      page: 1,
+      commodityList: []
+    })
+    this.getList()
+  },
+  onReachBottom() {
+    if (this.data.commodityListLoadStatus === 0) {
+      this.getList()
+    }
+  },
+  onPageScroll(e) {
+    this.setData({
+      backTopVisible: e.scrollTop > 80,
+    })
+  },
+  flushPage() {
+    wx.pageScrollTo({
+      scrollTop: 0,
+    })
+    this.setData({
+      page: 1,
+      commodityList: []
+    })
+    this.getList()
+  },
+  getList() {
+    const that = this.data
+    this.setData({
+      commodityListLoadStatus: 1
+    })
     switch (that.type) {
       case 1: // commodity
         this.getGroupCommodity()
+        if (that.cid !== 0) {
+          this.getCommodity()
+        }
         this.setData({
           nameText: '商品'
         })
-        if (that.id !== 0) {
-          this.getCommodity(that.id)
-        }
         break
       case 2: // halfgood
         this.getGroupHalfgood()
+        if (that.cid !== 0) {
+          this.getHalfgood()
+        }
         this.setData({
           nameText: '半成品'
         })
-        if (that.id !== 0) {
-          this.getHalfgood(that.id)
-        }
         break
       case 3: // original
         this.getGroupOriginal()
+        if (that.cid !== 0) {
+          this.getOriginal()
+        }
         this.setData({
           nameText: '原料'
         })
-        if (that.id !== 0) {
-          this.getOriginal(that.id)
-        }
         break
-      default: // standard
+      case 4: // standard
         this.getGroupStandard()
+        if (that.cid !== 0) {
+          this.getStandard()
+        }
         this.setData({
           nameText: '标品'
         })
-        if (that.id !== 0) {
-          this.getStandard(that.id)
-        }
+        break
+      default:
         break
     }
   },
@@ -107,31 +150,14 @@ Page({
     })
     this.checkSubmitActive()
   },
-  onCommodityPicker() {
-    const that = this.data
-    if (that.lock) {
-      myToast(this, '不能修改商品')
-    } else {
-      this.setData({
-        commodityVisible: true
-      })
-    }
-  },
-  onCommodityChange(event) {
+  clickCommodity(event) {
     this.setData({
-      commodityVisible: false,
-      commodityValue: event.detail.value[0]
+      commodityValue: event.currentTarget.dataset.value
     })
     this.checkSubmitActive()
   },
-  onCommodityCancel() {
-    this.setData({
-      commodityVisible: false,
-    })
-  },
   addCommodity() {
     const that = this.data
-    const app = getApp()
     let action
     switch (that.type) {
       case 1:
@@ -143,12 +169,14 @@ Page({
       case 3:
         action = 'original'
         break
-      default:
+      case 4:
         action = 'standard'
+        break
+      default:
         break
     }
     if (that.price && that.price > 0 && that.num && that.num > 0) {
-      app.globalData.temp = {
+      getApp().globalData.temp = {
         action: action,
         commodity: that.commodityValue,
         price: that.price,
@@ -159,11 +187,11 @@ Page({
       myToast(this, '请填写全部信息')
     }
   },
-  getCommodity(id) {
-    const app = getApp()
+  getCommodity() {
+    const that = this.data
     getCommodity(this, {
-      id: app.globalData.user.id,
-      cid: id
+      id: that.id,
+      cid: that.cid
     }, data => {
       this.setData({
         commodityValue: data
@@ -171,29 +199,21 @@ Page({
     })
   },
   getGroupCommodity() {
-    const app = getApp()
-    getGroupAllCommodity(this, {
-      id: app.globalData.user.id
+    const that = this.data
+    getGroupCommodity(this, {
+      id: that.id,
+      page: that.page,
+      limit: that.pageLimit,
+      search: that.search
     }, data => {
-      const list = []
-      if (data.list && data.list.length > 0) {
-        data.list.forEach(v => {
-          list.push({
-            label: v.name,
-            value: v
-          })
-        })
-        this.setData({
-          commoditys: list
-        })
-      }
+      this.handleData(data)
     })
   },
-  getHalfgood(id) {
-    const app = getApp()
+  getHalfgood() {
+    const that = this.data
     getHalfgood(this, {
-      id: app.globalData.user.id,
-      hid: id
+      id: that.id,
+      hid: that.cid
     }, data => {
       this.setData({
         commodityValue: data
@@ -201,29 +221,21 @@ Page({
     })
   },
   getGroupHalfgood() {
-    const app = getApp()
-    getGroupAllHalfgood(this, {
-      id: app.globalData.user.id
+    const that = this.data
+    getGroupHalfgood(this, {
+      id: that.id,
+      page: that.page,
+      limit: that.pageLimit,
+      search: that.search
     }, data => {
-      const list = []
-      if (data.list && data.list.length > 0) {
-        data.list.forEach(v => {
-          list.push({
-            label: v.name,
-            value: v
-          })
-        })
-        this.setData({
-          commoditys: list
-        })
-      }
+      this.handleData(data)
     })
   },
-  getOriginal(id) {
-    const app = getApp()
+  getOriginal() {
+    const that = this.data
     getOriginal(this, {
-      id: app.globalData.user.id,
-      oid: id
+      id: that.id,
+      oid: that.cid
     }, data => {
       this.setData({
         commodityValue: data
@@ -231,29 +243,21 @@ Page({
     })
   },
   getGroupOriginal() {
-    const app = getApp()
-    getGroupAllOriginal(this, {
-      id: app.globalData.user.id
+    const that = this.data
+    getGroupOriginal(this, {
+      id: that.id,
+      page: that.page,
+      limit: that.pageLimit,
+      search: that.search
     }, data => {
-      const list = []
-      if (data.list && data.list.length > 0) {
-        data.list.forEach(v => {
-          list.push({
-            label: v.name,
-            value: v
-          })
-        })
-        this.setData({
-          commoditys: list
-        })
-      }
+      this.handleData(data)
     })
   },
-  getStandard(id) {
-    const app = getApp()
+  getStandard() {
+    const that = this.data
     getStandard(this, {
-      id: app.globalData.user.id,
-      sid: id
+      id: that.id,
+      sid: that.cid
     }, data => {
       this.setData({
         commodityValue: data
@@ -261,23 +265,36 @@ Page({
     })
   },
   getGroupStandard() {
-    const app = getApp()
-    getGroupAllStandard(this, {
-      id: app.globalData.user.id
+    const that = this.data
+    getGroupStandard(this, {
+      id: that.id,
+      page: that.page,
+      limit: that.pageLimit,
+      search: that.search
     }, data => {
-      const list = []
-      if (data.list && data.list.length > 0) {
-        data.list.forEach(v => {
-          list.push({
-            label: v.name,
-            value: v
-          })
-        })
+      this.handleData(data)
+    })
+  },
+  handleData(data) {
+    const that = this.data
+    if (data.list && data.list.length > 0) {
+      const curPage = that.page
+      this.setData({
+        total: data.total,
+        page: curPage + 1,
+        commodityList: that.commodityList.concat(data.list),
+        commodityListLoadStatus: 0
+      })
+      if ((curPage * that.pageLimit) >= that.total) {
         this.setData({
-          commoditys: list
+          commodityListLoadStatus: 2
         })
       }
-    })
+    } else {
+      this.setData({
+        commodityListLoadStatus: 0
+      })
+    }
   },
   relogin() {
     relogin()

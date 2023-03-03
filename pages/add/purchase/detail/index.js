@@ -1,40 +1,14 @@
-import OrderData from '../../../util/order'
-import {
-  imageSrc
-} from '../../../util/imagesrc'
+import OrderData from '../../../../util/order'
 import {
   myToast,
   relogin
-} from '../../../util/util'
+} from '../../../../util/util'
 import {
-  reviewShipped,
-  reviewAReturn
-} from '../../../service/agreement'
-import {
-  reviewCPurchase,
-  reviewCReturn,
-  reviewCLoss
-} from '../../../service/cloud'
-import {
-  reviewProcess,
-  reviewPLoss,
-  reviewComplete
-} from '../../../service/product'
-import {
-  reviewPurchase,
-  reviewPReturn
-} from '../../../service/purchase'
-import {
-  reviewSPurchase,
-  reviewDispatch,
-  reviewPurchase2,
-  reviewSLoss,
-  reviewSReturn
-} from '../../../service/storage'
+  imageSrc
+} from '../../../../util/imagesrc'
 Page({
   data: {
     orderId: 0,
-    orderType: 0,
     orderValue: [],
     storageValue: [],
     batch: '',
@@ -53,7 +27,8 @@ Page({
     maxUpload: 3
   },
   onShow() {
-    const temp = getApp().globalData.temp
+    const app = getApp()
+    const temp = app.globalData.temp
     if (temp && temp.action === 'order') {
       const data = temp.data
       const orderValue = []
@@ -128,7 +103,6 @@ Page({
       }
       this.setData({
         orderId: data.id,
-        orderType: data.type,
         orderValue: orderValue,
         storageValue: data.sname,
         batch: data.batch,
@@ -159,59 +133,18 @@ Page({
   },
   clickSubmit() {
     const that = this.data
-    const data = {
-      id: getApp().globalData.user.id,
-      oid: that.orderId
+    getApp().globalData.temp = {
+      action: 'purchase',
+      id: that.orderId,
+      value: that.batch,
+      commoditys: that.commoditys,
+      halfgoods: that.halfgoods,
+      originals: that.originals,
+      standards: that.standards
     }
-    switch (that.orderType) {
-      case 1:
-        reviewPurchase(this, data, wx.navigateBack)
-        break
-      case 2:
-        reviewPReturn(this, data, wx.navigateBack)
-        break
-      case 3:
-        reviewSPurchase(this, data, wx.navigateBack)
-        break
-      case 4:
-        reviewDispatch(this, data, wx.navigateBack)
-        break
-      case 5:
-        reviewPurchase2(this, data, wx.navigateBack)
-        break
-      case 6:
-        reviewSLoss(this, data, wx.navigateBack)
-        break
-      case 7:
-        reviewSReturn(this, data, wx.navigateBack)
-        break
-      case 8:
-        reviewProcess(this, data, wx.navigateBack)
-        break
-      case 9:
-        reviewPLoss(this, data, wx.navigateBack)
-        break
-      case 10:
-        reviewComplete(this, data, wx.navigateBack)
-        break
-      case 11:
-        reviewShipped(this, data, wx.navigateBack)
-        break
-      case 12:
-        reviewAReturn(this, data, wx.navigateBack)
-        break
-      case 13:
-        reviewCPurchase(this, data, wx.navigateBack)
-        break
-      case 14:
-        reviewCReturn(this, data, wx.navigateBack)
-        break
-      case 16:
-        reviewCLoss(this, data, wx.navigateBack)
-        break
-      default:
-        break
-    }
+    wx.navigateBack({
+      delta: 2
+    })
   },
   relogin() {
     relogin()

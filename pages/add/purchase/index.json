@@ -3,14 +3,12 @@
   "onReachBottomDistance": 10,
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
-    "t-cell": "tdesign-miniprogram/cell/cell",
     "t-back-top": "tdesign-miniprogram/back-top/back-top",
     "t-search": "tdesign-miniprogram/search/search",
     "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
+    "t-cell": "tdesign-miniprogram/cell/cell",
     "t-empty": "tdesign-miniprogram/empty/empty",
-    "t-input": "tdesign-miniprogram/input/input",
-    "t-button": "tdesign-miniprogram/button/button",
     "load-more": "/components/load-more/index",
     "t-message": "tdesign-miniprogram/message/message"
   }

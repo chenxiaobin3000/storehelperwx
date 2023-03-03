@@ -1,9 +1,9 @@
 import {
   relogin
-} from '../../util/util'
+} from '../../../util/util'
 import {
-  getMyComplete
-} from '../../service/order'
+  getPurchaseOrder
+} from '../../../service/order'
 Page({
   data: {
     total: 0,
@@ -22,7 +22,6 @@ Page({
     })
   },
   onShow() {
-    this.getTabBar().init()
     this.flushPage()
   },
   onPullDownRefresh() {
@@ -58,8 +57,9 @@ Page({
       orderListLoadStatus: 1
     })
     const that = this.data
-    getMyComplete(this, {
+    getPurchaseOrder(this, {
       id: that.id,
+      type: 1,
       page: that.page,
       limit: that.pageLimit,
       search: that.search
@@ -68,49 +68,7 @@ Page({
         data.list.forEach(v => {
           switch (v.type) {
             case 1:
-              v.orderType = '采购进货'
-              break
-            case 2:
-              v.orderType = '采购退货'
-              break
-            case 3:
-              v.orderType = '仓储采购'
-              break
-            case 4:
-              v.orderType = '调度出库'
-              break
-            case 5:
-              v.orderType = '调度入库'
-              break
-            case 6:
-              v.orderType = '仓储损耗'
-              break
-            case 7:
-              v.orderType = '仓储退货'
-              break
-            case 8:
-              v.orderType = '生产开始'
-              break
-            case 9:
-              v.orderType = '生产完成'
-              break
-            case 10:
-              v.orderType = '生产损耗'
-              break
-            case 11:
-              v.orderType = '履约入库'
-              break
-            case 12:
-              v.orderType = '履约出库'
-              break
-            case 13:
-              v.orderType = '云仓入库'
-              break
-            case 14:
-              v.orderType = '云仓退货'
-              break
-            case 16:
-              v.orderType = '云仓损耗'
+              v.orderType = '采购单'
               break
             default:
               break
@@ -142,7 +100,7 @@ Page({
       data: item.currentTarget.dataset.value
     }
     wx.navigateTo({
-      url: '/pages/list/detail/index'
+      url: '/pages/add/purchase/detail/index'
     })
   },
   relogin() {
