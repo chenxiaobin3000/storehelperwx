@@ -24,6 +24,14 @@ export function reviewPurchase(that, params, success) {
   return post(`${preUrl}/reviewPurchase`, that, params, success)
 }
 
+export function addPurchaseInfo(that, params, success) {
+  return post(`${preUrl}/addPurchaseInfo`, that, params, success)
+}
+
+export function delPurchaseInfo(that, params, success) {
+  return post(`${preUrl}/delPurchaseInfo`, that, params, success)
+}
+
 export function preturn(that, params, success) {
   return post(`${preUrl}/returnc`, that, params, success)
 }
@@ -38,4 +46,12 @@ export function delPReturn(that, params, success) {
 
 export function reviewPReturn(that, params, success) {
   return post(`${preUrl}/reviewReturn`, that, params, success)
+}
+
+export function addPReturnInfo(that, params, success) {
+  return post(`${preUrl}/addReturnInfo`, that, params, success)
+}
+
+export function delPReturnInfo(that, params, success) {
+  return post(`${preUrl}/reviewPurchase`, that, params, success)
 }

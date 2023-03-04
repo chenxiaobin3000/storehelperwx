@@ -11,7 +11,7 @@
     "pages/list/detail/index",
     "pages/me/index",
     "pages/me/edit/index",
-    "pages/me/edit/add/index",
+    "pages/me/edit/addInfo/index",
     "pages/me/review/index",
     "pages/login/index",
     "pages/forbid/index"

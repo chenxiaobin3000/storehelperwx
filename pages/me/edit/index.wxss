@@ -64,7 +64,7 @@ page .divider-line {
 }
 
 .submit .btn-submit {
-  width: 90%;
+  width: 41%;
   background: #2340e7;
   color: #fff;
   border-radius: 48rpx;

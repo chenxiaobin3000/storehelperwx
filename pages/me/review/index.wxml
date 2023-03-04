@@ -45,6 +45,16 @@
         <t-collapse-panel wx:if="{{uploadFiles.length>0}}" header="凭证列表 (共{{maxUpload}}张)" value="{{6}}" expandIcon>
           <t-upload media-type="{{['image']}}" max="{{maxUpload}}" files="{{uploadFiles}}" gridConfig="{{gridConfig}}" size-type="compressed" bind:success="handleSuccess" bind:remove="handleRemove" />
         </t-collapse-panel>
+
+        <!-- 运费列表 -->
+        <t-collapse-panel wx:if="{{fares.length>0}}" header="运费列表" value="{{7}}" expandIcon>
+          <t-cell wx:for="{{fares}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.cdate}}" note="{{item.fare}}元" data-value="{{item}}" />
+        </t-collapse-panel>
+
+        <!-- 备注列表 -->
+        <t-collapse-panel wx:if="{{remarks.length>0}}" header="备注列表" value="{{8}}" expandIcon>
+          <t-cell wx:for="{{remarks}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.cdate}}" note="{{item.remark}}" data-value="{{item}}" />
+        </t-collapse-panel>
       </t-collapse>
 
       <view class="submit">

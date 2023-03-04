@@ -1,0 +1,28 @@
+<view class="container">
+  <view class="form-index">
+    <form class="form-content">
+      <t-cell-group>
+        <view class="divider-line" />
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="批次" bind:tap="onCommodityPicker">
+          <view class="field-text" slot="note">{{batch}}</view>
+        </t-cell>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="说明">
+          <view class="field-text" style="padding-left:30rpx;" slot="note">可以单独填写运费或备注</view>
+        </t-cell>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="运费">
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{fare}}" maxlength="16" placeholder="请输入运费" data-item="fare" bind:change="onInputValue" />
+        </t-cell>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="备注">
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{remark}}" maxlength="32" placeholder="请输入备注" data-item="remark" bind:change="onInputValue" />
+        </t-cell>
+      </t-cell-group>
+
+      <view class="submit">
+        <t-button t-class="btn-submit {{submitActive ? 'theme-wrapper-class' : 'disabled'}}" style="margin-left: 6%" bind:tap="addInfo">
+          <text space="ensp">确 定</text>
+        </t-button>
+      </view>
+    </form>
+  </view>
+</view>
+<t-message id="t-message" bind:actionBtnClick="relogin" />

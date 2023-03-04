@@ -44,6 +44,8 @@ Page({
     originals: [],
     standards: [],
     uploadFiles: [],
+    fares: [],
+    remarks: [],
     collapseValues: [],
     gridConfig: {
       column: 4,
@@ -139,6 +141,8 @@ Page({
         originals: originals,
         standards: standards,
         uploadFiles: attrs,
+        fares: data.fares,
+        remarks: data.remarks,
         collapseValues: collapseValues,
         maxUpload: attrs.length
       })

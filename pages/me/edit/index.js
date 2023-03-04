@@ -51,13 +51,15 @@ Page({
     batch: '',
     purchaseValue: '',
     dateVisible: false,
-    date: new Date().getTime(),
+    date: '',
     dateText: '',
     commoditys: [],
     halfgoods: [],
     originals: [],
     standards: [],
     uploadFiles: [],
+    fares: [],
+    remarks: [],
     collapseValues: [],
     submitActive: false,
     gridConfig: {
@@ -209,7 +211,9 @@ Page({
           halfgoods: halfgoods,
           originals: originals,
           standards: standards,
-          uploadFiles: attrs
+          uploadFiles: attrs,
+          fares: data.fares,
+          remarks: data.remarks
         })
       } else if (temp.action === 'commodity') {
         // 添加商品
@@ -711,6 +715,36 @@ Page({
         break
       default:
         break
+    }
+  },
+  clickSubmitInfo() {
+    const that = this.data
+    switch (that.orderType) {
+      case 1: // 采购进货
+      case 2: // 采购退货
+      case 7: // 仓储退货
+      case 14: // 云仓退货
+        wx.navigateTo({
+          url: `/pages/me/edit/addInfo/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
+        })
+        break;
+      case 3: // 仓储采购
+      case 4: // 调度出库
+      case 5: // 调度入库
+      case 6: // 仓储损耗
+      case 8: // 生产开始
+      case 9: // 生产完成
+      case 10: // 生产损耗
+      case 11: // 履约发货
+      case 12: // 履约退货
+      case 13: // 云仓入库
+      case 16: // 云仓损耗
+        wx.navigateTo({
+          url: `/pages/me/edit/addInfo/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
+        })
+        break;
+      default:
+        break;
     }
   },
   relogin() {
