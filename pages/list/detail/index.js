@@ -9,6 +9,7 @@ import {
 Page({
   data: {
     orderId: 0,
+    orderType: 0,
     orderValue: [],
     storageValue: [],
     batch: '',
@@ -18,6 +19,8 @@ Page({
     originals: [],
     standards: [],
     uploadFiles: [],
+    fares: [],
+    remarks: [],
     collapseValues: [],
     gridConfig: {
       column: 4,
@@ -103,6 +106,7 @@ Page({
       }
       this.setData({
         orderId: data.id,
+        orderType: data.type,
         orderValue: orderValue,
         storageValue: data.sname,
         batch: data.batch,
@@ -113,9 +117,40 @@ Page({
         originals: originals,
         standards: standards,
         uploadFiles: attrs,
+        fares: data.fares,
+        remarks: data.remarks,
         collapseValues: collapseValues,
         maxUpload: attrs.length
       })
+      console.log(data.fares)
+    } else if (temp.action === 'info') {
+      const that = this.data
+      if (temp.fare) {
+        if (!that.fares) {
+          that.fares = []
+        }
+        that.fares.push({
+          id: 0,
+          fare: temp.fare,
+          cdate: ''
+        })
+        this.setData({
+          fares: that.fares
+        })
+      }
+      if (temp.remark) {
+        if (!that.remarks) {
+          that.remarks = []
+        }
+        that.remarks.push({
+          id: 0,
+          remark: temp.remark,
+          cdate: ''
+        })
+        this.setData({
+          remarks: that.remarks
+        })
+      }
     }
   },
   // 下拉列表
@@ -130,6 +165,36 @@ Page({
   },
   handleRemove() {
     myToast(this, '不能修改附件')
+  },
+  clickSubmit() {
+    const that = this.data
+    switch (that.orderType) {
+      case 1: // 采购进货
+      case 2: // 采购退货
+      case 7: // 仓储退货
+      case 14: // 云仓退货
+        wx.navigateTo({
+          url: `/pages/me/edit/addInfo/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
+        })
+        break;
+      case 3: // 仓储采购
+      case 4: // 调度出库
+      case 5: // 调度入库
+      case 6: // 仓储损耗
+      case 8: // 生产开始
+      case 9: // 生产完成
+      case 10: // 生产损耗
+      case 11: // 履约发货
+      case 12: // 履约退货
+      case 13: // 云仓入库
+      case 16: // 云仓损耗
+        wx.navigateTo({
+          url: `/pages/me/edit/addInfo/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
+        })
+        break;
+      default:
+        break;
+    }
   },
   relogin() {
     relogin()

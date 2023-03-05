@@ -299,6 +299,34 @@ Page({
         this.setData({
           standards: this.data.standards
         })
+      } else if (temp.action === 'info') {
+        const that = this.data
+        if (temp.fare) {
+          if (!that.fares) {
+            that.fares = []
+          }
+          that.fares.push({
+            id: 0,
+            fare: temp.fare,
+            cdate: ''
+          })
+          this.setData({
+            fares: that.fares
+          })
+        }
+        if (temp.remark) {
+          if (!that.remarks) {
+            that.remarks = []
+          }
+          that.remarks.push({
+            id: 0,
+            remark: temp.remark,
+            cdate: ''
+          })
+          this.setData({
+            remarks: that.remarks
+          })
+        }
       }
       app.globalData.temp = {}
       this.checkSubmitActive()

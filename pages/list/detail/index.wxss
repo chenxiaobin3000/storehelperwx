@@ -58,6 +58,26 @@ page .divider-line {
   border: none !important;
 }
 
+.submit {
+  box-sizing: border-box;
+  padding: 48rpx 30rpx 88rpx 30rpx;
+}
+
+.submit .btn-submit {
+  width: 88%;
+  background: #2340e7;
+  color: #fff;
+  border-radius: 48rpx;
+}
+
+.submit .btn-submit.disabled {
+  background-color: #c6c6c6;
+}
+
+.submit .btn-submit.disabled::after {
+  display: none;
+}
+
 .swiper-right-del {
   height: 100%;
   width: 144rpx;
