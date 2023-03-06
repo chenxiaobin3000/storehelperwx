@@ -13,6 +13,10 @@ Page({
     orderValue: [],
     storageValue: [],
     batch: '',
+    unit: '',
+    curUnit: '',
+    price: '',
+    curPrice: '',
     dateText: '',
     commoditys: [],
     halfgoods: [],
@@ -110,6 +114,10 @@ Page({
         orderValue: orderValue,
         storageValue: data.sname,
         batch: data.batch,
+        unit: data.unit,
+        curUnit: data.curUnit,
+        price: data.price,
+        curPrice: data.curPrice,
         date: new Date(data.applyTime).getTime(),
         dateText: data.applyTime,
         commoditys: commoditys,
@@ -122,7 +130,6 @@ Page({
         collapseValues: collapseValues,
         maxUpload: attrs.length
       })
-      console.log(data.fares)
     } else if (temp.action === 'info') {
       const that = this.data
       if (temp.fare) {
@@ -177,7 +184,7 @@ Page({
           url: `/pages/me/edit/addInfo/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
         })
         break;
-      case 3: // 仓储采购
+      case 3: // 仓储入库
       case 4: // 调度出库
       case 5: // 调度入库
       case 6: // 仓储损耗
@@ -189,7 +196,7 @@ Page({
       case 13: // 云仓入库
       case 16: // 云仓损耗
         wx.navigateTo({
-          url: `/pages/me/edit/addInfo/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
+          url: `/pages/me/edit/addRemark/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
         })
         break;
       default:

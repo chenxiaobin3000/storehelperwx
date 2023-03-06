@@ -74,7 +74,7 @@ Page({
               v.orderType = '采购退货'
               break
             case 3:
-              v.orderType = '仓储采购'
+              v.orderType = '仓储入库'
               break
             case 4:
               v.orderType = '调度出库'

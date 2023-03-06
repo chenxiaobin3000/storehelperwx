@@ -5,13 +5,15 @@ import {
   addPurchaseInfo,
   addPReturnInfo
 } from '../../../../service/purchase'
+import {
+  addSPurchaseInfo
+} from '../../../../service/storage'
 Page({
   data: {
     id: 0,
     type: 0,
     oid: 0,
     batch: '',
-    fare: '',
     remark: '',
     submitActive: false
   },
@@ -34,7 +36,7 @@ Page({
   },
   checkSubmitActive() {
     const that = this.data
-    if (that.fare.length > 0 || that.remark.length > 0) {
+    if (that.remark.length > 0) {
       this.setData({
         submitActive: true
       })
@@ -55,7 +57,6 @@ Page({
     const data = {
       id: that.id,
       oid: that.oid,
-      fare: that.fare,
       remark: that.remark
     }
     switch (that.type) {
@@ -66,7 +67,7 @@ Page({
         addPReturnInfo(this, data, this.handleData)
         break
       case 3: // 仓储入库
-        spurchase(this, data, this.handleData)
+        addSPurchaseInfo(this, data, this.handleData)
         break
       case 4: // 调度出库
         dispatch(this, data, this.handleData)
@@ -112,7 +113,6 @@ Page({
     const that = this.data
     getApp().globalData.temp = {
       action: 'info',
-      fare: that.fare,
       remark: that.remark
     }
     wx.navigateBack()

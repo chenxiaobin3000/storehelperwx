@@ -134,7 +134,7 @@ Page({
             v.orderType = '采购退货'
             break
           case 3:
-            v.orderType = '仓储采购'
+            v.orderType = '仓储入库'
             break
           case 4:
             v.orderType = '调度出库'
@@ -301,7 +301,7 @@ Page({
           ret.push('采购退货申请')
           break
         case 16:
-          ret.push('仓储采购申请')
+          ret.push('仓储入库申请')
           break
         case 17:
           ret.push('调度出库申请')
@@ -346,7 +346,7 @@ Page({
           ret.push('采购退货审核')
           break
         case 46:
-          ret.push('仓储采购审核')
+          ret.push('仓储入库审核')
           break
         case 47:
           ret.push('调度出库审核')

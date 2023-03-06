@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "集数助手",
+  "onReachBottomDistance": 10,
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
+    "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-input": "tdesign-miniprogram/input/input",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-message": "tdesign-miniprogram/message/message"
+  }
+}

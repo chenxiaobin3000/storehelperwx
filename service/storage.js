@@ -24,6 +24,14 @@ export function reviewSPurchase(that, params, success) {
   return post(`${preUrl}/reviewPurchase`, that, params, success)
 }
 
+export function addSPurchaseInfo(that, params, success) {
+  return post(`${preUrl}/addPurchaseInfo`, that, params, success)
+}
+
+export function delSPurchaseInfo(that, params, success) {
+  return post(`${preUrl}/delPurchaseInfo`, that, params, success)
+}
+
 export function dispatch(that, params, success) {
   return post(`${preUrl}/dispatch`, that, params, success)
 }

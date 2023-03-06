@@ -12,6 +12,7 @@
     "pages/me/index",
     "pages/me/edit/index",
     "pages/me/edit/addInfo/index",
+    "pages/me/edit/addRemark/index",
     "pages/me/review/index",
     "pages/login/index",
     "pages/forbid/index"

@@ -280,10 +280,10 @@ Page({
     let orderShow = []
     switch (value) {
       case 1: // 采购进货
-      case 3: // 仓储采购
         orderShow = [1, 0, 1, 0, 1]
         break
       case 2: // 采购退货
+      case 3: // 仓储入库
       case 7: // 仓储退货
         orderShow = [1, 0, 1, 0, 0]
         break
@@ -486,7 +486,7 @@ Page({
           url: `/pages/add/editp/index?type=${type}&id=${id}&price=${price}&num=${num}`
         })
         break;
-      case 3: // 仓储采购
+      case 3: // 仓储入库
       case 4: // 调度出库
       case 5: // 调度入库
       case 6: // 仓储损耗
@@ -563,6 +563,7 @@ Page({
       gid: app.globalData.group.id,
       sid: that.sid,
       rid: that.pid,
+      pid: that.pid,
       date: that.dateText,
       types: [],
       commoditys: [],
@@ -605,7 +606,7 @@ Page({
       case 2: // 采购退货
         preturn(this, data, this.handleSubmit)
         break
-      case 3: // 仓储采购
+      case 3: // 仓储入库
         spurchase(this, data, this.handleSubmit)
         break
       case 4: // 调度出库

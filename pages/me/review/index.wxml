@@ -14,6 +14,12 @@
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="批次">
           <view class="field-text" slot="note">{{batch}}</view>
         </t-cell>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="总量">
+          <view class="field-text" slot="note">{{curUnit}}克 / {{unit}}克</view>
+        </t-cell>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="总价">
+          <view class="field-text" slot="note">{{curPrice}}元 / {{price}}元 </view>
+        </t-cell>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="日期">
           <view class="field-text" slot="note">{{dateText}}</view>
         </t-cell>

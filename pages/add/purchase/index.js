@@ -62,6 +62,7 @@ Page({
       type: 1,
       page: that.page,
       limit: that.pageLimit,
+      review: 2, // 已审核
       search: that.search
     }, data => {
       if (data.list && data.list.length > 0) {

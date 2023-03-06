@@ -103,7 +103,7 @@ Page({
         let orderShow = []
         switch (data.type) {
           case 1: // 采购进货
-          case 3: // 仓储采购
+          case 3: // 仓储入库
             orderShow = [1, 0, 1, 0, 1]
             break
           case 2: // 采购退货
@@ -540,7 +540,7 @@ Page({
           url: `/pages/add/editp/index?type=${type}&id=${id}&price=${price}&num=${num}`
         })
         break;
-      case 3: // 仓储采购
+      case 3: // 仓储入库
       case 4: // 调度出库
       case 5: // 调度入库
       case 6: // 仓储损耗
@@ -756,7 +756,7 @@ Page({
           url: `/pages/me/edit/addInfo/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
         })
         break;
-      case 3: // 仓储采购
+      case 3: // 仓储入库
       case 4: // 调度出库
       case 5: // 调度入库
       case 6: // 仓储损耗
@@ -768,7 +768,7 @@ Page({
       case 13: // 云仓入库
       case 16: // 云仓损耗
         wx.navigateTo({
-          url: `/pages/me/edit/addInfo/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
+          url: `/pages/me/edit/addRemark/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
         })
         break;
       default:
