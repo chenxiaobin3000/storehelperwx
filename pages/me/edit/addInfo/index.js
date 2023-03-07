@@ -2,9 +2,20 @@ import {
   relogin
 } from '../../../../util/util'
 import {
+  addShippedInfo,
+  addAReturnInfo
+} from '../../../../service/agreement'
+import {
+  addCReturnInfo
+} from '../../../../service/cloud'
+import {
   addPurchaseInfo,
   addPReturnInfo
 } from '../../../../service/purchase'
+import {
+  addDispatchInfo,
+  addSReturnInfo
+} from '../../../../service/storage'
 Page({
   data: {
     id: 0,
@@ -65,44 +76,20 @@ Page({
       case 2: // 采购退货
         addPReturnInfo(this, data, this.handleData)
         break
-      case 3: // 仓储入库
-        spurchase(this, data, this.handleData)
-        break
       case 4: // 调度出库
-        dispatch(this, data, this.handleData)
-        break
-      case 5: // 调度入库
-        purchase2(this, data, this.handleData)
-        break
-      case 6: // 仓储损耗
-        sloss(this, data, this.handleData)
+        addDispatchInfo(this, data, this.handleData)
         break
       case 7: // 仓储退货
-        sreturn(this, data, this.handleData)
-        break
-      case 8: // 生产开始
-        process(this, data, this.handleData)
-        break
-      case 9: // 生产完成
-        complete(this, data, this.handleData)
-        break
-      case 10: // 生产损耗
-        ploss(this, data, this.handleData)
+        addSReturnInfo(this, data, this.handleData)
         break
       case 11: // 履约发货
-        shipped(this, data, this.handleData)
+        addShippedInfo(this, data, this.handleData)
         break
       case 12: // 履约退货
-        areturn(this, data, this.handleData)
-        break
-      case 13: // 云仓入库
-        cpurchase(this, data, this.handleData)
+        addAReturnInfo(this, data, this.handleData)
         break
       case 14: // 云仓退货
-        creturn(this, data, this.handleData)
-        break
-      case 16: // 云仓损耗
-        closs(this, data, this.handleData)
+        addCReturnInfo(this, data, this.handleData)
         break
       default:
         break

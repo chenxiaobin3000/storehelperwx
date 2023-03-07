@@ -20,6 +20,14 @@ export function reviewShipped(that, params, success) {
   return post(`${preUrl}/reviewShipped`, that, params, success)
 }
 
+export function addShippedInfo(that, params, success) {
+  return post(`${preUrl}/addShippedInfo`, that, params, success)
+}
+
+export function delShippedInfo(that, params, success) {
+  return post(`${preUrl}/delShippedInfo`, that, params, success)
+}
+
 export function areturn(that, params, success) {
   return post(`${preUrl}/returnc`, that, params, success)
 }
@@ -34,4 +42,12 @@ export function delAReturn(that, params, success) {
 
 export function reviewAReturn(that, params, success) {
   return post(`${preUrl}/reviewReturn`, that, params, success)
+}
+
+export function addAReturnInfo(that, params, success) {
+  return post(`${preUrl}/addReturnInfo`, that, params, success)
+}
+
+export function delAReturnInfo(that, params, success) {
+  return post(`${preUrl}/delReturnInfo`, that, params, success)
 }

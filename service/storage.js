@@ -48,6 +48,14 @@ export function reviewDispatch(that, params, success) {
   return post(`${preUrl}/reviewDispatch`, that, params, success)
 }
 
+export function addDispatchInfo(that, params, success) {
+  return post(`${preUrl}/addDispatchInfo`, that, params, success)
+}
+
+export function delDispatchInfo(that, params, success) {
+  return post(`${preUrl}/delDispatchInfo`, that, params, success)
+}
+
 export function purchase2(that, params, success) {
   return post(`${preUrl}/purchase`, that, params, success)
 }
@@ -62,6 +70,14 @@ export function delPurchase2(that, params, success) {
 
 export function reviewPurchase2(that, params, success) {
   return post(`${preUrl}/reviewPurchase`, that, params, success)
+}
+
+export function addPurchase2Info(that, params, success) {
+  return post(`${preUrl}/addPurchase2Info`, that, params, success)
+}
+
+export function delPurchase2Info(that, params, success) {
+  return post(`${preUrl}/delPurchase2Info`, that, params, success)
 }
 
 export function sloss(that, params, success) {
@@ -80,6 +96,14 @@ export function reviewSLoss(that, params, success) {
   return post(`${preUrl}/reviewLoss`, that, params, success)
 }
 
+export function addSLossInfo(that, params, success) {
+  return post(`${preUrl}/addLossInfo`, that, params, success)
+}
+
+export function delSLossInfo(that, params, success) {
+  return post(`${preUrl}/delLossInfo`, that, params, success)
+}
+
 export function sreturn(that, params, success) {
   return post(`${preUrl}/returnc`, that, params, success)
 }
@@ -94,4 +118,12 @@ export function delSReturn(that, params, success) {
 
 export function reviewSReturn(that, params, success) {
   return post(`${preUrl}/reviewReturn`, that, params, success)
+}
+
+export function addSReturnInfo(that, params, success) {
+  return post(`${preUrl}/addReturnInfo`, that, params, success)
+}
+
+export function delSReturnInfo(that, params, success) {
+  return post(`${preUrl}/delReturnInfo`, that, params, success)
 }

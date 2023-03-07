@@ -24,6 +24,14 @@ export function reviewCPurchase(that, params, success) {
   return post(`${preUrl}/reviewPurchase`, that, params, success)
 }
 
+export function addCPurchaseInfo(that, params, success) {
+  return post(`${preUrl}/addPurchaseInfo`, that, params, success)
+}
+
+export function delCPurchaseInfo(that, params, success) {
+  return post(`${preUrl}/delPurchaseInfo`, that, params, success)
+}
+
 export function closs(that, params, success) {
   return post(`${preUrl}/loss`, that, params, success)
 }
@@ -40,6 +48,14 @@ export function reviewCLoss(that, params, success) {
   return post(`${preUrl}/reviewLoss`, that, params, success)
 }
 
+export function addCLossInfo(that, params, success) {
+  return post(`${preUrl}/addLossInfo`, that, params, success)
+}
+
+export function delCLossInfo(that, params, success) {
+  return post(`${preUrl}/delLossInfo`, that, params, success)
+}
+
 export function creturn(that, params, success) {
   return post(`${preUrl}/returnc`, that, params, success)
 }
@@ -54,4 +70,12 @@ export function delCReturn(that, params, success) {
 
 export function reviewCReturn(that, params, success) {
   return post(`${preUrl}/reviewReturn`, that, params, success)
+}
+
+export function addCReturnInfo(that, params, success) {
+  return post(`${preUrl}/addReturnInfo`, that, params, success)
+}
+
+export function delCReturnInfo(that, params, success) {
+  return post(`${preUrl}/delReturnInfo`, that, params, success)
 }

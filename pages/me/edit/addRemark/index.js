@@ -2,11 +2,18 @@ import {
   relogin
 } from '../../../../util/util'
 import {
-  addPurchaseInfo,
-  addPReturnInfo
-} from '../../../../service/purchase'
+  addCPurchaseInfo,
+  addCLossInfo
+} from '../../../../service/cloud'
 import {
-  addSPurchaseInfo
+  addProcessInfo,
+  addCompleteInfo,
+  addCLossInfo
+} from '../../../../service/product'
+import {
+  addSPurchaseInfo,
+  addPurchase2Info,
+  addSLossInfo
 } from '../../../../service/storage'
 Page({
   data: {
@@ -60,50 +67,29 @@ Page({
       remark: that.remark
     }
     switch (that.type) {
-      case 1: // 采购进货
-        addPurchaseInfo(this, data, this.handleData)
-        break
-      case 2: // 采购退货
-        addPReturnInfo(this, data, this.handleData)
-        break
       case 3: // 仓储入库
         addSPurchaseInfo(this, data, this.handleData)
         break
-      case 4: // 调度出库
-        dispatch(this, data, this.handleData)
-        break
       case 5: // 调度入库
-        purchase2(this, data, this.handleData)
+        addPurchase2Info(this, data, this.handleData)
         break
       case 6: // 仓储损耗
-        sloss(this, data, this.handleData)
-        break
-      case 7: // 仓储退货
-        sreturn(this, data, this.handleData)
+        addSLossInfo(this, data, this.handleData)
         break
       case 8: // 生产开始
-        process(this, data, this.handleData)
+        addProcessInfo(this, data, this.handleData)
         break
       case 9: // 生产完成
-        complete(this, data, this.handleData)
+        addCompleteInfo(this, data, this.handleData)
         break
       case 10: // 生产损耗
-        ploss(this, data, this.handleData)
-        break
-      case 11: // 履约发货
-        shipped(this, data, this.handleData)
-        break
-      case 12: // 履约退货
-        areturn(this, data, this.handleData)
+        addCLossInfo(this, data, this.handleData)
         break
       case 13: // 云仓入库
-        cpurchase(this, data, this.handleData)
-        break
-      case 14: // 云仓退货
-        creturn(this, data, this.handleData)
+        addCPurchaseInfo(this, data, this.handleData)
         break
       case 16: // 云仓损耗
-        closs(this, data, this.handleData)
+        addCLossInfo(this, data, this.handleData)
         break
       default:
         break
