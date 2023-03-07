@@ -8,7 +8,7 @@ import {
 import {
   addProcessInfo,
   addCompleteInfo,
-  addCLossInfo
+  addPLossInfo
 } from '../../../../service/product'
 import {
   addSPurchaseInfo,
@@ -83,7 +83,7 @@ Page({
         addCompleteInfo(this, data, this.handleData)
         break
       case 10: // 生产损耗
-        addCLossInfo(this, data, this.handleData)
+        addPLossInfo(this, data, this.handleData)
         break
       case 13: // 云仓入库
         addCPurchaseInfo(this, data, this.handleData)

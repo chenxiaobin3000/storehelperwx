@@ -39,11 +39,11 @@ export default [{
   value: 10,
   apply: 28
 }, {
-  label: '履约入库订单',
+  label: '履约发货订单',
   value: 11,
   apply: 31
 }, {
-  label: '履约出库订单',
+  label: '履约退货订单',
   value: 12,
   apply: 32
 }, {

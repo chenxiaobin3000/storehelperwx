@@ -158,10 +158,10 @@ Page({
             v.orderType = '生产损耗'
             break
           case 11:
-            v.orderType = '履约入库'
+            v.orderType = '履约发货'
             break
           case 12:
-            v.orderType = '履约出库'
+            v.orderType = '履约退货'
             break
           case 13:
             v.orderType = '云仓入库'
@@ -325,10 +325,10 @@ Page({
           ret.push('生产损耗申请')
           break
         case 31:
-          ret.push('履约入库申请')
+          ret.push('履约发货申请')
           break
         case 32:
-          ret.push('履约出库申请')
+          ret.push('履约退货申请')
           break
         case 36:
           ret.push('云仓入库申请')
@@ -370,10 +370,10 @@ Page({
           ret.push('生产损耗审核')
           break
         case 61:
-          ret.push('履约入库审核')
+          ret.push('履约发货审核')
           break
         case 62:
-          ret.push('履约出库审核')
+          ret.push('履约退货审核')
           break
         case 66:
           ret.push('云仓入库审核')

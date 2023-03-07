@@ -11,7 +11,7 @@
   <view class="divider-line" />
   <t-collapse value="{{collapseValues}}" class="report-list" bind:change="handleCollapseChange">
     <t-collapse-panel value="{{2}}" header="履约量" header-right-content="共 {{agreement.total}} 单" expandIcon>
-      <t-cell wx:for="{{agreement.list}}" wx:key="index" t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{item.otype?'履约出货':'履约退货'}}" note="{{item.batch}}" />
+      <t-cell wx:for="{{agreement.list}}" wx:key="index" t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{item.otype?'履约发货':'履约退货'}}" note="{{item.batch}}" />
     </t-collapse-panel>
   </t-collapse>
 

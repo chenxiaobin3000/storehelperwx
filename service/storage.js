@@ -57,19 +57,19 @@ export function delDispatchInfo(that, params, success) {
 }
 
 export function purchase2(that, params, success) {
-  return post(`${preUrl}/purchase`, that, params, success)
+  return post(`${preUrl}/purchase2`, that, params, success)
 }
 
 export function setPurchase2(that, params, success) {
-  return post(`${preUrl}/setPurchase`, that, params, success)
+  return post(`${preUrl}/setPurchase2`, that, params, success)
 }
 
 export function delPurchase2(that, params, success) {
-  return post(`${preUrl}/delPurchase`, that, params, success)
+  return post(`${preUrl}/delPurchase2`, that, params, success)
 }
 
 export function reviewPurchase2(that, params, success) {
-  return post(`${preUrl}/reviewPurchase`, that, params, success)
+  return post(`${preUrl}/reviewPurchase2`, that, params, success)
 }
 
 export function addPurchase2Info(that, params, success) {

@@ -4,8 +4,24 @@ import {
 } from './service'
 const preUrl = baseUrl + 'order'
 
+export function getAgreementOrder(that, params, success) {
+  return post(`${preUrl}/getAgreementOrder`, that, params, success)
+}
+
+export function getCloudOrder(that, params, success) {
+  return post(`${preUrl}/getCloudOrder`, that, params, success)
+}
+
+export function getProductOrder(that, params, success) {
+  return post(`${preUrl}/getProductOrder`, that, params, success)
+}
+
 export function getPurchaseOrder(that, params, success) {
   return post(`${preUrl}/getPurchaseOrder`, that, params, success)
+}
+
+export function getStorageOrder(that, params, success) {
+  return post(`${preUrl}/getStorageOrder`, that, params, success)
 }
 
 export function getMyWait(that, params, success) {

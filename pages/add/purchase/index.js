@@ -59,7 +59,7 @@ Page({
     const that = this.data
     getPurchaseOrder(this, {
       id: that.id,
-      type: 1,
+      type: 1, // 采购单
       page: that.page,
       limit: that.pageLimit,
       review: 2, // 已审核

@@ -103,33 +103,35 @@ Page({
         let orderShow = []
         switch (data.type) {
           case 1: // 采购进货
-          case 3: // 仓储入库
-            orderShow = [1, 0, 1, 0, 1]
+            orderShow = [1, 0, 1, 0, 1, '']
             break
           case 2: // 采购退货
+          case 3: // 仓储入库
           case 7: // 仓储退货
-            orderShow = [1, 0, 1, 0, 0]
+            orderShow = [1, 0, 1, 0, 0, '采购单']
             break
           case 4: // 调度出库
-          case 5: // 调度入库
           case 6: // 仓储损耗
-            orderShow = [1, 1, 1, 1, 1]
+            orderShow = [1, 1, 1, 1, 1, '']
+            break
+          case 5: // 调度入库
+            orderShow = [1, 1, 1, 1, 1, '调度单']
             break
           case 8: // 生产开始
-            orderShow = [0, 0, 1, 1, 1]
+            orderShow = [0, 0, 1, 1, 1, '']
             break
           case 9: // 生产完成
           case 10: // 生产损耗
-            orderShow = [0, 1, 1, 1, 1]
+            orderShow = [0, 1, 1, 1, 1, '']
             break
-          case 11: // 履约入库
-          case 12: // 履约出库
-          case 13: // 云仓入库
+          case 11: // 履约发货
           case 16: // 云仓损耗
-            orderShow = [1, 1, 0, 0, 1]
+            orderShow = [1, 1, 0, 0, 1, '']
             break
+          case 12: // 履约退货
+          case 13: // 云仓入库
           case 14: // 云仓退货
-            orderShow = [1, 1, 0, 0, 0]
+            orderShow = [1, 1, 0, 0, 1, '发货单']
             break
           default:
             break

@@ -180,9 +180,25 @@ Page({
         this.setData({
           pid: temp.id,
           purchaseValue: temp.value,
+          originals: temp.originals,
+          standards: temp.standards
+        })
+      } else if (temp.action === 'dispatch') {
+        // 调度单
+        this.setData({
+          pid: temp.id,
+          purchaseValue: temp.value,
           commoditys: temp.commoditys,
           halfgoods: temp.halfgoods,
           originals: temp.originals,
+          standards: temp.standards
+        })
+      } else if (temp.action === 'agreement') {
+        // 进货单
+        this.setData({
+          pid: temp.id,
+          purchaseValue: temp.value,
+          commoditys: temp.commoditys,
           standards: temp.standards
         })
       }
@@ -243,13 +259,20 @@ Page({
 
     if (that.commoditys.length > 0 || that.halfgoods.length > 0 ||
       that.originals.length > 0 || that.standards.length > 0) {
-      if (that.orderShow[4] === 1) {
-        if (that.storageValue.length > 0) {
+      if (that.orderShow[4] === 1 && that.orderShow[5].length > 0) {
+        if (that.storageValue.length > 0 && that.purchaseValue.length > 0) {
           check = true
         }
       } else {
-        if (that.purchaseValue.length > 0) {
-          check = true
+        if (that.orderShow[4] === 1) {
+          if (that.storageValue.length > 0) {
+            check = true
+          }
+        }
+        if (that.orderShow[5].length > 0) {
+          if (that.purchaseValue.length > 0) {
+            check = true
+          }
         }
       }
     }
@@ -280,33 +303,35 @@ Page({
     let orderShow = []
     switch (value) {
       case 1: // 采购进货
-        orderShow = [1, 0, 1, 0, 1]
+        orderShow = [1, 0, 1, 0, 1, '']
         break
       case 2: // 采购退货
       case 3: // 仓储入库
       case 7: // 仓储退货
-        orderShow = [1, 0, 1, 0, 0]
+        orderShow = [1, 0, 1, 0, 0, '采购单']
         break
       case 4: // 调度出库
-      case 5: // 调度入库
       case 6: // 仓储损耗
-        orderShow = [1, 1, 1, 1, 1]
+        orderShow = [1, 1, 1, 1, 1, '']
+        break
+      case 5: // 调度入库
+        orderShow = [1, 1, 1, 1, 1, '调度单']
         break
       case 8: // 生产开始
-        orderShow = [0, 0, 1, 1, 1]
+        orderShow = [0, 0, 1, 1, 1, '']
         break
       case 9: // 生产完成
       case 10: // 生产损耗
-        orderShow = [0, 1, 1, 1, 1]
+        orderShow = [0, 1, 1, 1, 1, '']
         break
-      case 11: // 履约入库
-      case 12: // 履约出库
-      case 13: // 云仓入库
+      case 11: // 履约发货
       case 16: // 云仓损耗
-        orderShow = [1, 1, 0, 0, 1]
+        orderShow = [1, 1, 0, 0, 1, '']
         break
+      case 12: // 履约退货
+      case 13: // 云仓入库
       case 14: // 云仓退货
-        orderShow = [1, 1, 0, 0, 0]
+        orderShow = [1, 1, 0, 0, 1, '发货单']
         break
       default:
         break
@@ -374,10 +399,21 @@ Page({
       collapseValues: event.detail.value
     })
   },
-  selectPurchase() {
-    wx.navigateTo({
-      url: '/pages/add/purchase/index'
-    })
+  selectOrder() {
+    const that = this.data
+    if (that.orderShow[5] === '采购单') {
+      wx.navigateTo({
+        url: '/pages/add/purchase/index'
+      })
+    } else if (that.orderShow[5] === '调度单') {
+      wx.navigateTo({
+        url: '/pages/add/dispatch/index'
+      })
+    } else if (that.orderShow[5] === '发货单') {
+      wx.navigateTo({
+        url: '/pages/add/agreement/index'
+      })
+    }
   },
   setCommodity(event) {
     const {
@@ -564,6 +600,7 @@ Page({
       sid: that.sid,
       rid: that.pid,
       pid: that.pid,
+      did: that.pid,
       date: that.dateText,
       types: [],
       commoditys: [],

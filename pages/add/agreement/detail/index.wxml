@@ -1,0 +1,62 @@
+<view class="container">
+  <view class="form-index">
+    <form class="form-content">
+      <t-cell-group>
+        <view class="divider-line" />
+        <!-- 订单类型选择 -->
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="类型">
+          <view class="field-text" slot="note">{{orderValue}}</view>
+        </t-cell>
+        <!-- 仓库选择 -->
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="仓库">
+          <view class="field-text" slot="note">{{storageValue}}</view>
+        </t-cell>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="批次">
+          <view class="field-text" slot="note">{{batch}}</view>
+        </t-cell>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="日期">
+          <view class="field-text" slot="note">{{dateText}}</view>
+        </t-cell>
+        <view class="divider-line" />
+      </t-cell-group>
+
+      <t-collapse value="{{collapseValues}}" style="padding-left:0; margin-left:0;" bind:change="handleCollapseChange">
+        <!-- 标品列表 -->
+        <t-collapse-panel wx:if="{{standards.length>0}}" header="标品列表 ({{standards.length}}件)" value="{{1}}" header-right-content="价格 / 数量" expandIcon>
+          <t-cell wx:for="{{standards}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" hover />
+        </t-collapse-panel>
+
+        <!-- 商品列表 -->
+        <t-collapse-panel wx:if="{{commoditys.length>0}}" header="商品列表 ({{commoditys.length}}件)" value="{{2}}" header-right-content="价格 / 数量" expandIcon>
+          <t-cell wx:for="{{commoditys}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" hover />
+        </t-collapse-panel>
+
+        <!-- 原料列表 -->
+        <t-collapse-panel wx:if="{{originals.length>0}}" header="原料列表 ({{originals.length}}件)" value="{{3}}" header-right-content="价格 / 数量" expandIcon>
+          <t-cell wx:for="{{originals}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" hover />
+        </t-collapse-panel>
+
+        <!-- 半成品列表 -->
+        <t-collapse-panel wx:if="{{halfgoods.length>0}}" header="半成品列表 ({{halfgoods.length}}件)" value="{{4}}" header-right-content="数量" expandIcon>
+          <t-cell wx:for="{{halfgoods}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" hover />
+        </t-collapse-panel>
+
+        <!-- 凭证列表 -->
+        <t-collapse-panel wx:if="{{uploadFiles.length>0}}" header="凭证列表 (共{{maxUpload}}张)" value="{{6}}" expandIcon>
+          <t-upload media-type="{{['image']}}" max="{{maxUpload}}" files="{{uploadFiles}}" gridConfig="{{gridConfig}}" size-type="compressed" bind:success="handleSuccess" bind:remove="handleRemove" />
+        </t-collapse-panel>
+      </t-collapse>
+
+      <view class="submit">
+        <t-button t-class="btn-submit theme-wrapper-class" style="margin-left: 6%" bind:tap="clickSubmit">
+          <text space="ensp">确 定</text>
+        </t-button>
+      </view>
+    </form>
+  </view>
+  <view class="divider-line" />
+  <view class="divider-line" />
+  <view class="divider-line" />
+  <view class="divider-line" />
+</view>
+<t-message id="t-message" bind:actionBtnClick="relogin" />
