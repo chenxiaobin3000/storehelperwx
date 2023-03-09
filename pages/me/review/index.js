@@ -182,44 +182,48 @@ Page({
       case 2:
         reviewPReturn(this, data, wx.navigateBack)
         break
-      case 3:
+      case 10:
         reviewSPurchase(this, data, wx.navigateBack)
         break
-      case 4:
+      case 11:
         reviewDispatch(this, data, wx.navigateBack)
         break
-      case 5:
+      case 12:
         reviewPurchase2(this, data, wx.navigateBack)
         break
-      case 6:
+      case 13:
         reviewSLoss(this, data, wx.navigateBack)
         break
-      case 7:
+      case 14:
         reviewSReturn(this, data, wx.navigateBack)
         break
-      case 8:
+      case 20:
         reviewProcess(this, data, wx.navigateBack)
         break
-      case 9:
+      case 21:
         reviewPLoss(this, data, wx.navigateBack)
         break
-      case 10:
+      case 22:
         reviewComplete(this, data, wx.navigateBack)
         break
-      case 11:
+      case 30:
         reviewShipped(this, data, wx.navigateBack)
         break
-      case 12:
+      case 31:
         reviewAReturn(this, data, wx.navigateBack)
         break
-      case 13:
+      case 40:
         reviewCPurchase(this, data, wx.navigateBack)
         break
-      case 14:
+      case 41:
         reviewCReturn(this, data, wx.navigateBack)
         break
-      case 16:
+      case 42:
         reviewCLoss(this, data, wx.navigateBack)
+        break
+      case 43:
+        break
+      case 50:
         break
       default:
         break

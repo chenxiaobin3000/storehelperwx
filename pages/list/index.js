@@ -73,44 +73,50 @@ Page({
             case 2:
               v.orderType = '采购退货'
               break
-            case 3:
+            case 10:
               v.orderType = '仓储入库'
               break
-            case 4:
+            case 11:
               v.orderType = '调度出库'
               break
-            case 5:
+            case 12:
               v.orderType = '调度入库'
               break
-            case 6:
+            case 13:
               v.orderType = '仓储损耗'
               break
-            case 7:
+            case 14:
               v.orderType = '仓储退货'
               break
-            case 8:
+            case 20:
               v.orderType = '生产开始'
               break
-            case 9:
+            case 21:
               v.orderType = '生产完成'
               break
-            case 10:
+            case 22:
               v.orderType = '生产损耗'
               break
-            case 11:
+            case 30:
               v.orderType = '履约发货'
               break
-            case 12:
+            case 31:
               v.orderType = '履约退货'
               break
-            case 13:
+            case 40:
               v.orderType = '云仓入库'
               break
-            case 14:
-              v.orderType = '云仓退货'
+            case 41:
+              v.orderType = '云仓退仓库'
               break
-            case 16:
+            case 42:
               v.orderType = '云仓损耗'
+              break
+            case 43:
+              v.orderType = '云仓退采购'
+              break
+            case 50:
+              v.orderType = '销售售后'
               break
             default:
               break

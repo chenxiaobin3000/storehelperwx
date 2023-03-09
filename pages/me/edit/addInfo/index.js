@@ -76,20 +76,22 @@ Page({
       case 2: // 采购退货
         addPReturnInfo(this, data, this.handleData)
         break
-      case 4: // 调度出库
+      case 11: // 调度出库
         addDispatchInfo(this, data, this.handleData)
         break
-      case 7: // 仓储退货
+      case 14: // 仓储退货
         addSReturnInfo(this, data, this.handleData)
         break
-      case 11: // 履约发货
+      case 30: // 履约发货
         addShippedInfo(this, data, this.handleData)
         break
-      case 12: // 履约退货
+      case 31: // 履约退货
         addAReturnInfo(this, data, this.handleData)
         break
-      case 14: // 云仓退货
+      case 41: // 云仓退仓库
         addCReturnInfo(this, data, this.handleData)
+        break
+      case 43: // 云仓退采购
         break
       default:
         break

@@ -67,29 +67,31 @@ Page({
       remark: that.remark
     }
     switch (that.type) {
-      case 3: // 仓储入库
+      case 10: // 仓储入库
         addSPurchaseInfo(this, data, this.handleData)
         break
-      case 5: // 调度入库
+      case 12: // 调度入库
         addPurchase2Info(this, data, this.handleData)
         break
-      case 6: // 仓储损耗
+      case 13: // 仓储损耗
         addSLossInfo(this, data, this.handleData)
         break
-      case 8: // 生产开始
+      case 20: // 生产开始
         addProcessInfo(this, data, this.handleData)
         break
-      case 9: // 生产完成
+      case 21: // 生产完成
         addCompleteInfo(this, data, this.handleData)
         break
-      case 10: // 生产损耗
+      case 22: // 生产损耗
         addPLossInfo(this, data, this.handleData)
         break
-      case 13: // 云仓入库
+      case 40: // 云仓入库
         addCPurchaseInfo(this, data, this.handleData)
         break
-      case 16: // 云仓损耗
+      case 42: // 云仓损耗
         addCLossInfo(this, data, this.handleData)
+        break
+      case 50: // 销售售后
         break
       default:
         break

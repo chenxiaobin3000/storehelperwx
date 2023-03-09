@@ -306,31 +306,33 @@ Page({
         orderShow = [1, 0, 1, 0, 1, '']
         break
       case 2: // 采购退货
-      case 3: // 仓储入库
-      case 7: // 仓储退货
+      case 10: // 仓储入库
+      case 14: // 仓储退货
         orderShow = [1, 0, 1, 0, 0, '采购单']
         break
-      case 4: // 调度出库
-      case 6: // 仓储损耗
+      case 11: // 调度出库
+      case 13: // 仓储损耗
         orderShow = [1, 1, 1, 1, 1, '']
         break
-      case 5: // 调度入库
+      case 12: // 调度入库
         orderShow = [1, 1, 1, 1, 1, '调度单']
         break
-      case 8: // 生产开始
+      case 20: // 生产开始
         orderShow = [0, 0, 1, 1, 1, '']
         break
-      case 9: // 生产完成
-      case 10: // 生产损耗
+      case 21: // 生产完成
+      case 22: // 生产损耗
         orderShow = [0, 1, 1, 1, 1, '']
         break
-      case 11: // 履约发货
-      case 16: // 云仓损耗
+      case 30: // 履约发货
+      case 42: // 云仓损耗
         orderShow = [1, 1, 0, 0, 1, '']
         break
-      case 12: // 履约退货
-      case 13: // 云仓入库
-      case 14: // 云仓退货
+      case 31: // 履约退货
+      case 40: // 云仓入库
+      case 41: // 云仓退仓库
+      case 43: // 云仓退采购
+      case 50: // 销售售后
         orderShow = [1, 1, 0, 0, 1, '发货单']
         break
       default:
@@ -516,23 +518,25 @@ Page({
     switch (that.orderType) {
       case 1: // 采购进货
       case 2: // 采购退货
-      case 7: // 仓储退货
-      case 14: // 云仓退货
+      case 14: // 仓储退货
+      case 41: // 云仓退仓库
+      case 43: // 云仓退采购
         wx.navigateTo({
           url: `/pages/add/editp/index?type=${type}&id=${id}&price=${price}&num=${num}`
         })
         break;
-      case 3: // 仓储入库
-      case 4: // 调度出库
-      case 5: // 调度入库
-      case 6: // 仓储损耗
-      case 8: // 生产开始
-      case 9: // 生产完成
-      case 10: // 生产损耗
-      case 11: // 履约发货
-      case 12: // 履约退货
-      case 13: // 云仓入库
-      case 16: // 云仓损耗
+      case 10: // 仓储入库
+      case 11: // 调度出库
+      case 12: // 调度入库
+      case 13: // 仓储损耗
+      case 20: // 生产开始
+      case 21: // 生产完成
+      case 22: // 生产损耗
+      case 30: // 履约发货
+      case 31: // 履约退货
+      case 40: // 云仓入库
+      case 42: // 云仓损耗
+      case 50: // 销售售后
         wx.navigateTo({
           url: `/pages/add/edit/index?type=${type}&id=${id}&num=${num}`
         })
@@ -643,44 +647,48 @@ Page({
       case 2: // 采购退货
         preturn(this, data, this.handleSubmit)
         break
-      case 3: // 仓储入库
+      case 10: // 仓储入库
         spurchase(this, data, this.handleSubmit)
         break
-      case 4: // 调度出库
+      case 11: // 调度出库
         dispatch(this, data, this.handleSubmit)
         break
-      case 5: // 调度入库
+      case 12: // 调度入库
         purchase2(this, data, this.handleSubmit)
         break
-      case 6: // 仓储损耗
+      case 13: // 仓储损耗
         sloss(this, data, this.handleSubmit)
         break
-      case 7: // 仓储退货
+      case 14: // 仓储退货
         sreturn(this, data, this.handleSubmit)
         break
-      case 8: // 生产开始
+      case 20: // 生产开始
         process(this, data, this.handleSubmit)
         break
-      case 9: // 生产完成
+      case 21: // 生产完成
         complete(this, data, this.handleSubmit)
         break
-      case 10: // 生产损耗
+      case 22: // 生产损耗
         ploss(this, data, this.handleSubmit)
         break
-      case 11: // 履约发货
+      case 30: // 履约发货
         shipped(this, data, this.handleSubmit)
         break
-      case 12: // 履约退货
+      case 31: // 履约退货
         areturn(this, data, this.handleSubmit)
         break
-      case 13: // 云仓入库
+      case 40: // 云仓入库
         cpurchase(this, data, this.handleSubmit)
         break
-      case 14: // 云仓退货
+      case 41: // 云仓退仓库
         creturn(this, data, this.handleSubmit)
         break
-      case 16: // 云仓损耗
+      case 42: // 云仓损耗
         closs(this, data, this.handleSubmit)
+        break
+      case 43: // 云仓退采购
+        break
+      case 50: // 销售售后
         break
       default:
         break
