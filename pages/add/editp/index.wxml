@@ -7,11 +7,17 @@
           <view wx:if="{{commodityValue && commodityValue.id}}" class="field-text" slot="note">{{commodityValue.name}}</view>
           <view wx:else slot="note">请在下方选择{{nameText}}</view>
         </t-cell>
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="价格">
-          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{price}}" maxlength="16" placeholder="请输入{{nameText}}价格" data-item="price" bind:change="onInputValue" />
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="总价">
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{price}}" maxlength="16" placeholder="请输入{{nameText}}总价" data-item="price" bind:change="onInputValue" />
         </t-cell>
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="数量">
-          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{num}}" maxlength="16" placeholder="请输入{{nameText}}数量" data-item="num" bind:change="onInputValue" />
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="重量">
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{weight}}" maxlength="16" placeholder="请输入{{nameText}}重量" data-item="weight" bind:change="onInputValue" />
+        </t-cell>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="规格">
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{norm}}" maxlength="16" placeholder="请输入{{nameText}}规格" data-item="norm" bind:change="onInputValue" />
+        </t-cell>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="件数">
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{num}}" maxlength="16" placeholder="请输入{{nameText}}件数" data-item="num" bind:change="onInputValue" />
         </t-cell>
       </t-cell-group>
 

@@ -28,10 +28,12 @@ Page({
     pageLimit: 10,
     search: null,
     commodityValue: {},
+    price: 0,
+    weight: 0,
+    norm: 0,
     num: 0,
     submitActive: false,
-    nameText: '商品',
-    btnText: '添 加',
+    nameText: '',
     total: 0,
     commodityList: [],
     commodityListLoadStatus: 0,
@@ -44,12 +46,14 @@ Page({
       cid: parseInt(options.id),
       id: getApp().globalData.user.id
     })
-    if (options.num > 0) {
+    if (options.price > 0 && options.weight > 0 && options.norm > 0 && options.num > 0) {
       this.setData({
         lock: true,
+        price: options.price,
+        weight: options.weight,
+        norm: options.norm,
         num: options.num,
-        submitActive: true,
-        btnText: '修 改'
+        submitActive: true
       })
     }
   },
@@ -132,7 +136,7 @@ Page({
   },
   checkSubmitActive() {
     const that = this.data
-    if (that.commodityValue && that.commodityValue.id && that.num > 0) {
+    if (that.commodityValue && that.commodityValue.id && that.price > 0 && that.weight > 0 && that.norm > 0 && that.num > 0) {
       this.setData({
         submitActive: true
       })
@@ -177,10 +181,13 @@ Page({
       default:
         break
     }
-    if (that.num && that.num > 0) {
+    if (that.price && that.price > 0 && that.weight && that.weight > 0 && that.norm && that.norm > 0 && that.num && that.num > 0) {
       getApp().globalData.temp = {
         action: action,
         commodity: that.commodityValue,
+        price: that.price,
+        weight: that.weight,
+        norm: that.norm,
         num: that.num
       }
       wx.navigateBack()

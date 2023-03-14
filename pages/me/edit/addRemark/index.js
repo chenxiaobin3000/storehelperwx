@@ -12,9 +12,12 @@ import {
 } from '../../../../service/product'
 import {
   addSPurchaseInfo,
-  addPurchase2Info,
+  addSPurchase2Info,
   addSLossInfo
 } from '../../../../service/storage'
+import {
+  addMReturn
+}from '../../../../service/sale'
 Page({
   data: {
     id: 0,
@@ -67,11 +70,11 @@ Page({
       remark: that.remark
     }
     switch (that.type) {
-      case 10: // 仓储入库
+      case 10: // 仓储采购入库
         addSPurchaseInfo(this, data, this.handleData)
         break
-      case 12: // 调度入库
-        addPurchase2Info(this, data, this.handleData)
+      case 12: // 仓储调度入库
+        addSPurchase2Info(this, data, this.handleData)
         break
       case 13: // 仓储损耗
         addSLossInfo(this, data, this.handleData)
@@ -85,13 +88,17 @@ Page({
       case 22: // 生产损耗
         addPLossInfo(this, data, this.handleData)
         break
-      case 40: // 云仓入库
+      case 40: // 云仓采购入库
         addCPurchaseInfo(this, data, this.handleData)
         break
       case 42: // 云仓损耗
         addCLossInfo(this, data, this.handleData)
         break
+      case 44: // 云仓履约入库
+        addCAgreementInfo(this, data, this.handleData)
+        break
       case 50: // 销售售后
+        addMReturn(this, data, this.handleData)
         break
       default:
         break

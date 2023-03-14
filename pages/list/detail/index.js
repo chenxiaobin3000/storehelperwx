@@ -1,7 +1,8 @@
 import OrderData from '../../../util/order'
 import {
   myToast,
-  relogin
+  relogin,
+  handleOrderPrice
 } from '../../../util/util'
 import {
   imageSrc
@@ -55,6 +56,8 @@ Page({
             id: v.cid,
             name: v.name,
             price: v.price,
+            weight: v.weight / 1000,
+            norm: v.norm,
             num: v.value
           }
           switch (v.ctype) {
@@ -114,8 +117,8 @@ Page({
         orderValue: orderValue,
         storageValue: data.sname,
         batch: data.batch,
-        unit: data.unit,
-        curUnit: data.curUnit,
+        unit: data.unit / 1000,
+        curUnit: data.curUnit / 1000,
         price: data.price,
         curPrice: data.curPrice,
         date: new Date(data.applyTime).getTime(),
@@ -175,35 +178,15 @@ Page({
   },
   clickSubmit() {
     const that = this.data
-    switch (that.orderType) {
-      case 1: // 采购进货
-      case 2: // 采购退货
-      case 11: // 调度出库
-      case 14: // 仓储退货
-      case 30: // 履约发货
-      case 31: // 履约退货
-      case 41: // 云仓退仓库
-      case 43: // 云仓退采购
-        wx.navigateTo({
-          url: `/pages/me/edit/addInfo/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
-        })
-        break;
-      case 10: // 仓储入库
-      case 12: // 调度入库
-      case 13: // 仓储损耗
-      case 20: // 生产开始
-      case 21: // 生产完成
-      case 22: // 生产损耗
-      case 40: // 云仓入库
-      case 42: // 云仓损耗
-      case 50: // 销售售后
-        wx.navigateTo({
-          url: `/pages/me/edit/addRemark/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
-        })
-        break;
-      default:
-        break;
-    }
+    handleOrderPrice(that.orderType, () => {
+      wx.navigateTo({
+        url: `/pages/me/edit/addInfo/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
+      })
+    }, () => {
+      wx.navigateTo({
+        url: `/pages/me/edit/addRemark/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
+      })
+    })
   },
   relogin() {
     relogin()

@@ -21,7 +21,7 @@ page .divider-line {
 }
 
 .form-index .t-cell-title {
-  margin-left: 44rpx;
+  margin-left: 20rpx;
   width: 100rpx;
   flex: none;
 }

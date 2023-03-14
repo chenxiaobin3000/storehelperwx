@@ -56,28 +56,52 @@ export function delDispatchInfo(that, params, success) {
   return post(`${preUrl}/delDispatchInfo`, that, params, success)
 }
 
-export function purchase2(that, params, success) {
+export function spurchase2(that, params, success) {
   return post(`${preUrl}/purchase2`, that, params, success)
 }
 
-export function setPurchase2(that, params, success) {
+export function setSPurchase2(that, params, success) {
   return post(`${preUrl}/setPurchase2`, that, params, success)
 }
 
-export function delPurchase2(that, params, success) {
+export function delSPurchase2(that, params, success) {
   return post(`${preUrl}/delPurchase2`, that, params, success)
 }
 
-export function reviewPurchase2(that, params, success) {
+export function reviewSPurchase2(that, params, success) {
   return post(`${preUrl}/reviewPurchase2`, that, params, success)
 }
 
-export function addPurchase2Info(that, params, success) {
+export function addSPurchase2Info(that, params, success) {
   return post(`${preUrl}/addPurchase2Info`, that, params, success)
 }
 
-export function delPurchase2Info(that, params, success) {
+export function delSPurchase2Info(that, params, success) {
   return post(`${preUrl}/delPurchase2Info`, that, params, success)
+}
+
+export function sagreement(that, params, success) {
+  return post(`${preUrl}/agreement`, that, params, success)
+}
+
+export function setSAgreement(that, params, success) {
+  return post(`${preUrl}/setAgreement`, that, params, success)
+}
+
+export function delSAgreement(that, params, success) {
+  return post(`${preUrl}/delAgreement`, that, params, success)
+}
+
+export function reviewSAgreement(that, params, success) {
+  return post(`${preUrl}/reviewAgreement`, that, params, success)
+}
+
+export function addSAgreementInfo(that, params, success) {
+  return post(`${preUrl}/addAgreementInfo`, that, params, success)
+}
+
+export function delSAgreementInfo(that, params, success) {
+  return post(`${preUrl}/delAgreementInfo`, that, params, success)
 }
 
 export function sloss(that, params, success) {

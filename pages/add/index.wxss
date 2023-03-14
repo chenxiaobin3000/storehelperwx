@@ -21,7 +21,7 @@ page .divider-line {
 }
 
 .form-index .t-cell-title {
-  margin-left: 44rpx;
+  margin-left: 20rpx;
   width: 100rpx;
   flex: none;
 }
@@ -32,8 +32,8 @@ page .divider-line {
 }
 
 .form-index .t-cell-title-all {
-  margin-left: 44rpx;
-  width: 56%;
+  margin-left: 32rpx;
+  width: 46%;
   flex: none;
 }
 
@@ -64,7 +64,7 @@ page .divider-line {
 }
 
 .submit .btn-submit {
-  width: 90%;
+  width: 88%;
   background: #2340e7;
   color: #fff;
   border-radius: 48rpx;

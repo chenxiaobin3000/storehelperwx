@@ -1,5 +1,6 @@
 import {
-  relogin
+  relogin,
+  getOrderType
 } from '../../util/util'
 import {
   getMyComplete
@@ -66,61 +67,7 @@ Page({
     }, data => {
       if (data.list && data.list.length > 0) {
         data.list.forEach(v => {
-          switch (v.type) {
-            case 1:
-              v.orderType = '采购进货'
-              break
-            case 2:
-              v.orderType = '采购退货'
-              break
-            case 10:
-              v.orderType = '仓储入库'
-              break
-            case 11:
-              v.orderType = '调度出库'
-              break
-            case 12:
-              v.orderType = '调度入库'
-              break
-            case 13:
-              v.orderType = '仓储损耗'
-              break
-            case 14:
-              v.orderType = '仓储退货'
-              break
-            case 20:
-              v.orderType = '生产开始'
-              break
-            case 21:
-              v.orderType = '生产完成'
-              break
-            case 22:
-              v.orderType = '生产损耗'
-              break
-            case 30:
-              v.orderType = '履约发货'
-              break
-            case 31:
-              v.orderType = '履约退货'
-              break
-            case 40:
-              v.orderType = '云仓入库'
-              break
-            case 41:
-              v.orderType = '云仓退仓库'
-              break
-            case 42:
-              v.orderType = '云仓损耗'
-              break
-            case 43:
-              v.orderType = '云仓退采购'
-              break
-            case 50:
-              v.orderType = '销售售后'
-              break
-            default:
-              break
-          }
+          v.orderType = getOrderType(v.type)
           v.applyTime2 = v.applyTime.substring(0, 10)
         })
         const curPage = that.page

@@ -15,7 +15,7 @@
           <view class="field-text" slot="note">{{batch}}</view>
         </t-cell>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="总量">
-          <view class="field-text" slot="note">{{curUnit}}克 / {{unit}}克</view>
+          <view class="field-text" slot="note">{{curUnit}}kg / {{unit}}kg</view>
         </t-cell>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="总价">
           <view class="field-text" slot="note">{{curPrice}}元 / {{price}}元 </view>
@@ -26,25 +26,25 @@
         <view class="divider-line" />
       </t-cell-group>
 
-      <t-collapse value="{{collapseValues}}" style="padding-left:0; margin-left:0;" bind:change="handleCollapseChange">
+      <t-collapse value="{{collapseValues}}" bind:change="handleCollapseChange">
         <!-- 标品列表 -->
-        <t-collapse-panel wx:if="{{standards.length>0}}" header="标品列表 ({{standards.length}}件)" value="{{1}}" header-right-content="价格 / 数量" expandIcon>
-          <t-cell wx:for="{{standards}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" hover />
+        <t-collapse-panel wx:if="{{standards.length>0}}" header="标品列表 ({{standards.length}}件)" value="{{1}}" header-right-content="总价/重量/规格/件数" expandIcon>
+          <t-cell wx:for="{{standards}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元\n{{item.weight}}kg/{{item.norm}}/{{item.num}}件" data-value="{{item}}" hover />
         </t-collapse-panel>
 
         <!-- 商品列表 -->
-        <t-collapse-panel wx:if="{{commoditys.length>0}}" header="商品列表 ({{commoditys.length}}件)" value="{{2}}" header-right-content="价格 / 数量" expandIcon>
-          <t-cell wx:for="{{commoditys}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" hover />
+        <t-collapse-panel wx:if="{{commoditys.length>0}}" header="商品列表 ({{commoditys.length}}件)" value="{{2}}" header-right-content="总价/重量/规格/件数" expandIcon>
+          <t-cell wx:for="{{commoditys}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元\n{{item.weight}}kg/{{item.norm}}/{{item.num}}件" data-value="{{item}}" hover />
         </t-collapse-panel>
 
         <!-- 原料列表 -->
-        <t-collapse-panel wx:if="{{originals.length>0}}" header="原料列表 ({{originals.length}}件)" value="{{3}}" header-right-content="价格 / 数量" expandIcon>
-          <t-cell wx:for="{{originals}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" hover />
+        <t-collapse-panel wx:if="{{originals.length>0}}" header="原料列表 ({{originals.length}}件)" value="{{3}}" header-right-content="总价/重量/规格/件数" expandIcon>
+          <t-cell wx:for="{{originals}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元\n{{item.weight}}kg/{{item.norm}}/{{item.num}}件" data-value="{{item}}" hover />
         </t-collapse-panel>
 
         <!-- 半成品列表 -->
-        <t-collapse-panel wx:if="{{halfgoods.length>0}}" header="半成品列表 ({{halfgoods.length}}件)" value="{{4}}" header-right-content="数量" expandIcon>
-          <t-cell wx:for="{{halfgoods}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" hover />
+        <t-collapse-panel wx:if="{{halfgoods.length>0}}" header="半成品列表 ({{halfgoods.length}}件)" value="{{4}}" header-right-content="总价/重量/规格/件数" expandIcon>
+          <t-cell wx:for="{{halfgoods}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元\n{{item.weight}}kg/{{item.norm}}/{{item.num}}件" data-value="{{item}}" hover />
         </t-collapse-panel>
 
         <!-- 凭证列表 -->

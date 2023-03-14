@@ -43,6 +43,10 @@ Page({
   },
   login() {
     const that = this.data
+    if (!that.submitActive) {
+      myToast(this, '请填写全部信息')
+      return
+    }
     if (that.checkGroup.length === 0) {
       myToast(this, '请勾选用户协议')
     } else {

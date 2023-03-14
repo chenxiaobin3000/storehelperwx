@@ -7,6 +7,7 @@ import {
 Page({
   data: {
     total: 0,
+    otype: 0,
     orderList: [],
     orderListLoadStatus: 0,
     backTopVisible: false,
@@ -15,9 +16,10 @@ Page({
     pageLimit: 10,
     search: null
   },
-  onLoad() {
+  onLoad(options) {
     wx.hideHomeButton()
     this.setData({
+      otype: options.type,
       id: getApp().globalData.user.id
     })
   },
@@ -59,20 +61,17 @@ Page({
     const that = this.data
     getPurchaseOrder(this, {
       id: that.id,
-      type: 1, // 采购单
+      type: that.otype, // 订单类型
       page: that.page,
       limit: that.pageLimit,
       review: 2, // 已审核
+      complete: 0, // 未完成
       search: that.search
     }, data => {
       if (data.list && data.list.length > 0) {
         data.list.forEach(v => {
-          switch (v.type) {
-            case 1:
-              v.orderType = '采购单'
-              break
-            default:
-              break
+          if (v.type === 1 || v.type === 3) {
+            v.orderType = '采购单'
           }
           v.applyTime2 = v.applyTime.substring(0, 10)
         })

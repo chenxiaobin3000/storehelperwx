@@ -1,0 +1,31 @@
+<view class="container">
+  <view class="form-index">
+    <form class="form-content">
+      <t-cell-group>
+        <view class="divider-line" />
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{nameText}}">
+          <view class="field-text" slot="note">{{commodityValue.name}}</view>
+        </t-cell>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="总价">
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{price}}" maxlength="16" placeholder="请输入{{nameText}}总价" data-item="price" bind:change="onInputValue" />
+        </t-cell>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="重量">
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{weight}}" maxlength="16" placeholder="请输入{{nameText}}重量" data-item="weight" bind:change="onInputValue" />
+        </t-cell>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="规格">
+          <view class="field-text" style="margin-left:30rpx" slot="note">{{norm}}</view>
+        </t-cell>
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" title="件数">
+          <t-input class="t-input" t-class="field-text" type="text" slot="note" value="{{num}}" maxlength="16" placeholder="请输入{{nameText}}件数" data-item="num" bind:change="onInputValue" />
+        </t-cell>
+      </t-cell-group>
+
+      <view class="submit">
+        <t-button t-class="btn-submit theme-wrapper-class" style="margin-left: 6%" bind:tap="addCommodity">
+          <text space="ensp">确 定</text>
+        </t-button>
+      </view>
+    </form>
+  </view>
+</view>
+<t-message id="t-message" bind:actionBtnClick="relogin" />

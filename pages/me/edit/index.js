@@ -4,16 +4,22 @@ import {
 } from '../../../util/imagesrc'
 import {
   formatTime,
-  relogin
+  relogin,
+  getOrderShow,
+  handleOrderCommodity,
+  handleOrderPrice
 } from '../../../util/util'
 import {
   setShipped,
   setAReturn
 } from '../../../service/agreement'
 import {
+  getGroupAllCloud,
   setCPurchase,
+  setCAgreement,
   setCLoss,
-  setCReturn
+  setCReturn,
+  setCBack
 } from '../../../service/cloud'
 import {
   setProcess,
@@ -22,16 +28,22 @@ import {
 } from '../../../service/product'
 import {
   setPurchase,
-  setPReturn
+  setPReturn,
+  setPurchase2,
+  setPReturn2
 } from '../../../service/purchase'
 import {
   getGroupAllStorage,
   setSPurchase,
   setDispatch,
-  setPurchase2,
+  setSPurchase2,
   setSLoss,
-  setSReturn
+  setSReturn,
+  setSAgreement
 } from '../../../service/storage'
+import {
+  setMReturn
+} from '../../../service/sale'
 import {
   getOrder
 } from '../../../service/order'
@@ -44,10 +56,11 @@ Page({
     orderType: 0,
     orderValue: '',
     orderShow: [],
-    sid: 0,
+    sid: 0, // 仓库id
     storageVisible: false,
     storageValue: '',
     storages: [],
+    clouds: [],
     batch: '',
     purchaseValue: '',
     dateVisible: false,
@@ -86,6 +99,20 @@ Page({
         storages: list
       })
     })
+    getGroupAllCloud(this, {
+      id: app.globalData.user.id
+    }, data => {
+      const list = []
+      data.list.forEach(v => {
+        list.push({
+          label: v.name,
+          value: v
+        })
+      })
+      this.setData({
+        clouds: list
+      })
+    })
   },
   onShow() {
     const app = getApp()
@@ -100,45 +127,7 @@ Page({
           }
         })
 
-        let orderShow = []
-        switch (data.type) {
-          case 1: // 采购进货
-            orderShow = [1, 0, 1, 0, 1, '']
-            break
-          case 2: // 采购退货
-          case 10: // 仓储入库
-          case 14: // 仓储退货
-          case 43: // 云仓退采购
-            orderShow = [1, 0, 1, 0, 0, '采购单']
-            break
-          case 11: // 调度出库
-          case 13: // 仓储损耗
-            orderShow = [1, 1, 1, 1, 1, '']
-            break
-          case 12: // 调度入库
-            orderShow = [1, 1, 1, 1, 1, '调度单']
-            break
-          case 20: // 生产开始
-            orderShow = [0, 0, 1, 1, 1, '']
-            break
-          case 21: // 生产完成
-          case 22: // 生产损耗
-            orderShow = [0, 1, 1, 1, 1, '']
-            break
-          case 30: // 履约发货
-          case 42: // 云仓损耗
-            orderShow = [1, 1, 0, 0, 1, '']
-            break
-          case 31: // 履约退货
-          case 40: // 云仓入库
-          case 41: // 云仓退仓库
-          case 50: // 销售售后
-            orderShow = [1, 1, 0, 0, 1, '发货单']
-            break
-          default:
-            break
-        }
-
+        let orderShow = getOrderShow(data.type)
         if (orderShow[4] === 0) {
           getOrder(this, {
             id: app.globalData.user.id,
@@ -161,6 +150,8 @@ Page({
               id: v.cid,
               name: v.name,
               price: v.price,
+              weight: v.weight / 1000,
+              norm: v.norm,
               num: v.value
             }
             switch (v.ctype) {
@@ -225,6 +216,8 @@ Page({
         this.data.commoditys.forEach(v => {
           if (v.id === temp.commodity.id) {
             v.price = temp.price
+            v.weight = temp.weight
+            v.norm = temp.norm
             v.num = temp.num
             find = true
           }
@@ -234,6 +227,8 @@ Page({
             id: temp.commodity.id,
             name: temp.commodity.name,
             price: temp.price,
+            weight: temp.commodity.weight,
+            norm: temp.norm,
             num: temp.num
           })
         }
@@ -246,6 +241,8 @@ Page({
         this.data.halfgoods.forEach(v => {
           if (v.id === temp.commodity.id) {
             v.price = temp.price
+            v.weight = temp.weight
+            v.norm = temp.norm
             v.num = temp.num
             find = true
           }
@@ -255,6 +252,8 @@ Page({
             id: temp.commodity.id,
             name: temp.commodity.name,
             price: temp.price,
+            weight: temp.commodity.weight,
+            norm: temp.norm,
             num: temp.num
           })
         }
@@ -267,6 +266,8 @@ Page({
         this.data.originals.forEach(v => {
           if (v.id === temp.commodity.id) {
             v.price = temp.price
+            v.weight = temp.weight
+            v.norm = temp.norm
             v.num = temp.num
             find = true
           }
@@ -276,6 +277,8 @@ Page({
             id: temp.commodity.id,
             name: temp.commodity.name,
             price: temp.price,
+            weight: temp.commodity.weight,
+            norm: temp.norm,
             num: temp.num
           })
         }
@@ -288,6 +291,8 @@ Page({
         this.data.standards.forEach(v => {
           if (v.id === temp.commodity.id) {
             v.price = temp.price
+            v.weight = temp.weight
+            v.norm = temp.norm
             v.num = temp.num
             find = true
           }
@@ -297,6 +302,8 @@ Page({
             id: temp.commodity.id,
             name: temp.commodity.name,
             price: temp.price,
+            weight: temp.commodity.weight,
+            norm: temp.norm,
             num: temp.num
           })
         }
@@ -441,12 +448,14 @@ Page({
     const {
       id,
       price,
+      weight,
+      norm,
       num
     } = event.currentTarget.dataset.value
-    this.jumpEdit(1, id, price, num)
+    this.jumpEdit(1, id, price, weight, norm, num)
   },
   addCommodity() {
-    this.jumpEdit(1, 0, 0, 0)
+    this.jumpEdit(1, 0, 0, 0, 0, 0)
   },
   delCommodity(event) {
     const id = event.currentTarget.dataset.value.id
@@ -465,12 +474,14 @@ Page({
     const {
       id,
       price,
+      weight,
+      norm,
       num
     } = event.currentTarget.dataset.value
-    this.jumpEdit(2, id, price, num)
+    this.jumpEdit(2, id, price, weight, norm, num)
   },
   addHalfgood() {
-    this.jumpEdit(2, 0, 0, 0)
+    this.jumpEdit(2, 0, 0, 0, 0, 0)
   },
   delHalfgood(event) {
     const id = event.currentTarget.dataset.value.id
@@ -489,12 +500,14 @@ Page({
     const {
       id,
       price,
+      weight,
+      norm,
       num
     } = event.currentTarget.dataset.value
-    this.jumpEdit(3, id, price, num)
+    this.jumpEdit(3, id, price, weight, norm, num)
   },
   addOriginal() {
-    this.jumpEdit(3, 0, 0, 0)
+    this.jumpEdit(3, 0, 0, 0, 0, 0)
   },
   delOriginal(event) {
     const id = event.currentTarget.dataset.value.id
@@ -513,12 +526,14 @@ Page({
     const {
       id,
       price,
+      weight,
+      norm,
       num
     } = event.currentTarget.dataset.value
-    this.jumpEdit(4, id, price, num)
+    this.jumpEdit(4, id, price, weight, norm, num)
   },
   addStandard() {
-    this.jumpEdit(4, 0, 0, 0)
+    this.jumpEdit(4, 0, 0, 0, 0, 0)
   },
   delStandard(event) {
     const id = event.currentTarget.dataset.value.id
@@ -533,37 +548,21 @@ Page({
     })
     this.checkSubmitActive()
   },
-  jumpEdit(type, id, price, num) {
+  jumpEdit(type, id, price, weight, norm, num) {
     const that = this.data
-    switch (that.orderType) {
-      case 1: // 采购进货
-      case 2: // 采购退货
-      case 14: // 仓储退货
-      case 41: // 云仓退仓库
-      case 43: // 云仓退采购
-        wx.navigateTo({
-          url: `/pages/add/editp/index?type=${type}&id=${id}&price=${price}&num=${num}`
-        })
-        break;
-      case 10: // 仓储入库
-      case 11: // 调度出库
-      case 12: // 调度入库
-      case 13: // 仓储损耗
-      case 20: // 生产开始
-      case 21: // 生产完成
-      case 22: // 生产损耗
-      case 30: // 履约发货
-      case 31: // 履约退货
-      case 40: // 云仓入库
-      case 42: // 云仓损耗
-      case 50: // 销售售后
-        wx.navigateTo({
-          url: `/pages/add/edit/index?type=${type}&id=${id}&num=${num}`
-        })
-        break;
-      default:
-        break;
-    }
+    handleOrderCommodity(that.orderType, () => {
+      wx.navigateTo({
+        url: `/pages/add/editp/index?type=${type}&id=${id}&price=${price}&weight=${weight}&norm=${norm}&num=${num}`
+      })
+    }, () => {
+      wx.navigateTo({
+        url: `/pages/add/editr/index?type=${type}&id=${id}&price=${price}&weight=${weight}&norm=${norm}&num=${num}`
+      })
+    }, () => {
+      wx.navigateTo({
+        url: `/pages/add/edit/index?type=${type}&id=${id}&num=${num}`
+      })
+    })
   },
   // 上传
   handleSuccess(event) {
@@ -616,6 +615,10 @@ Page({
   clickSubmit() {
     const app = getApp()
     const that = this.data
+    if (!that.submitActive) {
+      myToast(this, '请填写全部信息')
+      return
+    }
     const data = {
       id: app.globalData.user.id,
       gid: app.globalData.group.id,
@@ -624,33 +627,43 @@ Page({
       date: that.dateText,
       types: [],
       commoditys: [],
-      values: [],
       prices: [],
+      weights: [],
+      norms: [],
+      values: [],
       attrs: []
     }
     that.commoditys.forEach(v => {
       data.types.push(1)
       data.commoditys.push(v.id)
-      data.values.push(v.num)
       data.prices.push(v.price)
+      data.weights.push(v.weight * 1000)
+      data.norms.push(v.norm)
+      data.values.push(v.num)
     })
     that.halfgoods.forEach(v => {
       data.types.push(2)
       data.commoditys.push(v.id)
-      data.values.push(v.num)
       data.prices.push(v.price)
+      data.weights.push(v.weight * 1000)
+      data.norms.push(v.norm)
+      data.values.push(v.num)
     })
     that.originals.forEach(v => {
       data.types.push(3)
       data.commoditys.push(v.id)
-      data.values.push(v.num)
       data.prices.push(v.price)
+      data.weights.push(v.weight * 1000)
+      data.norms.push(v.norm)
+      data.values.push(v.num)
     })
     that.standards.forEach(v => {
       data.types.push(4)
       data.commoditys.push(v.id)
-      data.values.push(v.num)
       data.prices.push(v.price)
+      data.weights.push(v.weight * 1000)
+      data.norms.push(v.norm)
+      data.values.push(v.num)
     })
     that.uploadFiles.forEach(v => {
       data.attrs.push(v.id)
@@ -658,134 +671,87 @@ Page({
 
     switch (that.orderType) {
       case 1:
-        setPurchase(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setPurchase(this, data, this.handleSetData)
         break
       case 2:
-        setPReturn(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setPReturn(this, data, this.handleSetData)
+        break
+      case 3:
+        setPurchase2(this, data, this.handleSetData)
+        break
+      case 4:
+        setPReturn2(this, data, this.handleSetData)
         break
       case 10:
-        setSPurchase(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setSPurchase(this, data, this.handleSetData)
         break
       case 11:
-        setDispatch(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setDispatch(this, data, this.handleSetData)
         break
       case 12:
-        setPurchase2(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setSPurchase2(this, data, this.handleSetData)
         break
       case 13:
-        setSLoss(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setSLoss(this, data, this.handleSetData)
         break
       case 14:
-        setSReturn(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setSReturn(this, data, this.handleSetData)
+        break
+      case 15:
+        setSAgreement(this, data, this.handleSetData)
         break
       case 20:
-        setProcess(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setProcess(this, data, this.handleSetData)
         break
       case 21:
-        setComplete(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setComplete(this, data, this.handleSetData)
         break
       case 22:
-        setPLoss(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setPLoss(this, data, this.handleSetData)
         break
       case 30:
-        setShipped(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setShipped(this, data, this.handleSetData)
         break
       case 31:
-        setAReturn(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setAReturn(this, data, this.handleSetData)
         break
       case 40:
-        setCPurchase(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setCPurchase(this, data, this.handleSetData)
         break
       case 41:
-        setCReturn(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setCReturn(this, data, this.handleSetData)
         break
       case 42:
-        setCLoss(this, data, () => {
-          this.reset()
-          wx.navigateBack()
-        })
+        setCLoss(this, data, this.handleSetData)
         break
       case 43:
+        setCBack(this, data, this.handleSetData)
+        break
+      case 44:
+        setCAgreement(this, data, this.handleSetData)
         break
       case 50:
+        setMReturn(this, data, this.handleSetData)
         break
       default:
         break
     }
   },
+  handleSetData() {
+    this.reset()
+    wx.navigateBack()
+  },
   clickSubmitInfo() {
     const that = this.data
-    switch (that.orderType) {
-      case 1: // 采购进货
-      case 2: // 采购退货
-      case 11: // 调度出库
-      case 14: // 仓储退货
-      case 30: // 履约发货
-      case 31: // 履约退货
-      case 41: // 云仓退仓库
-      case 43: // 云仓退采购
-        wx.navigateTo({
-          url: `/pages/me/edit/addInfo/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
-        })
-        break;
-      case 10: // 仓储入库
-      case 12: // 调度入库
-      case 13: // 仓储损耗
-      case 20: // 生产开始
-      case 21: // 生产完成
-      case 22: // 生产损耗
-      case 40: // 云仓入库
-      case 42: // 云仓损耗
-      case 50: // 销售售后
-        wx.navigateTo({
-          url: `/pages/me/edit/addRemark/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
-        })
-        break;
-      default:
-        break;
-    }
+    handleOrderPrice(that.orderType, () => {
+      wx.navigateTo({
+        url: `/pages/me/edit/addInfo/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
+      })
+    }, () => {
+      wx.navigateTo({
+        url: `/pages/me/edit/addRemark/index?type=${that.orderType}&id=${that.orderId}&batch=${that.batch}`
+      })
+    })
   },
   relogin() {
     relogin()

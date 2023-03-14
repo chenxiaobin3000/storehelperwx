@@ -12,8 +12,10 @@ import {
 } from '../../../service/agreement'
 import {
   reviewCPurchase,
+  reviewCAgreement,
+  reviewCLoss,
   reviewCReturn,
-  reviewCLoss
+  reviewCBack
 } from '../../../service/cloud'
 import {
   reviewProcess,
@@ -22,15 +24,21 @@ import {
 } from '../../../service/product'
 import {
   reviewPurchase,
-  reviewPReturn
+  reviewPReturn,
+  reviewPurchase2,
+  reviewPReturn2
 } from '../../../service/purchase'
 import {
   reviewSPurchase,
   reviewDispatch,
-  reviewPurchase2,
+  reviewSPurchase2,
+  reviewSAgreement,
   reviewSLoss,
   reviewSReturn
 } from '../../../service/storage'
+import {
+  reviewMReturn
+} from '../../../service/sale'
 Page({
   data: {
     orderId: 0,
@@ -79,6 +87,8 @@ Page({
             id: v.cid,
             name: v.name,
             price: v.price,
+            weight: v.weight / 1000,
+            norm: v.norm,
             num: v.value
           }
           switch (v.ctype) {
@@ -137,8 +147,8 @@ Page({
         orderType: data.type,
         orderValue: orderValue,
         storageValue: data.sname,
-        unit: data.unit,
-        curUnit: data.curUnit,
+        unit: data.unit / 1000,
+        curUnit: data.curUnit / 1000,
         price: data.price,
         curPrice: data.curPrice,
         batch: data.batch,
@@ -182,6 +192,12 @@ Page({
       case 2:
         reviewPReturn(this, data, wx.navigateBack)
         break
+      case 3:
+        reviewPurchase2(this, data, wx.navigateBack)
+        break
+      case 4:
+        reviewPReturn2(this, data, wx.navigateBack)
+        break
       case 10:
         reviewSPurchase(this, data, wx.navigateBack)
         break
@@ -189,13 +205,16 @@ Page({
         reviewDispatch(this, data, wx.navigateBack)
         break
       case 12:
-        reviewPurchase2(this, data, wx.navigateBack)
+        reviewSPurchase2(this, data, wx.navigateBack)
         break
       case 13:
         reviewSLoss(this, data, wx.navigateBack)
         break
       case 14:
         reviewSReturn(this, data, wx.navigateBack)
+        break
+      case 15:
+        reviewSAgreement(this, data, wx.navigateBack)
         break
       case 20:
         reviewProcess(this, data, wx.navigateBack)
@@ -222,8 +241,13 @@ Page({
         reviewCLoss(this, data, wx.navigateBack)
         break
       case 43:
+        reviewCBack(this, data, wx.navigateBack)
+        break
+      case 44:
+        reviewCAgreement(this, data, wx.navigateBack)
         break
       case 50:
+        reviewMReturn(this, data, wx.navigateBack)
         break
       default:
         break

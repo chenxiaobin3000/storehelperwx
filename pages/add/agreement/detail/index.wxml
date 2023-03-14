@@ -20,7 +20,7 @@
         <view class="divider-line" />
       </t-cell-group>
 
-      <t-collapse value="{{collapseValues}}" style="padding-left:0; margin-left:0;" bind:change="handleCollapseChange">
+      <t-collapse value="{{collapseValues}}" bind:change="handleCollapseChange">
         <!-- 标品列表 -->
         <t-collapse-panel wx:if="{{standards.length>0}}" header="标品列表 ({{standards.length}}件)" value="{{1}}" header-right-content="价格 / 数量" expandIcon>
           <t-cell wx:for="{{standards}}" wx:key="id" t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.price}}元 / {{item.num}}件" data-value="{{item}}" hover />

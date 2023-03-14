@@ -2,16 +2,21 @@ import OrderData from '../../util/order'
 import {
   myToast,
   formatTime,
-  relogin
+  relogin,
+  getOrderShow,
+  handleOrderCommodity
 } from '../../util/util'
 import {
   shipped,
   areturn
 } from '../../service/agreement'
 import {
+  getGroupAllCloud,
   cpurchase,
+  cagreement,
   closs,
-  creturn
+  creturn,
+  cback
 } from '../../service/cloud'
 import {
   process,
@@ -20,16 +25,22 @@ import {
 } from '../../service/product'
 import {
   purchase,
-  preturn
+  preturn,
+  purchase2,
+  preturn2
 } from '../../service/purchase'
 import {
   getGroupAllStorage,
   spurchase,
   dispatch,
-  purchase2,
+  spurchase2,
+  sagreement,
   sloss,
   sreturn
 } from '../../service/storage'
+import {
+  mreturn
+} from '../../service/sale'
 import {
   addAttach
 } from '../../service/upload'
@@ -43,11 +54,12 @@ Page({
     dateVisible: false,
     date: new Date().getTime(),
     dateText: '',
-    sid: 0,
+    sid: 0, // 仓库id
     storageVisible: false,
     storageValue: '',
     storages: [],
-    pid: 0,
+    clouds: [],
+    pid: 0, // 进货单id
     purchaseValue: '',
     commoditys: [],
     halfgoods: [],
@@ -81,6 +93,20 @@ Page({
         storages: list
       })
     })
+    getGroupAllCloud(this, {
+      id: app.globalData.user.id
+    }, data => {
+      const list = []
+      data.list.forEach(v => {
+        list.push({
+          label: v.name,
+          value: v
+        })
+      })
+      this.setData({
+        clouds: list
+      })
+    })
     this.filterOrder(app.globalData.perms)
   },
   onShow() {
@@ -97,6 +123,8 @@ Page({
         this.data.commoditys.forEach(v => {
           if (v.id === temp.commodity.id) {
             v.price = temp.price
+            v.weight = temp.weight
+            v.norm = temp.norm
             v.num = temp.num
             find = true
           }
@@ -106,6 +134,8 @@ Page({
             id: temp.commodity.id,
             name: temp.commodity.name,
             price: temp.price,
+            weight: temp.weight,
+            norm: temp.norm,
             num: temp.num
           })
         }
@@ -118,6 +148,8 @@ Page({
         this.data.halfgoods.forEach(v => {
           if (v.id === temp.commodity.id) {
             v.price = temp.price
+            v.weight = temp.weight
+            v.norm = temp.norm
             v.num = temp.num
             find = true
           }
@@ -127,6 +159,8 @@ Page({
             id: temp.commodity.id,
             name: temp.commodity.name,
             price: temp.price,
+            weight: temp.weight,
+            norm: temp.norm,
             num: temp.num
           })
         }
@@ -139,6 +173,8 @@ Page({
         this.data.originals.forEach(v => {
           if (v.id === temp.commodity.id) {
             v.price = temp.price
+            v.weight = temp.weight
+            v.norm = temp.norm
             v.num = temp.num
             find = true
           }
@@ -148,6 +184,8 @@ Page({
             id: temp.commodity.id,
             name: temp.commodity.name,
             price: temp.price,
+            weight: temp.weight,
+            norm: temp.norm,
             num: temp.num
           })
         }
@@ -160,6 +198,8 @@ Page({
         this.data.standards.forEach(v => {
           if (v.id === temp.commodity.id) {
             v.price = temp.price
+            v.weight = temp.weight
+            v.norm = temp.norm
             v.num = temp.num
             find = true
           }
@@ -169,6 +209,8 @@ Page({
             id: temp.commodity.id,
             name: temp.commodity.name,
             price: temp.price,
+            weight: temp.weight,
+            norm: temp.norm,
             num: temp.num
           })
         }
@@ -215,7 +257,7 @@ Page({
       dateVisible: false,
       date: new Date().getTime(),
       dateText: '',
-      sid: 0,
+      sid: 0, // 仓库id
       storageVisible: false,
       storageValue: '',
       pid: 0,
@@ -300,51 +342,20 @@ Page({
     } else {
       value = 0
     }
-    let orderShow = []
-    switch (value) {
-      case 1: // 采购进货
-        orderShow = [1, 0, 1, 0, 1, '']
-        break
-      case 2: // 采购退货
-      case 10: // 仓储入库
-      case 14: // 仓储退货
-        orderShow = [1, 0, 1, 0, 0, '采购单']
-        break
-      case 11: // 调度出库
-      case 13: // 仓储损耗
-        orderShow = [1, 1, 1, 1, 1, '']
-        break
-      case 12: // 调度入库
-        orderShow = [1, 1, 1, 1, 1, '调度单']
-        break
-      case 20: // 生产开始
-        orderShow = [0, 0, 1, 1, 1, '']
-        break
-      case 21: // 生产完成
-      case 22: // 生产损耗
-        orderShow = [0, 1, 1, 1, 1, '']
-        break
-      case 30: // 履约发货
-      case 42: // 云仓损耗
-        orderShow = [1, 1, 0, 0, 1, '']
-        break
-      case 31: // 履约退货
-      case 40: // 云仓入库
-      case 41: // 云仓退仓库
-      case 43: // 云仓退采购
-      case 50: // 销售售后
-        orderShow = [1, 1, 0, 0, 1, '发货单']
-        break
-      default:
-        break
-    }
-    this.setData({
-      orderVisible: false,
-      orderType: value,
-      orderValue: event.detail.label,
-      orderShow: orderShow
+    OrderData.forEach(v => {
+      if (value == v.value) {
+        let orderShow = getOrderShow(v.order)
+        this.setData({
+          orderVisible: false,
+          orderType: v.order,
+          orderValue: v.label,
+          orderShow: orderShow,
+          sid: 0,
+          storageValue: ''
+        })
+        this.checkSubmitActive()
+      }
     })
-    this.checkSubmitActive()
   },
   onOrderCancel() {
     this.setData({
@@ -404,9 +415,23 @@ Page({
   selectOrder() {
     const that = this.data
     if (that.orderShow[5] === '采购单') {
-      wx.navigateTo({
-        url: '/pages/add/purchase/index'
-      })
+      console.log(that.orderType)
+      switch (that.orderType) {
+        case 2: // 采购仓储退货
+        case 10: // 仓储采购入库
+          wx.navigateTo({
+            url: '/pages/add/purchase/index?type=1'
+          })
+          break
+        case 4: // 采购云仓退货
+        case 40: // 云仓采购入库
+          wx.navigateTo({
+            url: '/pages/add/purchase/index?type=3'
+          })
+          break
+        default:
+          break
+      }
     } else if (that.orderShow[5] === '调度单') {
       wx.navigateTo({
         url: '/pages/add/dispatch/index'
@@ -421,12 +446,14 @@ Page({
     const {
       id,
       price,
+      weight,
+      norm,
       num
     } = event.currentTarget.dataset.value
-    this.jumpAdd(1, id, price, num)
+    this.jumpAdd(1, id, price, weight, norm, num)
   },
   addCommodity() {
-    this.jumpAdd(1, 0, 0, 0)
+    this.jumpAdd(1, 0, 0, 0, 0, 0)
   },
   delCommodity(event) {
     const id = event.currentTarget.dataset.value.id
@@ -445,12 +472,14 @@ Page({
     const {
       id,
       price,
+      weight,
+      norm,
       num
     } = event.currentTarget.dataset.value
-    this.jumpAdd(2, id, price, num)
+    this.jumpAdd(2, id, price, weight, norm, num)
   },
   addHalfgood() {
-    this.jumpAdd(2, 0, 0, 0)
+    this.jumpAdd(2, 0, 0, 0, 0, 0)
   },
   delHalfgood(event) {
     const id = event.currentTarget.dataset.value.id
@@ -469,12 +498,14 @@ Page({
     const {
       id,
       price,
+      weight,
+      norm,
       num
     } = event.currentTarget.dataset.value
-    this.jumpAdd(3, id, price, num)
+    this.jumpAdd(3, id, price, weight, norm, num)
   },
   addOriginal() {
-    this.jumpAdd(3, 0, 0, 0)
+    this.jumpAdd(3, 0, 0, 0, 0, 0)
   },
   delOriginal(event) {
     const id = event.currentTarget.dataset.value.id
@@ -493,12 +524,14 @@ Page({
     const {
       id,
       price,
+      weight,
+      norm,
       num
     } = event.currentTarget.dataset.value
-    this.jumpAdd(4, id, price, num)
+    this.jumpAdd(4, id, price, weight, norm, num)
   },
   addStandard() {
-    this.jumpAdd(4, 0, 0, 0)
+    this.jumpAdd(4, 0, 0, 0, 0, 0)
   },
   delStandard(event) {
     const id = event.currentTarget.dataset.value.id
@@ -513,44 +546,28 @@ Page({
     })
     this.checkSubmitActive()
   },
-  jumpAdd(type, id, price, num) {
+  jumpAdd(type, id, price, weight, norm, num) {
     const that = this.data
-    switch (that.orderType) {
-      case 1: // 采购进货
-      case 2: // 采购退货
-      case 14: // 仓储退货
-      case 41: // 云仓退仓库
-      case 43: // 云仓退采购
-        wx.navigateTo({
-          url: `/pages/add/editp/index?type=${type}&id=${id}&price=${price}&num=${num}`
-        })
-        break;
-      case 10: // 仓储入库
-      case 11: // 调度出库
-      case 12: // 调度入库
-      case 13: // 仓储损耗
-      case 20: // 生产开始
-      case 21: // 生产完成
-      case 22: // 生产损耗
-      case 30: // 履约发货
-      case 31: // 履约退货
-      case 40: // 云仓入库
-      case 42: // 云仓损耗
-      case 50: // 销售售后
-        wx.navigateTo({
-          url: `/pages/add/edit/index?type=${type}&id=${id}&num=${num}`
-        })
-        break;
-      default:
-        break;
-    }
+    handleOrderCommodity(that.orderType, () => {
+      wx.navigateTo({
+        url: `/pages/add/editp/index?type=${type}&id=${id}&price=${price}&weight=${weight}&norm=${norm}&num=${num}`
+      })
+    }, () => {
+      wx.navigateTo({
+        url: `/pages/add/editr/index?type=${type}&id=${id}&price=${price}&weight=${weight}&norm=${norm}&num=${num}`
+      })
+    }, () => {
+      wx.navigateTo({
+        url: `/pages/add/edit/index?type=${type}&id=${id}&num=${num}`
+      })
+    })
   },
   // 上传
   handleSuccess(event) {
     const that = this.data
     if (that.orderType === 0) {
       myToast(this, '请先选择订单类型')
-      return;
+      return
     }
     const {
       files
@@ -598,6 +615,10 @@ Page({
   clickSubmit() {
     const app = getApp()
     const that = this.data
+    if (!that.submitActive) {
+      myToast(this, '请填写全部信息')
+      return
+    }
     let data = {
       id: app.globalData.user.id,
       gid: app.globalData.group.id,
@@ -608,59 +629,78 @@ Page({
       date: that.dateText,
       types: [],
       commoditys: [],
-      values: [],
       prices: [],
+      weights: [],
+      norms: [],
+      values: [],
       attrs: []
     }
     that.commoditys.forEach(v => {
       data.types.push(1)
       data.commoditys.push(v.id)
-      data.values.push(v.num)
       data.prices.push(v.price)
+      data.weights.push(v.weight * 1000)
+      data.norms.push(v.norm)
+      data.values.push(v.num)
     })
     that.halfgoods.forEach(v => {
       data.types.push(2)
       data.commoditys.push(v.id)
-      data.values.push(v.num)
       data.prices.push(v.price)
+      data.weights.push(v.weight * 1000)
+      data.norms.push(v.norm)
+      data.values.push(v.num)
     })
     that.originals.forEach(v => {
       data.types.push(3)
       data.commoditys.push(v.id)
-      data.values.push(v.num)
       data.prices.push(v.price)
+      data.weights.push(v.weight * 1000)
+      data.norms.push(v.norm)
+      data.values.push(v.num)
     })
     that.standards.forEach(v => {
       data.types.push(4)
       data.commoditys.push(v.id)
-      data.values.push(v.num)
       data.prices.push(v.price)
+      data.weights.push(v.weight * 1000)
+      data.norms.push(v.norm)
+      data.values.push(v.num)
     })
     that.uploadFiles.forEach(v => {
       data.attrs.push(v.id)
     })
 
     switch (that.orderType) {
-      case 1: // 采购进货
+      case 1: // 采购仓储进货
         purchase(this, data, this.handleSubmit)
         break
-      case 2: // 采购退货
+      case 2: // 采购仓储退货
         preturn(this, data, this.handleSubmit)
         break
-      case 10: // 仓储入库
+      case 3: // 采购云仓进货
+        purchase2(this, data, this.handleSubmit)
+        break
+      case 4: // 采购云仓退货
+        preturn2(this, data, this.handleSubmit)
+        break
+      case 10: // 仓储采购入库
         spurchase(this, data, this.handleSubmit)
         break
-      case 11: // 调度出库
+      case 11: // 仓储调度出库
         dispatch(this, data, this.handleSubmit)
         break
-      case 12: // 调度入库
-        purchase2(this, data, this.handleSubmit)
+      case 12: // 仓储调度入库
+        spurchase2(this, data, this.handleSubmit)
         break
       case 13: // 仓储损耗
         sloss(this, data, this.handleSubmit)
         break
-      case 14: // 仓储退货
+      case 14: // 仓储采购退货
         sreturn(this, data, this.handleSubmit)
+        break
+      case 15: // 仓储履约退货
+        sagreement(this, data, this.handleSubmit)
         break
       case 20: // 生产开始
         process(this, data, this.handleSubmit)
@@ -677,18 +717,23 @@ Page({
       case 31: // 履约退货
         areturn(this, data, this.handleSubmit)
         break
-      case 40: // 云仓入库
+      case 40: // 云仓采购入库
         cpurchase(this, data, this.handleSubmit)
         break
-      case 41: // 云仓退仓库
+      case 41: // 云仓采购退货
         creturn(this, data, this.handleSubmit)
         break
       case 42: // 云仓损耗
         closs(this, data, this.handleSubmit)
         break
-      case 43: // 云仓退采购
+      case 43: // 云仓履约退货
+        cback(this, data, this.handleSubmit)
+        break
+      case 44: // 云仓履约入库
+        cagreement(this, data, this.handleSubmit)
         break
       case 50: // 销售售后
+        mreturn(this, data, this.handleSubmit)
         break
       default:
         break

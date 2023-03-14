@@ -6,15 +6,19 @@ import {
   addAReturnInfo
 } from '../../../../service/agreement'
 import {
-  addCReturnInfo
+  addCReturnInfo,
+  addCAgreementInfo
 } from '../../../../service/cloud'
 import {
   addPurchaseInfo,
-  addPReturnInfo
+  addPReturnInfo,
+  addPurchase2Info,
+  addPReturn2Info
 } from '../../../../service/purchase'
 import {
   addDispatchInfo,
-  addSReturnInfo
+  addSReturnInfo,
+  addSAgreementInfo
 } from '../../../../service/storage'
 Page({
   data: {
@@ -70,17 +74,26 @@ Page({
       remark: that.remark
     }
     switch (that.type) {
-      case 1: // 采购进货
+      case 1: // 采购仓储进货
         addPurchaseInfo(this, data, this.handleData)
         break
-      case 2: // 采购退货
+      case 2: // 采购仓储退货
         addPReturnInfo(this, data, this.handleData)
         break
-      case 11: // 调度出库
+      case 3: // 采购云仓进货
+        addPurchase2Info(this, data, this.handleData)
+        break
+      case 4: // 采购云仓退货
+        addPReturn2Info(this, data, this.handleData)
+        break
+      case 11: // 仓储调度出库
         addDispatchInfo(this, data, this.handleData)
         break
-      case 14: // 仓储退货
+      case 14: // 仓储采购退货
         addSReturnInfo(this, data, this.handleData)
+        break
+      case 15: // 仓储履约退货
+        addSAgreementInfo(this, data, this.handleData)
         break
       case 30: // 履约发货
         addShippedInfo(this, data, this.handleData)
@@ -88,10 +101,11 @@ Page({
       case 31: // 履约退货
         addAReturnInfo(this, data, this.handleData)
         break
-      case 41: // 云仓退仓库
+      case 41: // 云仓采购退货
         addCReturnInfo(this, data, this.handleData)
         break
-      case 43: // 云仓退采购
+      case 43: // 云仓履约退货
+        addCAgreementInfo(this, data, this.handleData)
         break
       default:
         break
