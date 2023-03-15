@@ -20,7 +20,6 @@ import {
 } from '../../../service/standard'
 Page({
   data: {
-    lock: false,
     type: 0,
     cid: 0,
     id: 0,
@@ -48,7 +47,6 @@ Page({
     })
     if (options.price > 0 && options.weight > 0 && options.norm > 0 && options.num > 0) {
       this.setData({
-        lock: true,
         price: options.price,
         weight: options.weight,
         norm: options.norm,

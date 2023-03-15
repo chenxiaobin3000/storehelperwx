@@ -59,16 +59,17 @@ Page({
     const that = this.data
     getStorageOrder(this, {
       id: that.id,
-      type: 4, // 调度单
+      type: 11, // 调度单
       page: that.page,
       limit: that.pageLimit,
       review: 2, // 已审核
+      complete: 2, // 未完成
       search: that.search
     }, data => {
       if (data.list && data.list.length > 0) {
         data.list.forEach(v => {
           switch (v.type) {
-            case 4:
+            case 11:
               v.orderType = '调度单'
               break
             default:

@@ -111,7 +111,7 @@ function getOrderShow(otype) {
   }
 }
 
-function handleOrderCommodity(otype, pfunc, rfunc, nfunc) {
+function handleOrderCommodity(otype, pfunc, rfunc, efunc, nfunc) {
   switch (otype) {
     case 1: // 采购仓储进货
     case 3: // 采购云仓进货
@@ -119,13 +119,20 @@ function handleOrderCommodity(otype, pfunc, rfunc, nfunc) {
       break
     case 2: // 采购仓储退货
     case 4: // 采购云仓退货
+    case 14: // 仓储采购退货
       rfunc()
       break
     case 10: // 仓储采购入库
+      nfunc()
+      break
     case 11: // 仓储调度出库
     case 12: // 仓储调度入库
     case 13: // 仓储损耗
-    case 14: // 仓储采购退货
+      efunc()
+      break
+
+    
+    
     case 15: // 仓储履约退货
     case 20: // 生产开始
     case 21: // 生产完成
@@ -138,7 +145,6 @@ function handleOrderCommodity(otype, pfunc, rfunc, nfunc) {
     case 43: // 云仓履约退货
     case 44: // 云仓履约入库
     case 50: // 销售售后
-      nfunc()
       break
     default:
       break

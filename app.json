@@ -10,6 +10,7 @@
     "pages/add/agreement/index",
     "pages/add/agreement/detail/index",
     "pages/add/edit/index",
+    "pages/add/edito/index",
     "pages/add/editp/index",
     "pages/add/editr/index",
     "pages/list/index",

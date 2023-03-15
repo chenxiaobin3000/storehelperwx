@@ -273,8 +273,8 @@ Page({
   },
   filterOrder(perms) {
     const orders = []
-    perms.forEach(p => {
-      OrderData.forEach(v => {
+    OrderData.forEach(v => {
+      perms.forEach(p => {
         if (p == v.apply) {
           orders.push(v)
         }
@@ -342,20 +342,16 @@ Page({
     } else {
       value = 0
     }
-    OrderData.forEach(v => {
-      if (value == v.value) {
-        let orderShow = getOrderShow(v.order)
-        this.setData({
-          orderVisible: false,
-          orderType: v.order,
-          orderValue: v.label,
-          orderShow: orderShow,
-          sid: 0,
-          storageValue: ''
-        })
-        this.checkSubmitActive()
-      }
+    let orderShow = getOrderShow(value)
+    this.setData({
+      orderVisible: false,
+      orderType: value,
+      orderValue: event.detail.label,
+      orderShow: orderShow,
+      sid: 0,
+      storageValue: ''
     })
+    this.checkSubmitActive()
   },
   onOrderCancel() {
     this.setData({
@@ -419,6 +415,7 @@ Page({
       switch (that.orderType) {
         case 2: // 采购仓储退货
         case 10: // 仓储采购入库
+        case 14: // 仓储采购退货
           wx.navigateTo({
             url: '/pages/add/purchase/index?type=1'
           })
@@ -558,7 +555,11 @@ Page({
       })
     }, () => {
       wx.navigateTo({
-        url: `/pages/add/edit/index?type=${type}&id=${id}&num=${num}`
+        url: `/pages/add/edit/index?type=${type}&id=${id}&price=${price}&weight=${weight}&norm=${norm}&num=${num}`
+      })
+    }, () => {
+      wx.navigateTo({
+        url: `/pages/add/edito/index?type=${type}&id=${id}&price=${price}&weight=${weight}&norm=${norm}&num=${num}`
       })
     })
   },

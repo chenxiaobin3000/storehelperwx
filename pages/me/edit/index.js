@@ -45,9 +45,6 @@ import {
   setMReturn
 } from '../../../service/sale'
 import {
-  getOrder
-} from '../../../service/order'
-import {
   addAttach
 } from '../../../service/upload'
 Page({
@@ -62,7 +59,7 @@ Page({
     storages: [],
     clouds: [],
     batch: '',
-    purchaseValue: '',
+    obatch: '', // 关联订单批号
     dateVisible: false,
     date: '',
     dateText: '',
@@ -128,18 +125,6 @@ Page({
         })
 
         let orderShow = getOrderShow(data.type)
-        if (orderShow[4] === 0) {
-          getOrder(this, {
-            id: app.globalData.user.id,
-            type: 1,
-            oid: data.rid
-          }, data => {
-            this.setData({
-              purchaseValue: data.batch
-            })
-          })
-        }
-
         const commoditys = []
         const halfgoods = []
         const originals = []
@@ -200,6 +185,7 @@ Page({
           sid: data.sid,
           storageValue: data.sname,
           batch: data.batch,
+          obatch: data.obatch,
           date: new Date(data.applyTime).getTime(),
           dateText: data.applyTime,
           commoditys: commoditys,
@@ -352,7 +338,7 @@ Page({
       storageVisible: false,
       storageValue: '',
       batch: '',
-      purchaseValue: '',
+      obatch: '',
       dateVisible: false,
       date: new Date().getTime(),
       dateText: '',
@@ -560,7 +546,11 @@ Page({
       })
     }, () => {
       wx.navigateTo({
-        url: `/pages/add/edit/index?type=${type}&id=${id}&num=${num}`
+        url: `/pages/add/edit/index?type=${type}&id=${id}&weight=${weight}&num=${num}`
+      })
+    }, () => {
+      wx.navigateTo({
+        url: `/pages/add/edito/index?type=${type}&id=${id}&weight=${weight}&num=${num}`
       })
     })
   },

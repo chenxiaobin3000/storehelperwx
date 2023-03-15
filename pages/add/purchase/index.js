@@ -65,7 +65,7 @@ Page({
       page: that.page,
       limit: that.pageLimit,
       review: 2, // 已审核
-      complete: 0, // 未完成
+      complete: 0, // 全部
       search: that.search
     }, data => {
       if (data.list && data.list.length > 0) {

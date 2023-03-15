@@ -3,29 +3,22 @@ import {
   relogin
 } from '../../../util/util'
 import {
-  getCommodity,
-  getGroupCommodity
+  getCommodity
 } from '../../../service/commodity'
 import {
-  getHalfgood,
-  getGroupHalfgood
+  getHalfgood
 } from '../../../service/halfgood'
 import {
-  getOriginal,
-  getGroupOriginal
+  getOriginal
 } from '../../../service/original'
 import {
-  getStandard,
-  getGroupStandard
+  getStandard
 } from '../../../service/standard'
 Page({
   data: {
     type: 0,
     cid: 0,
     id: 0,
-    page: 1,
-    pageLimit: 10,
-    search: null,
     commodityValue: {},
     price: 0,
     weight: 0,
@@ -33,11 +26,7 @@ Page({
     num: 0,
     submitActive: false,
     nameText: '商品',
-    btnText: '添 加',
-    total: 0,
-    commodityList: [],
-    commodityListLoadStatus: 0,
-    backTopVisible: false
+    btnText: '添 加'
   },
   onLoad(options) {
     wx.hideHomeButton()
@@ -46,7 +35,7 @@ Page({
       cid: parseInt(options.id),
       id: getApp().globalData.user.id
     })
-    if (options.weight > 0 && options.num > 0) {
+    if (options.num > 0) {
       this.setData({
         price: options.price,
         weight: options.weight,
@@ -56,36 +45,6 @@ Page({
         btnText: '修 改'
       })
     }
-  },
-  onShow() {
-    this.flushPage()
-  },
-  onPullDownRefresh() {
-    wx.stopPullDownRefresh()
-    this.setData({
-      page: 1,
-      commodityList: []
-    })
-    this.getList()
-  },
-  onReachBottom() {
-    if (this.data.commodityListLoadStatus === 0) {
-      this.getList()
-    }
-  },
-  onPageScroll(e) {
-    this.setData({
-      backTopVisible: e.scrollTop > 80,
-    })
-  },
-  flushPage() {
-    wx.pageScrollTo({
-      scrollTop: 0,
-    })
-    this.setData({
-      page: 1,
-      commodityList: []
-    })
     this.getList()
   },
   getList() {
@@ -95,7 +54,6 @@ Page({
     })
     switch (that.type) {
       case 1: // commodity
-        this.getGroupCommodity()
         if (that.cid !== 0) {
           this.getCommodity()
         }
@@ -104,7 +62,6 @@ Page({
         })
         break
       case 2: // halfgood
-        this.getGroupHalfgood()
         if (that.cid !== 0) {
           this.getHalfgood()
         }
@@ -113,7 +70,6 @@ Page({
         })
         break
       case 3: // original
-        this.getGroupOriginal()
         if (that.cid !== 0) {
           this.getOriginal()
         }
@@ -122,7 +78,6 @@ Page({
         })
         break
       case 4: // standard
-        this.getGroupStandard()
         if (that.cid !== 0) {
           this.getStandard()
         }
@@ -136,7 +91,7 @@ Page({
   },
   checkSubmitActive() {
     const that = this.data
-    if (that.commodityValue && that.commodityValue.id && that.weight > 0 && that.num > 0) {
+    if (that.commodityValue && that.commodityValue.id && that.num > 0) {
       this.setData({
         submitActive: true
       })
@@ -206,17 +161,6 @@ Page({
       })
     })
   },
-  getGroupCommodity() {
-    const that = this.data
-    getGroupCommodity(this, {
-      id: that.id,
-      page: that.page,
-      limit: that.pageLimit,
-      search: that.search
-    }, data => {
-      this.handleData(data)
-    })
-  },
   getHalfgood() {
     const that = this.data
     getHalfgood(this, {
@@ -226,17 +170,6 @@ Page({
       this.setData({
         commodityValue: data
       })
-    })
-  },
-  getGroupHalfgood() {
-    const that = this.data
-    getGroupHalfgood(this, {
-      id: that.id,
-      page: that.page,
-      limit: that.pageLimit,
-      search: that.search
-    }, data => {
-      this.handleData(data)
     })
   },
   getOriginal() {
@@ -250,17 +183,6 @@ Page({
       })
     })
   },
-  getGroupOriginal() {
-    const that = this.data
-    getGroupOriginal(this, {
-      id: that.id,
-      page: that.page,
-      limit: that.pageLimit,
-      search: that.search
-    }, data => {
-      this.handleData(data)
-    })
-  },
   getStandard() {
     const that = this.data
     getStandard(this, {
@@ -270,17 +192,6 @@ Page({
       this.setData({
         commodityValue: data
       })
-    })
-  },
-  getGroupStandard() {
-    const that = this.data
-    getGroupStandard(this, {
-      id: that.id,
-      page: that.page,
-      limit: that.pageLimit,
-      search: that.search
-    }, data => {
-      this.handleData(data)
     })
   },
   handleData(data) {

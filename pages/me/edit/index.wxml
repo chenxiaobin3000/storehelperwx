@@ -17,7 +17,7 @@
         <!-- 订单 -->
         <div wx-if="{{orderShow[5].length>0}}">
           <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{orderShow[5]}}">
-            <view class="field-text" slot="note">{{purchaseValue}}</view>
+            <view class="field-text" slot="note">{{obatch}}</view>
           </t-cell>
         </div>
         <!-- 仓库选择 -->

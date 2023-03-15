@@ -30,12 +30,12 @@
   </view>
 </view>
 
-<view wx-if="{{!lock}}" class="home-page-header">
+<view class="home-page-header">
   <t-search model:value="{{search}}" t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="请输入要搜索的关键字" leftIcon="">
     <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
   </t-search>
 </view>
-<view wx-if="{{!lock}}" class="home-page-container">
+<view class="home-page-container">
   <view wx:if="{{commodityList.length > 0}}">
     <t-cell-group wx:for="{{commodityList}}" wx:key="index" class="order-list">
       <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title-all" t-class-note="t-cell-note" title="{{item.name}}" note="{{item.code}}" data-value="{{item}}" bind:tap="clickCommodity" hover />

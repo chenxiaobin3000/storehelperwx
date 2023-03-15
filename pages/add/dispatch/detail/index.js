@@ -48,6 +48,7 @@ Page({
             id: v.cid,
             name: v.name,
             price: v.price,
+            weight: v.weight / 1000,
             num: v.value
           }
           switch (v.ctype) {
