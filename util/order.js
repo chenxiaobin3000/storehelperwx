@@ -29,7 +29,7 @@ export default [{
 }, {
   label: '仓储履约退货订单',
   value: 15,
-  apply: 20
+  apply: 21
 }, {
   label: '仓储采购退货订单',
   value: 14,
@@ -59,25 +59,25 @@ export default [{
   value: 31,
   apply: 32
 }, {
-  label: '云仓采购入库订单',
-  value: 40,
-  apply: 36
-}, {
   label: '云仓履约入库订单',
   value: 44,
   apply: 40
 }, {
-  label: '云仓损耗订单',
-  value: 42,
-  apply: 38
+  label: '云仓履约退货订单',
+  value: 43,
+  apply: 39
 }, {
-  label: '云仓退仓库订单',
+  label: '云仓采购入库订单',
+  value: 40,
+  apply: 36
+}, {
+  label: '云仓采购退货订单',
   value: 41,
   apply: 37
 }, {
-  label: '云仓退采购订单',
-  value: 43,
-  apply: 39
+  label: '云仓损耗订单',
+  value: 42,
+  apply: 38
 }, {
   label: '销售售后订单',
   value: 50,

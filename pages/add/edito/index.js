@@ -142,7 +142,7 @@ Page({
         commodity: that.commodityValue,
         price: that.price,
         weight: that.weight,
-        norm: that.norm,
+        norm: that.norm > 0 ? that.norm : '',
         num: that.num
       }
       wx.navigateBack()

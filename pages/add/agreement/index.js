@@ -3,7 +3,7 @@ import {
 } from '../../../util/util'
 import {
   getAgreementOrder
-} from '../../../service/agreement'
+} from '../../../service/order'
 Page({
   data: {
     total: 0,
@@ -13,12 +13,14 @@ Page({
     id: 0,
     page: 1,
     pageLimit: 10,
+    complete: 0,
     search: null
   },
-  onLoad() {
+  onLoad(options) {
     wx.hideHomeButton()
     this.setData({
-      id: getApp().globalData.user.id
+      id: getApp().globalData.user.id,
+      complete: options.complete
     })
   },
   onShow() {
@@ -59,20 +61,17 @@ Page({
     const that = this.data
     getAgreementOrder(this, {
       id: that.id,
-      type: 11, // 履约发货
+      type: 30, // 履约发货
       page: that.page,
       limit: that.pageLimit,
       review: 2, // 已审核
+      complete: that.complete,
       search: that.search
     }, data => {
       if (data.list && data.list.length > 0) {
         data.list.forEach(v => {
-          switch (v.type) {
-            case 11:
-              v.orderType = '发货单'
-              break
-            default:
-              break
+          if (v.type === 30) {
+            v.orderType = '发货单'
           }
           v.applyTime2 = v.applyTime.substring(0, 10)
         })

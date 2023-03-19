@@ -27,12 +27,11 @@ Page({
     pageLimit: 10,
     search: null,
     commodityValue: {},
-    price: 0,
     weight: 0,
     norm: 0,
     num: 0,
     submitActive: false,
-    nameText: '商品',
+    nameText: '',
     btnText: '添 加',
     total: 0,
     commodityList: [],
@@ -46,9 +45,8 @@ Page({
       cid: parseInt(options.id),
       id: getApp().globalData.user.id
     })
-    if (options.weight > 0 && options.num > 0) {
+    if (options.weight > 0 && options.norm > 0 && options.num > 0) {
       this.setData({
-        price: options.price,
         weight: options.weight,
         norm: options.norm,
         num: options.num,
@@ -136,7 +134,7 @@ Page({
   },
   checkSubmitActive() {
     const that = this.data
-    if (that.commodityValue && that.commodityValue.id && that.weight > 0 && that.num > 0) {
+    if (that.commodityValue && that.commodityValue.id && that.weight > 0 && that.norm > 0 && that.num > 0) {
       this.setData({
         submitActive: true
       })
@@ -181,11 +179,10 @@ Page({
       default:
         break
     }
-    if (that.num && that.num > 0) {
+    if (that.weight && that.weight > 0 && that.norm && that.norm > 0 && that.num && that.num > 0) {
       getApp().globalData.temp = {
         action: action,
         commodity: that.commodityValue,
-        price: that.price,
         weight: that.weight,
         norm: that.norm > 0 ? that.norm : '',
         num: that.num

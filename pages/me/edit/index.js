@@ -368,9 +368,24 @@ Page({
 
     if (that.commoditys.length > 0 || that.halfgoods.length > 0 ||
       that.originals.length > 0 || that.standards.length > 0) {
-      check = true
+      if (that.orderShow[4] === 1 && that.orderShow[5].length > 0) {
+        if (that.storageValue.length > 0 && that.obatch.length > 0) {
+          check = true
+        }
+      } else {
+        if (that.orderShow[4] === 1) {
+          if (that.storageValue.length > 0) {
+            check = true
+          }
+        }
+        if (that.orderShow[5].length > 0) {
+          if (that.obatch.length > 0) {
+            check = true
+          }
+        }
+      }
     }
-    if (check && that.orderValue.length > 0 && that.storageValue.length > 0 && that.dateText.length > 0) {
+    if (check && that.orderValue.length > 0 && that.dateText.length > 0) {
       this.setData({
         submitActive: true
       })
@@ -546,11 +561,15 @@ Page({
       })
     }, () => {
       wx.navigateTo({
+        url: `/pages/add/edito/index?type=${type}&id=${id}&weight=${weight}&num=${num}`
+      })
+    }, () => {
+      wx.navigateTo({
         url: `/pages/add/edit/index?type=${type}&id=${id}&weight=${weight}&num=${num}`
       })
     }, () => {
       wx.navigateTo({
-        url: `/pages/add/edito/index?type=${type}&id=${id}&weight=${weight}&num=${num}`
+        url: `/pages/add/edita/index?type=${type}&id=${id}&weight=${weight}&num=${num}`
       })
     })
   },

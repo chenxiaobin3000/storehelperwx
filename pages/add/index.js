@@ -54,13 +54,16 @@ Page({
     dateVisible: false,
     date: new Date().getTime(),
     dateText: '',
-    sid: 0, // 仓库id
+    sid: 0, // 仓库id/云仓id，只显示一个的时候共用，显示两个的时候给仓库用
     storageVisible: false,
     storageValue: '',
     storages: [],
+    cid: 0, // 额外云仓id，只在同时显示的时候使用
+    cloudVisible: false,
+    cloudValue: '',
     clouds: [],
     pid: 0, // 进货单id
-    purchaseValue: '',
+    obatch: '',
     commoditys: [],
     halfgoods: [],
     originals: [],
@@ -221,7 +224,7 @@ Page({
         // 进货单
         this.setData({
           pid: temp.id,
-          purchaseValue: temp.value,
+          obatch: temp.value,
           originals: temp.originals,
           standards: temp.standards
         })
@@ -229,17 +232,26 @@ Page({
         // 调度单
         this.setData({
           pid: temp.id,
-          purchaseValue: temp.value,
+          obatch: temp.value,
           commoditys: temp.commoditys,
           halfgoods: temp.halfgoods,
           originals: temp.originals,
           standards: temp.standards
         })
+      } else if (temp.action === 'product') {
+        // 生产单
+        this.setData({
+          pid: temp.id,
+          obatch: temp.value,
+          commoditys: temp.commoditys,
+          halfgoods: temp.halfgoods,
+          originals: temp.originals
+        })
       } else if (temp.action === 'agreement') {
         // 进货单
         this.setData({
           pid: temp.id,
-          purchaseValue: temp.value,
+          obatch: temp.value,
           commoditys: temp.commoditys,
           standards: temp.standards
         })
@@ -260,8 +272,11 @@ Page({
       sid: 0, // 仓库id
       storageVisible: false,
       storageValue: '',
+      cid: 0, // 仓库id
+      cloudVisible: false,
+      cloudValue: '',
       pid: 0,
-      purchaseValue: '',
+      obatch: '',
       commoditys: [],
       halfgoods: [],
       originals: [],
@@ -286,6 +301,8 @@ Page({
   },
   checkSubmitActive() {
     const that = this.data
+
+    // 附件
     let check = false
     that.uploadFiles.forEach(v => {
       if (v.status && v.status.length > 0) {
@@ -299,27 +316,40 @@ Page({
       return
     }
 
-    if (that.commoditys.length > 0 || that.halfgoods.length > 0 ||
-      that.originals.length > 0 || that.standards.length > 0) {
-      if (that.orderShow[4] === 1 && that.orderShow[5].length > 0) {
-        if (that.storageValue.length > 0 && that.purchaseValue.length > 0) {
-          check = true
-        }
-      } else {
-        if (that.orderShow[4] === 1) {
-          if (that.storageValue.length > 0) {
-            check = true
-          }
-        }
-        if (that.orderShow[5].length > 0) {
-          if (that.purchaseValue.length > 0) {
-            check = true
-          }
-        }
-      }
+    // 商品列表
+    if (that.commoditys.length <= 0 && that.halfgoods.length <= 0 &&
+      that.originals.length <= 0 && that.standards.length <= 0) {
+      this.setData({
+        submitActive: false
+      })
+      return
     }
 
-    if (check && that.orderValue.length > 0 && that.dateText.length > 0) {
+    // 订单
+    if (that.orderShow[5].length > 0 && that.obatch.length <= 0) {
+      this.setData({
+        submitActive: false
+      })
+      return
+    }
+
+    // 仓库
+    if (that.orderShow[4] === 1 && that.storageValue.length <= 0) {
+      this.setData({
+        submitActive: false
+      })
+      return
+    }
+
+    // 附加云仓
+    if (that.orderShow[6] === 1 && that.cloudValue.length <= 0) {
+      this.setData({
+        submitActive: false
+      })
+      return
+    }
+
+    if (that.orderValue.length > 0 && that.dateText.length > 0) {
       this.setData({
         submitActive: true
       })
@@ -402,6 +432,31 @@ Page({
       storageVisible: false
     })
   },
+  // 额外云仓选择
+  onCloudPicker() {
+    this.setData({
+      cloudVisible: true
+    })
+  },
+  onCloudChange(event) {
+    let value = event.detail.value
+    if (value.length > 0) {
+      value = value[0].id
+    } else {
+      value = 0
+    }
+    this.setData({
+      cloudVisible: false,
+      cid: value,
+      cloudValue: event.detail.label
+    })
+    this.checkSubmitActive()
+  },
+  onCloudCancel() {
+    this.setData({
+      cloudVisible: false
+    })
+  },
   // 下拉列表
   handleCollapseChange(event) {
     this.setData({
@@ -411,19 +466,18 @@ Page({
   selectOrder() {
     const that = this.data
     if (that.orderShow[5] === '采购单') {
-      console.log(that.orderType)
       switch (that.orderType) {
         case 2: // 采购仓储退货
         case 10: // 仓储采购入库
         case 14: // 仓储采购退货
           wx.navigateTo({
-            url: '/pages/add/purchase/index?type=1'
+            url: '/pages/add/purchase/index?type=1&complete=0'
           })
           break
         case 4: // 采购云仓退货
         case 40: // 云仓采购入库
           wx.navigateTo({
-            url: '/pages/add/purchase/index?type=3'
+            url: '/pages/add/purchase/index?type=3&complete=0'
           })
           break
         default:
@@ -431,11 +485,15 @@ Page({
       }
     } else if (that.orderShow[5] === '调度单') {
       wx.navigateTo({
-        url: '/pages/add/dispatch/index'
+        url: '/pages/add/dispatch/index?complete=0'
       })
-    } else if (that.orderShow[5] === '发货单') {
+    } else if (that.orderShow[5] === '生产单') {
       wx.navigateTo({
-        url: '/pages/add/agreement/index'
+        url: '/pages/add/product/index?complete=0'
+      })
+    } else if (that.orderShow[5] === '履约单') {
+      wx.navigateTo({
+        url: '/pages/add/agreement/index?complete=0'
       })
     }
   },
@@ -555,11 +613,15 @@ Page({
       })
     }, () => {
       wx.navigateTo({
+        url: `/pages/add/edito/index?type=${type}&id=${id}&price=${price}&weight=${weight}&norm=${norm}&num=${num}`
+      })
+    }, () => {
+      wx.navigateTo({
         url: `/pages/add/edit/index?type=${type}&id=${id}&price=${price}&weight=${weight}&norm=${norm}&num=${num}`
       })
     }, () => {
       wx.navigateTo({
-        url: `/pages/add/edito/index?type=${type}&id=${id}&price=${price}&weight=${weight}&norm=${norm}&num=${num}`
+        url: `/pages/add/edita/index?type=${type}&id=${id}&price=${price}&weight=${weight}&norm=${norm}&num=${num}`
       })
     })
   },
@@ -626,7 +688,6 @@ Page({
       sid: that.sid,
       rid: that.pid,
       pid: that.pid,
-      did: that.pid,
       date: that.dateText,
       types: [],
       commoditys: [],

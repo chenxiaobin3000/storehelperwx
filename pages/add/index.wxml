@@ -18,7 +18,7 @@
         <!-- 订单 -->
         <div wx-if="{{orderShow[5].length>0}}">
           <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{orderShow[5]}}" hover bind:tap="selectOrder">
-            <view wx:if="{{purchaseValue.length > 0}}" class="field-text" slot="note">{{purchaseValue}}</view>
+            <view wx:if="{{obatch.length > 0}}" class="field-text" slot="note">{{obatch}}</view>
             <view wx:else slot="note">请点击选择{{orderShow[5]}}</view>
           </t-cell>
         </div>
@@ -32,7 +32,17 @@
             <t-picker-item options="{{orderType===3||orderType===4?clouds:storages}}" />
           </t-picker>
         </div>
-        <view class="divider-line" />
+        <!-- 额外显示云仓 -->
+        <div wx-if="{{orderShow[6]===1}}">
+          <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="云仓" bind:tap="onCloudPicker">
+            <view wx:if="{{cloudValue.length > 0}}" class="field-text" slot="note">{{cloudValue}}</view>
+            <view wx:else slot="note">请点击选择云仓</view>
+          </t-cell>
+          <t-picker visible="{{cloudVisible}}" value="{{cloudValue}}" title="请选择云仓" cancelBtn="取消" confirmBtn="确认" bindchange="onCloudChange" bindcancel="onCloudCancel">
+            <t-picker-item options="clouds" />
+          </t-picker>
+          <view class="divider-line" />
+        </div>
       </t-cell-group>
 
       <t-collapse value="{{collapseValues}}" bind:change="handleCollapseChange">

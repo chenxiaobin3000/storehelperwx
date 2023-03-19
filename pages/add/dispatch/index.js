@@ -13,12 +13,14 @@ Page({
     id: 0,
     page: 1,
     pageLimit: 10,
+    complete: 0,
     search: null
   },
   onLoad() {
     wx.hideHomeButton()
     this.setData({
-      id: getApp().globalData.user.id
+      id: getApp().globalData.user.id,
+      complete: options.complete
     })
   },
   onShow() {
@@ -63,17 +65,13 @@ Page({
       page: that.page,
       limit: that.pageLimit,
       review: 2, // 已审核
-      complete: 2, // 未完成
+      complete: that.complete,
       search: that.search
     }, data => {
       if (data.list && data.list.length > 0) {
         data.list.forEach(v => {
-          switch (v.type) {
-            case 11:
+          if (v.type === 11) {
               v.orderType = '调度单'
-              break
-            default:
-              break
           }
           v.applyTime2 = v.applyTime.substring(0, 10)
         })

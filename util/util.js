@@ -75,43 +75,46 @@ function getOrderType(otype) {
   }
 }
 
+// 标品,商品,半成品,原料,仓库/云仓,关联订单,云仓显示
 function getOrderShow(otype) {
   switch (otype) {
     case 1: // 采购仓储进货
     case 3: // 采购云仓进货
-      return [1, 0, 1, 0, 1, '']
+      return [1, 0, 1, 0, 1, '', 0]
     case 2: // 采购仓储退货
     case 4: // 采购云仓退货
     case 10: // 仓储采购入库
     case 14: // 仓储采购退货
     case 40: // 云仓采购入库
     case 41: // 云仓采购退货
-      return [1, 0, 1, 0, 0, '采购单']
+      return [1, 0, 1, 0, 0, '采购单', 0]
     case 11: // 仓储调度出库
     case 13: // 仓储损耗
-      return [1, 1, 1, 1, 1, '']
+      return [1, 1, 1, 1, 1, '', 0]
     case 12: // 仓储调度入库
-      return [1, 1, 1, 1, 1, '调度单']
+      return [1, 1, 1, 1, 1, '调度单', 0]
     case 20: // 生产开始
-      return [0, 0, 1, 1, 1, '']
+      return [0, 0, 1, 1, 1, '', 0]
     case 21: // 生产完成
+      return [0, 1, 1, 1, 0, '生产单', 0]
     case 22: // 生产损耗
-      return [0, 1, 1, 1, 1, '']
+      return [0, 1, 1, 1, 1, '', 0]
     case 30: // 履约发货
+      return [1, 1, 0, 0, 1, '', 1]
     case 42: // 云仓损耗
     case 50: // 销售售后
-      return [1, 1, 0, 0, 1, '']
+      return [1, 1, 0, 0, 1, '', 0]
     case 15: // 仓储履约退货
     case 31: // 履约退货
     case 43: // 云仓履约退货
     case 44: // 云仓履约入库
-      return [1, 1, 0, 0, 1, '发货单']
+      return [1, 1, 0, 0, 0, '发货单', 0]
     default:
       break
   }
 }
 
-function handleOrderCommodity(otype, pfunc, rfunc, efunc, nfunc) {
+function handleOrderCommodity(otype, pfunc, rfunc, nfunc, efunc, afunc) {
   switch (otype) {
     case 1: // 采购仓储进货
     case 3: // 采购云仓进货
@@ -123,23 +126,25 @@ function handleOrderCommodity(otype, pfunc, rfunc, efunc, nfunc) {
       rfunc()
       break
     case 10: // 仓储采购入库
+    case 15: // 仓储履约退货
+    case 31: // 履约退货
+    case 40: // 云仓采购入库
       nfunc()
       break
     case 11: // 仓储调度出库
     case 12: // 仓储调度入库
     case 13: // 仓储损耗
-      efunc()
-      break
-
-    
-    
-    case 15: // 仓储履约退货
     case 20: // 生产开始
     case 21: // 生产完成
     case 22: // 生产损耗
+      efunc()
+      break
     case 30: // 履约发货
-    case 31: // 履约退货
-    case 40: // 云仓采购入库
+      afunc()
+      break
+
+
+    
     case 41: // 云仓采购退货
     case 42: // 云仓损耗
     case 43: // 云仓履约退货

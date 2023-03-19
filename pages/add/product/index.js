@@ -2,7 +2,7 @@ import {
   relogin
 } from '../../../util/util'
 import {
-  getPurchaseOrder
+  getProductOrder
 } from '../../../service/order'
 Page({
   data: {
@@ -11,7 +11,6 @@ Page({
     orderListLoadStatus: 0,
     backTopVisible: false,
     id: 0,
-    otype: 0,
     page: 1,
     pageLimit: 10,
     complete: 0,
@@ -21,7 +20,6 @@ Page({
     wx.hideHomeButton()
     this.setData({
       id: getApp().globalData.user.id,
-      otype: options.type,
       complete: options.complete
     })
   },
@@ -61,9 +59,9 @@ Page({
       orderListLoadStatus: 1
     })
     const that = this.data
-    getPurchaseOrder(this, {
+    getProductOrder(this, {
       id: that.id,
-      type: that.otype, // 订单类型
+      type: 20, // 生产开始
       page: that.page,
       limit: that.pageLimit,
       review: 2, // 已审核
@@ -72,8 +70,8 @@ Page({
     }, data => {
       if (data.list && data.list.length > 0) {
         data.list.forEach(v => {
-          if (v.type === 1 || v.type === 3) {
-            v.orderType = '采购单'
+          if (v.type === 20) {
+            v.orderType = '生产单'
           }
           v.applyTime2 = v.applyTime.substring(0, 10)
         })
@@ -102,7 +100,7 @@ Page({
       data: item.currentTarget.dataset.value
     }
     wx.navigateTo({
-      url: '/pages/add/purchase/detail/index'
+      url: '/pages/add/product/detail/index'
     })
   },
   relogin() {
