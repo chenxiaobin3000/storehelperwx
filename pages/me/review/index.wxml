@@ -7,12 +7,22 @@
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="类型">
           <view class="field-text" slot="note">{{orderValue}}</view>
         </t-cell>
-        <!-- 仓库选择 -->
-        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="仓库">
-          <view class="field-text" slot="note">{{storageValue}}</view>
-        </t-cell>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="批次">
           <view class="field-text" slot="note">{{batch}}</view>
+        </t-cell>
+        <!-- 订单 -->
+        <div wx-if="{{orderShow[5].length>0}}">
+          <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{orderShow[5]}}">
+            <view class="field-text" slot="note">{{obatch}}</view>
+          </t-cell>
+        </div>
+        <!-- 仓库选择 -->
+        <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="{{orderType===3||orderType===4||orderType===43?'云仓':'仓库'}}">
+          <view class="field-text" slot="note">{{orderType===43?cloudValue:storageValue}}</view>
+        </t-cell>
+        <!-- 云仓选择 -->
+        <t-cell wx-if="{{orderType===30||orderType===31}}" t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="云仓">
+          <view class="field-text" slot="note">{{cloudValue}}</view>
         </t-cell>
         <t-cell t-class-left="t-cell-left" t-class-title="t-cell-title" t-class-note="t-cell-note" title="总量">
           <view class="field-text" slot="note">{{curUnit}}kg / {{unit}}kg</view>

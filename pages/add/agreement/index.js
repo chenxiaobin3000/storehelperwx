@@ -71,7 +71,7 @@ Page({
       if (data.list && data.list.length > 0) {
         data.list.forEach(v => {
           if (v.type === 30) {
-            v.orderType = '发货单'
+            v.orderType = '履约单'
           }
           v.applyTime2 = v.applyTime.substring(0, 10)
         })

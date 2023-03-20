@@ -4,7 +4,8 @@ import {
 } from '../../../util/imagesrc'
 import {
   myToast,
-  relogin
+  relogin,
+  getOrderShow
 } from '../../../util/util'
 import {
   reviewShipped,
@@ -43,9 +44,12 @@ Page({
   data: {
     orderId: 0,
     orderType: 0,
-    orderValue: [],
-    storageValue: [],
+    orderValue: '',
+    orderShow: [],
+    storageValue: '',
+    cloudValue: '',
     batch: '',
+    obatch: '',
     unit: '',
     curUnit: '',
     price: '',
@@ -146,12 +150,15 @@ Page({
         orderId: data.id,
         orderType: data.type,
         orderValue: orderValue,
+        orderShow: getOrderShow(data.type),
         storageValue: data.sname,
+        cloudValue: data.cname,
         unit: data.unit / 1000,
         curUnit: data.curUnit / 1000,
         price: data.price,
         curPrice: data.curPrice,
         batch: data.batch,
+        obatch: data.obatch,
         date: new Date(data.applyTime).getTime(),
         dateText: data.applyTime,
         commoditys: commoditys,

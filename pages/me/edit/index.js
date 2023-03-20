@@ -53,10 +53,13 @@ Page({
     orderType: 0,
     orderValue: '',
     orderShow: [],
-    sid: 0, // 仓库id
+    sid: 0, // 仓库id/云仓id，只显示一个的时候共用，显示两个的时候给仓库用
     storageVisible: false,
     storageValue: '',
     storages: [],
+    cid: 0, // 额外云仓id，只在同时显示的时候使用
+    cloudVisible: false,
+    cloudValue: '',
     clouds: [],
     batch: '',
     obatch: '', // 关联订单批号
@@ -184,6 +187,8 @@ Page({
           orderShow: orderShow,
           sid: data.sid,
           storageValue: data.sname,
+          cid: data.cid,
+          cloudValue: data.cname,
           batch: data.batch,
           obatch: data.obatch,
           date: new Date(data.applyTime).getTime(),
@@ -334,9 +339,12 @@ Page({
       orderId: 0,
       orderValue: '',
       orderShow: [],
-      sid: 0,
+      sid: 0, // 仓库id
       storageVisible: false,
       storageValue: '',
+      cid: 0, // 仓库id
+      cloudVisible: false,
+      cloudValue: '',
       batch: '',
       obatch: '',
       dateVisible: false,
@@ -353,6 +361,8 @@ Page({
   },
   checkSubmitActive() {
     const that = this.data
+
+    // 附件
     let check = false
     that.uploadFiles.forEach(v => {
       if (v.status && v.status.length > 0) {
@@ -366,26 +376,40 @@ Page({
       return
     }
 
-    if (that.commoditys.length > 0 || that.halfgoods.length > 0 ||
-      that.originals.length > 0 || that.standards.length > 0) {
-      if (that.orderShow[4] === 1 && that.orderShow[5].length > 0) {
-        if (that.storageValue.length > 0 && that.obatch.length > 0) {
-          check = true
-        }
-      } else {
-        if (that.orderShow[4] === 1) {
-          if (that.storageValue.length > 0) {
-            check = true
-          }
-        }
-        if (that.orderShow[5].length > 0) {
-          if (that.obatch.length > 0) {
-            check = true
-          }
-        }
-      }
+    // 商品列表
+    if (that.commoditys.length <= 0 && that.halfgoods.length <= 0 &&
+      that.originals.length <= 0 && that.standards.length <= 0) {
+      this.setData({
+        submitActive: false
+      })
+      return
     }
-    if (check && that.orderValue.length > 0 && that.dateText.length > 0) {
+
+    // 订单
+    if (that.orderShow[5].length > 0 && that.obatch.length <= 0) {
+      this.setData({
+        submitActive: false
+      })
+      return
+    }
+
+    // 仓库
+    if (that.orderShow[4] === 1 && that.storageValue.length <= 0) {
+      this.setData({
+        submitActive: false
+      })
+      return
+    }
+
+    // 附加云仓
+    if (that.orderShow[6] === 1 && that.cloudValue.length <= 0) {
+      this.setData({
+        submitActive: false
+      })
+      return
+    }
+
+    if (that.orderValue.length > 0 && that.dateText.length > 0) {
       this.setData({
         submitActive: true
       })
@@ -418,6 +442,31 @@ Page({
   onStorageCancel() {
     this.setData({
       storageVisible: false
+    })
+  },
+  // 额外云仓选择
+  onCloudPicker() {
+    this.setData({
+      cloudVisible: true
+    })
+  },
+  onCloudChange(event) {
+    let value = event.detail.value
+    if (value.length > 0) {
+      value = value[0].id
+    } else {
+      value = 0
+    }
+    this.setData({
+      cloudVisible: false,
+      cid: value,
+      cloudValue: event.detail.label
+    })
+    this.checkSubmitActive()
+  },
+  onCloudCancel() {
+    this.setData({
+      cloudVisible: false
     })
   },
   // 日期选择
@@ -633,6 +682,7 @@ Page({
       gid: app.globalData.group.id,
       oid: that.orderId,
       sid: that.sid,
+      cid: that.cid,
       date: that.dateText,
       types: [],
       commoditys: [],

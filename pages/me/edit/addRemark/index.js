@@ -3,7 +3,8 @@ import {
 } from '../../../../util/util'
 import {
   addCPurchaseInfo,
-  addCLossInfo
+  addCLossInfo,
+  addCAgreementInfo
 } from '../../../../service/cloud'
 import {
   addProcessInfo,

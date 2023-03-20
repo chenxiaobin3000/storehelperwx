@@ -476,6 +476,7 @@ Page({
           break
         case 4: // 采购云仓退货
         case 40: // 云仓采购入库
+        case 41: // 云仓采购退货
           wx.navigateTo({
             url: '/pages/add/purchase/index?type=3&complete=0'
           })
@@ -686,6 +687,7 @@ Page({
       id: app.globalData.user.id,
       gid: app.globalData.group.id,
       sid: that.sid,
+      cid: that.cid,
       rid: that.pid,
       pid: that.pid,
       date: that.dateText,
