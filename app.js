@@ -6,7 +6,5 @@ App({
     perms: [], // 权限
     temp: {} // 页面间数据交换缓存
   },
-  onLaunch() {
-
-  }
+  onLaunch() {}
 })
